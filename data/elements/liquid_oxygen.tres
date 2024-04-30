@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://cn4e3aj6lbbea"]
+
+[ext_resource type="Script" path="res://resource_models/element.gd" id="1_sw5nm"]
+
+[resource]
+script = ExtResource("1_sw5nm")
+element_name = "liquid_oxygen"
+state_of_matter = 1
+category = 0
+name = "Liquid Oxygen"
+symbol = "LO2"
+min_temperature = -218.79
+max_temperature = -182.96
+can_burn = false
+can_melt = false
+can_freeze = false
+can_crush = false

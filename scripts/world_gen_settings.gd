@@ -17,6 +17,8 @@ extends Control
 @export var resource_group: ResourceGroup
 var preset_resources = []
 
+signal back_to_main_menu_signal
+
 func _ready() -> void:
 	if resource_group:
 		var resource_paths = resource_group.paths
@@ -79,4 +81,4 @@ func _on_save_preset_button_pressed() -> void:
 	pass # Replace with function body.
 
 func _on_back_button_pressed() -> void:
-	get_tree().change_scene("res://scenes/user_interface/main_menu.tscn")
+	back_to_main_menu_signal.emit()

@@ -1,7 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://d3xafttvo7666"]
+[gd_scene load_steps=5 format=3 uid="uid://d3xafttvo7666"]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_v8xih"]
 [ext_resource type="PackedScene" uid="uid://bi112daseypfb" path="res://scenes/user_interface/world_gen_settings.tscn" id="2_fts22"]
+[ext_resource type="PackedScene" uid="uid://yo6lqoksa53k" path="res://addons/naejimer_3d_planet_generator/scenes/planet_terrestrial.tscn" id="6_8nsga"]
+
+[sub_resource type="Environment" id="Environment_docqc"]
+background_mode = 1
+glow_enabled = true
+glow_normalized = true
+glow_bloom = 0.2
+glow_blend_mode = 0
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -11,6 +19,26 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_v8xih")
+
+[node name="Node3D" type="Node3D" parent="."]
+
+[node name="Planets" type="Node3D" parent="Node3D"]
+
+[node name="PlanetTerrestrial" parent="Node3D/Planets" instance=ExtResource("6_8nsga")]
+transform = Transform3D(699.983, 0, 4.91958, 0, 700, 0, -4.91958, 0, 699.983, 1803.38, 0, 0)
+
+[node name="Environment" type="Node3D" parent="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Node3D/Environment"]
+environment = SubResource("Environment_docqc")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Node3D/Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1000, 0)
+light_cull_mask = 4294967293
+sky_mode = 1
+
+[node name="Camera3D" type="Camera3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2300, 0, 2000)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -46,15 +74,20 @@ layout_mode = 2
 text = "Quit Game"
 
 [node name="WorldGenSettings" parent="." instance=ExtResource("2_fts22")]
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_right = 40.0
-offset_bottom = 40.0
-grow_horizontal = 1
-grow_vertical = 1
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
 
 [connection signal="pressed" from="VBoxContainer/GenerateButton" to="." method="_on_generate_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/LoadButton" to="." method="_on_load_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="back_to_main_menu_signal" from="WorldGenSettings" to="." method="_on_world_gen_settings_back_to_main_menu_signal"]

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://bx022h8jn6v01"]
+
+[ext_resource type="Script" path="res://resource_models/element.gd" id="1_ulaj3"]
+
+[resource]
+script = ExtResource("1_ulaj3")
+element_name = "oxygen"
+state_of_matter = 0
+category = 0
+name = "Oxygen"
+symbol = "O2"
+min_temperature = -218.79
+max_temperature = 1000.0
+can_burn = false
+can_melt = false
+can_freeze = true
+can_crush = false

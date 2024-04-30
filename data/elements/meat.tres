@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://c4qu3isllt0dp"]
+
+[ext_resource type="Script" path="res://resource_models/element.gd" id="1_fjxo7"]
+
+[resource]
+script = ExtResource("1_fjxo7")
+element_name = "meat"
+state_of_matter = 2
+category = 1
+name = "Meat"
+symbol = "MT"
+min_temperature = -20.0
+max_temperature = 50.0
+can_burn = true
+can_melt = false
+can_freeze = false
+can_crush = true

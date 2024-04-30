@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://d21q56p4wruq0"]
+
+[ext_resource type="Script" path="res://resource_models/element.gd" id="1_kitgl"]
+
+[resource]
+script = ExtResource("1_kitgl")
+element_name = "cooked_plants"
+state_of_matter = 2
+category = 1
+name = "Cooked Plants"
+symbol = "CPLT"
+min_temperature = 0.0
+max_temperature = 100.0
+can_burn = true
+can_melt = false
+can_freeze = false
+can_crush = true

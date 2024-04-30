@@ -12,4 +12,10 @@ func _on_load_button_pressed() -> void:
 	print("load button pressed")
 
 func _on_generate_button_pressed() -> void:
-	pass # Replace with function body.
+	$WorldGenSettings.visible = true
+	$VBoxContainer.visible = false
+
+
+func _on_world_gen_settings_back_to_main_menu_signal() -> void:
+	$WorldGenSettings.visible = false
+	$VBoxContainer.visible = true
