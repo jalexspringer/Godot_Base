@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://cn2ioqo158i8m"]
+
+[ext_resource type="Script" path="res://data/elements/element_db/elements.gd" id="1_t8skb"]
+
+[resource]
+script = ExtResource("1_t8skb")
+element_name = "liquid_nitrogen"
+state_of_matter = 1
+category = 0
+name = "Liquid Nitrogen"
+symbol = "LN2"
+min_temperature = -210.1
+max_temperature = -195.79
+can_burn = false
+can_melt = false
+can_freeze = false
+can_crush = false

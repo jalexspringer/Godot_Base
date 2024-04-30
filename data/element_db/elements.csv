@@ -1,0 +1,13 @@
+element_name,state_of_matter,category,name,symbol,min_temperature,max_temperature,can_burn,can_melt,can_freeze,can_crush
+oxygen,GAS,FUNDAMENTAL,Oxygen,O2,-218.79,1000,false,false,true,false
+nitrogen,GAS,FUNDAMENTAL,Nitrogen,N2,-210.1,1000,false,false,true,false
+carbon_dioxide,GAS,FUNDAMENTAL,Carbon Dioxide,CO2,-78.5,1000,false,false,true,false
+water,LIQUID,FUNDAMENTAL,Water,H2O,0,100,false,true,true,false
+plants,SOLID,ORGANIC,Plants,PLT,0,100,true,false,false,true
+meat,SOLID,ORGANIC,Meat,MT,-20,50,true,false,false,true
+liquid_oxygen,LIQUID,FUNDAMENTAL,Liquid Oxygen,LO2,-218.79,-182.96,false,false,false,false
+liquid_nitrogen,LIQUID,FUNDAMENTAL,Liquid Nitrogen,LN2,-210.1,-195.79,false,false,false,false
+liquid_carbon_dioxide,LIQUID,FUNDAMENTAL,Liquid Carbon Dioxide,LCO2,-78.5,-56.6,false,false,false,false
+water_vapor,GAS,FUNDAMENTAL,Water Vapor,H2O(g),100,1000,false,false,true,false
+cooked_plants,SOLID,ORGANIC,Cooked Plants,CPLT,0,100,true,false,false,true
+cooked_meat,SOLID,ORGANIC,Cooked Meat,CMT,0,100,true,false,false,true

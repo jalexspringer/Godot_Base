@@ -1,0 +1,10 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://dny7jegcmd0ft"]
+
+[ext_resource type="Script" path="res://data/recipes_db/recipes.gd" id="1_6uj6f"]
+
+[resource]
+script = ExtResource("1_6uj6f")
+recipe_name = "cooked_plants"
+ingredients = "{'plants': 5}"
+outputs = "{'cooked_plants': 5}"
+facility_type = "Cooking Facility"

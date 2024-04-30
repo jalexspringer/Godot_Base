@@ -1,0 +1,13 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://d2oqafvt030c3"]
+
+[ext_resource type="Script" path="res://data/climate_zones/climate_zones.gd" id="1_pnvri"]
+
+[resource]
+script = ExtResource("1_pnvri")
+name = "tropical_savanna"
+zone_type = 2
+water_coverage = 40.0
+salinity = 0.0
+precipitation = 150.0
+plant_life = 3
+animal_life = 4

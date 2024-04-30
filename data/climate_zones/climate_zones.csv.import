@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://dbcta3rsrtgv5"
+
+[deps]
+
+files=["res://data/climate_zones/climate_zones.zone.translation", "res://data/climate_zones/climate_zones.water.translation", "res://data/climate_zones/climate_zones.salinity.translation", "res://data/climate_zones/climate_zones.precipitation.translation", "res://data/climate_zones/climate_zones.plant.translation", "res://data/climate_zones/climate_zones.animal.translation"]
+
+source_file="res://data/climate_zones/climate_zones.csv"
+dest_files=["res://data/climate_zones/climate_zones.zone.translation", "res://data/climate_zones/climate_zones.water.translation", "res://data/climate_zones/climate_zones.salinity.translation", "res://data/climate_zones/climate_zones.precipitation.translation", "res://data/climate_zones/climate_zones.plant.translation", "res://data/climate_zones/climate_zones.animal.translation"]
+
+[params]
+
+compress=true
+delimiter=0

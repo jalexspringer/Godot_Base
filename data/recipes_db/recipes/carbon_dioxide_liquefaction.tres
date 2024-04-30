@@ -1,0 +1,10 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://bufvil16m4ppo"]
+
+[ext_resource type="Script" path="res://data/recipes_db/recipes.gd" id="1_pcal4"]
+
+[resource]
+script = ExtResource("1_pcal4")
+recipe_name = "carbon_dioxide_liquefaction"
+ingredients = "{'carbon_dioxide': 10}"
+outputs = "{'liquid_carbon_dioxide': 10}"
+facility_type = "Liquefaction Plant"

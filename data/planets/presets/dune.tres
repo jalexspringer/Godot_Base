@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Planet" load_steps=2 format=3 uid="uid://bue8t2c6aa2s7"]
+
+[ext_resource type="Script" path="res://resource_models/planet.gd" id="1_cnhfi"]
+
+[resource]
+script = ExtResource("1_cnhfi")
+name = "Arrakis"
+solar_constant = 1800.0
+radius = 6100.0
+distance_from_sun = 1.2
+axial_tilt = 40.0
+albedo = 0.4
+gravity = 0.9
+atmospheric_pressure = 0.6
+magnetic_field_strength = 0.7
+orbital_period = 400.0
+day_length = 30.0

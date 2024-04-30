@@ -1,0 +1,8 @@
+recipe_name,ingredients,outputs,facility_type
+oxygen_liquefaction,"{'oxygen': 10}","{'liquid_oxygen': 10}",Liquefaction Plant
+nitrogen_liquefaction,"{'nitrogen': 10}","{'liquid_nitrogen': 10}",Liquefaction Plant
+carbon_dioxide_liquefaction,"{'carbon_dioxide': 10}","{'liquid_carbon_dioxide': 10}",Liquefaction Plant
+water_evaporation,"{'water': 10}","{'water_vapor': 10}",Evaporation Facility
+water_condensation,"{'water_vapor': 10}","{'water': 10}",Condensation Facility
+cooked_plants,"{'plants': 5}","{'cooked_plants': 5}",Cooking Facility
+cooked_meat,"{'meat': 3}","{'cooked_meat': 3}",Cooking Facility

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://bx4qwbxrd3rmm"]
+
+[ext_resource type="Script" path="res://data/elements/element_db/elements.gd" id="1_4dwpi"]
+
+[resource]
+script = ExtResource("1_4dwpi")
+element_name = "water"
+state_of_matter = 1
+category = 0
+name = "Water"
+symbol = "H2O"
+min_temperature = 0.0
+max_temperature = 100.0
+can_burn = false
+can_melt = true
+can_freeze = true
+can_crush = false

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://x5iqex1fkcng"]
+
+[ext_resource type="Script" path="res://data/recipes_db/recipes.gd" id="1_vhvb3"]
+
+[resource]
+script = ExtResource("1_vhvb3")
+recipe_name = "nitrogen_liquefaction"
+ingredients = "{'nitrogen': 10}"
+outputs = "{'liquid_nitrogen': 10}"
+facility_type = "Liquefaction Plant"

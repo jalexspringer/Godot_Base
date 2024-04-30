@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://bh4pjc4kh4tsw"]
+
+[ext_resource type="Script" path="res://data/elements/element_db/elements.gd" id="1_sii4v"]
+
+[resource]
+script = ExtResource("1_sii4v")
+element_name = "water_vapor"
+state_of_matter = 0
+category = 0
+name = "Water Vapor"
+symbol = "H2O(g)"
+min_temperature = 100.0
+max_temperature = 1000.0
+can_burn = false
+can_melt = false
+can_freeze = true
+can_crush = false

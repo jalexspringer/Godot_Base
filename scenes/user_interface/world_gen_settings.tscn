@@ -1,0 +1,204 @@
+[gd_scene load_steps=3 format=3 uid="uid://bi112daseypfb"]
+
+[ext_resource type="Script" path="res://scripts/world_gen_settings.gd" id="1_m4nyn"]
+[ext_resource type="Resource" uid="uid://dtrhk5w8sqkm8" path="res://data/world_gen_resource_group.tres" id="2_klfw1"]
+
+[node name="WorldGenSettings" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_m4nyn")
+resource_group = ExtResource("2_klfw1")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="NameLineEdit" type="LineEdit" parent="CenterContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "New Planet"
+placeholder_text = "Planet Name"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SolarConstantLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Solar Constant (W/m^2)"
+
+[node name="SolarConstantSlider" type="HSlider" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+min_value = 1000.0
+max_value = 2000.0
+value = 1361.0
+
+[node name="RadiusLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Planet Radius (km)"
+
+[node name="RadiusSlider" type="HSlider" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+min_value = 4000.0
+max_value = 8000.0
+value = 6371.0
+
+[node name="DistanceFromSunLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Distance from Sun (AU)"
+
+[node name="DistanceFromSunSlider" type="HSlider" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+min_value = 0.5
+max_value = 2.0
+step = 0.1
+value = 1.0
+
+[node name="AxialTiltLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Axial Tilt (degrees)"
+
+[node name="AxialTiltSlider" type="HSlider" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+max_value = 45.0
+value = 24.0
+
+[node name="AlbedoLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Albedo"
+
+[node name="AlbedoSlider" type="HSlider" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+max_value = 1.0
+step = 0.1
+value = 0.3
+
+[node name="MarginContainer2" type="MarginContainer" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="GravityLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2"]
+layout_mode = 2
+text = "Gravity (relative to Earth)"
+
+[node name="GravitySlider" type="HSlider" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2"]
+layout_mode = 2
+min_value = 0.5
+max_value = 1.5
+step = 0.1
+value = 1.0
+
+[node name="AtmosphericPressureLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2"]
+layout_mode = 2
+text = "Atmospheric Pressure (relative to Earth)"
+
+[node name="AtmosphericPressureSlider" type="HSlider" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2"]
+layout_mode = 2
+min_value = 0.5
+max_value = 1.5
+step = 0.1
+value = 1.0
+
+[node name="MagneticFieldStrengthLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2"]
+layout_mode = 2
+text = "Magnetic Field Strength (relative to Earth)"
+
+[node name="MagneticFieldStrengthSlider" type="HSlider" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2"]
+layout_mode = 2
+min_value = 0.5
+max_value = 1.5
+step = 0.1
+value = 1.0
+
+[node name="OrbitalPeriodLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2"]
+layout_mode = 2
+text = "Orbital Period (Earth days)"
+
+[node name="OrbitalPeriodSlider" type="HSlider" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2"]
+layout_mode = 2
+min_value = 200.0
+max_value = 500.0
+value = 365.0
+
+[node name="DayLengthLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2"]
+layout_mode = 2
+text = "Day Length (Earth hours)"
+
+[node name="DayLengthSlider" type="HSlider" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2"]
+layout_mode = 2
+min_value = 10.0
+max_value = 40.0
+value = 24.0
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/VBoxContainer3"]
+custom_minimum_size = Vector2(2.08165e-12, 20)
+layout_mode = 2
+
+[node name="PresetLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/VBoxContainer3"]
+layout_mode = 2
+text = "Select Preset (Will Update Settings Above)"
+
+[node name="PresetOptionButton" type="OptionButton" parent="CenterContainer/MarginContainer/VBoxContainer/VBoxContainer3"]
+layout_mode = 2
+item_count = 1
+popup/item_0/text = "Custom"
+popup/item_0/id = 0
+
+[node name="SavePresetButton" type="Button" parent="CenterContainer/MarginContainer/VBoxContainer/VBoxContainer3"]
+layout_mode = 2
+text = "Save New Preset"
+
+[node name="GenerateButton" type="Button" parent="CenterContainer/MarginContainer/VBoxContainer/VBoxContainer3"]
+layout_mode = 2
+text = "Generate Planet"
+
+[node name="BackButton" type="Button" parent="CenterContainer/MarginContainer/VBoxContainer/VBoxContainer3"]
+layout_mode = 2
+text = "Back"
+
+[connection signal="text_changed" from="CenterContainer/MarginContainer/VBoxContainer/NameLineEdit" to="." method="_on_name_line_edit_text_changed"]
+[connection signal="drag_ended" from="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer/SolarConstantSlider" to="." method="_on_slider_drag_ended"]
+[connection signal="drag_ended" from="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer/RadiusSlider" to="." method="_on_slider_drag_ended"]
+[connection signal="drag_ended" from="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer/DistanceFromSunSlider" to="." method="_on_slider_drag_ended"]
+[connection signal="drag_ended" from="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer/AxialTiltSlider" to="." method="_on_slider_drag_ended"]
+[connection signal="drag_ended" from="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer/AlbedoSlider" to="." method="_on_slider_drag_ended"]
+[connection signal="drag_ended" from="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2/GravitySlider" to="." method="_on_slider_drag_ended"]
+[connection signal="drag_ended" from="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2/AtmosphericPressureSlider" to="." method="_on_slider_drag_ended"]
+[connection signal="drag_ended" from="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2/MagneticFieldStrengthSlider" to="." method="_on_slider_drag_ended"]
+[connection signal="drag_ended" from="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2/OrbitalPeriodSlider" to="." method="_on_slider_drag_ended"]
+[connection signal="drag_ended" from="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2/DayLengthSlider" to="." method="_on_slider_drag_ended"]
+[connection signal="item_selected" from="CenterContainer/MarginContainer/VBoxContainer/VBoxContainer3/PresetOptionButton" to="." method="_on_preset_option_button_item_selected"]

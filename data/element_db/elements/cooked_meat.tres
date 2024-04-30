@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://dhduoj3mgpq7w"]
+
+[ext_resource type="Script" path="res://data/elements/element_db/elements.gd" id="1_uwhln"]
+
+[resource]
+script = ExtResource("1_uwhln")
+element_name = "cooked_meat"
+state_of_matter = 2
+category = 1
+name = "Cooked Meat"
+symbol = "CMT"
+min_temperature = 0.0
+max_temperature = 100.0
+can_burn = true
+can_melt = false
+can_freeze = false
+can_crush = true
