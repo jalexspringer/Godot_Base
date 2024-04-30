@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://bi112daseypfb"]
+[gd_scene load_steps=2 format=3 uid="uid://bi112daseypfb"]
 
 [ext_resource type="Script" path="res://scripts/world_gen_settings.gd" id="1_m4nyn"]
-[ext_resource type="Resource" uid="uid://dtrhk5w8sqkm8" path="res://data/world_gen_resource_group.tres" id="2_klfw1"]
 
 [node name="WorldGenSettings" type="Control"]
 layout_mode = 3
@@ -11,7 +10,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_m4nyn")
-resource_group = ExtResource("2_klfw1")
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1

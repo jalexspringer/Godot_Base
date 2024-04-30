@@ -4,10 +4,6 @@
       "resource_local_to_scene": true,
       "resource_name": true
     },
-    "res://data/element_db/elements/": {
-      "resource_local_to_scene": true,
-      "resource_name": true
-    },
     "res://data/elements/": {
       "resource_local_to_scene": true,
       "resource_name": true
@@ -27,7 +23,6 @@
   },
   "recent_paths": [
     "res://data/recipes_db/",
-    "res://data/element_db/elements/",
     "res://data/recipes_db/recipes/",
     "res://data/climate_zones/climate_zones/"
   ],

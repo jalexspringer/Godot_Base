@@ -16,9 +16,6 @@ const STEFAN_BOLTZMANN_CONSTANT = 5.670374419e-8  # Stefan-Boltzmann constant in
 @export_range(10, 40) var day_length: float = 24.0  # Day length in Earth hours
 
 var average_temperature: float = 0.0
-var tropical_zone_percentage: float = 0.0
-var temperate_zone_percentage: float = 0.0
-var polar_zone_percentage: float = 0.0
 var spin_speed: float = 0.0
 var average_wind_speed: float = 0.0
 
@@ -40,7 +37,6 @@ func _init(p_name: String = "", p_solar_constant: float = 1361.0, p_radius: floa
 
 func _calculate_derived_properties() -> void:
     average_temperature = calculate_average_temperature()
-    calculate_climate_zones()
     calculate_spin_speed()
     estimate_average_wind_speed()
 
@@ -57,9 +53,6 @@ func calculate_average_temperature() -> float:
     var emitted_energy = absorbed_energy / surface_area
     var temperature = pow(emitted_energy / STEFAN_BOLTZMANN_CONSTANT, 0.25)
     return temperature - 273.15  # Convert from Kelvin to Celsius
-
-func calculate_climate_zones() -> void:
-    pass ## TODO :: implement climate zone calculations
 
 func calculate_spin_speed() -> void:
     var day_length_seconds = day_length * 3600  # Convert day length from hours to seconds

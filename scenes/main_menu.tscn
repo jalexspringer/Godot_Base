@@ -21,24 +21,24 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_v8xih")
 
-[node name="Node3D" type="Node3D" parent="."]
+[node name="Background" type="Node3D" parent="."]
 
-[node name="Planets" type="Node3D" parent="Node3D"]
+[node name="Planets" type="Node3D" parent="Background"]
 
-[node name="PlanetTerrestrial" parent="Node3D/Planets" instance=ExtResource("6_8nsga")]
-transform = Transform3D(699.986, 0, 4.45744, 0, 700, 0, -4.45744, 0, 699.986, 1803.38, 0, 0)
+[node name="PlanetTerrestrial" parent="Background/Planets" instance=ExtResource("6_8nsga")]
+transform = Transform3D(657.69, 0, -239.676, 0, 700, 0, 239.676, 0, 657.69, 1803.38, 0, 0)
 
-[node name="Environment" type="Node3D" parent="Node3D"]
+[node name="Environment" type="Node3D" parent="Background"]
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="Node3D/Environment"]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Background/Environment"]
 environment = SubResource("Environment_docqc")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Node3D/Environment"]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Background/Environment"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1000, 0)
 light_cull_mask = 4294967293
 sky_mode = 1
 
-[node name="Camera3D" type="Camera3D" parent="Node3D"]
+[node name="Camera3D" type="Camera3D" parent="Background"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2300, 0, 2000)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]

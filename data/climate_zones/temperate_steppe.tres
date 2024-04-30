@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ClimateZone" load_steps=2 format=3 uid="uid://dwh477bk2fjv6"]
+
+[ext_resource type="Script" path="res://resource_models/climate_zone.gd" id="1_2ytra"]
+
+[resource]
+script = ExtResource("1_2ytra")
+zone_type = 8
+allowed_elevations = Array[int]([2])
+water_coverage = 20.0
+salinity = 0.0
+precipitation = 40.0
+plant_life = 2
+animal_life = 2
