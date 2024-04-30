@@ -1,0 +1,62 @@
+[gd_scene load_steps=2 format=3 uid="uid://bevefe82iqkdf"]
+
+[ext_resource type="Script" path="res://scripts/ui_start.gd" id="1_m31gn"]
+
+[node name="UIStart" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_m31gn")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Welcome" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Welcome to Imbalance"
+horizontal_alignment = 1
+
+[node name="GenerateNew" type="HBoxContainer" parent="Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="WorldSizes" type="ItemList" parent="Panel/VBoxContainer/GenerateNew"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+auto_height = true
+item_count = 3
+item_0/text = "Small"
+item_1/text = "Medium"
+item_2/text = "Large"
+
+[node name="Generate" type="Button" parent="Panel/VBoxContainer/GenerateNew"]
+layout_mode = 2
+text = "Generate
+World"
+
+[node name="Load World" type="Button" parent="Panel/VBoxContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Load Existing
+World"
+
+[connection signal="pressed" from="Panel/VBoxContainer/GenerateNew/Generate" to="." method="_on_generate_pressed"]
