@@ -1,13 +1,19 @@
 extends Node
 
 const TILE_COUNT = 10000
-const LANDMASS_COUNT = 5 # TODO Add this to planet preset
-const TILE_SIZE = 64 # Tile size in pixels
-const LAND_COVERAGE_PERCENTAGE = 50.0  # TODO : this come from planet preset
+const LANDMASS_COUNT = 5
+const TILE_SIZE = 64
+const LAND_COVERAGE_PERCENTAGE = 50.0
 const OFFSET_X := TILE_SIZE * 0.75
 const OFFSET_Y := TILE_SIZE * sqrt(3) / 2
 const LAND_GROWTH_RANDOMNESS := 0.1
-
+const MIN_ELEVATION = 1
+const MAX_ELEVATION = 5
+const ELEVATION_ADJUSTMENT_CHANCE = 0.1
+const ELEVATION_ADJUSTMENT_THRESHOLD = 0.4
+const ELEVATION_ADJUSTMENT_SECOND_THRESHOLD = 0.8
+const MOUNTAIN_RANGE_MIN_LENGTH = 10
+const MOUNTAIN_RANGE_MAX_LENGTH = 40
 
 var _planet: Planet = load("res://data/planets/presets/earthlike.tres")
 var _world_map: Dictionary
@@ -16,8 +22,7 @@ var _min_distance: float
 var num_rows: int
 var num_cols: int
 
-
-@export var climate_zones_group: Resource = preload ("res://data/climate_zones/climate_zones_group.tres")
+@export var climate_zones_group: Resource = preload("res://data/climate_zones/climate_zones_group.tres")
 
 func _ready() -> void:
     _load_climate_zones()
@@ -34,11 +39,10 @@ func _load_climate_zones() -> void:
 func generate_world(planet: Planet) -> void:
     if planet != null:
         _planet = planet
-    print("creating world map")
+    print("Creating world map")
     _world_map = _build_world_map(TILE_COUNT)
-    print("creating landmasses")
+    print("Creating landmasses")
     _create_landmasses()
-
 
 func _build_world_map(num_tiles: int) -> Dictionary:
     var world_map := {}
@@ -60,38 +64,42 @@ func _build_world_map(num_tiles: int) -> Dictionary:
                 tile_id,
                 row,
                 col,
-                _climate_zones[0], # Placeholder climate zone
-                1, # Placeholder elevation
-                [], # Placeholder features
-                null, # Placeholder surface material
-                AirMass.new(), # Boundary layer
-                AirMass.new(), # Troposphere
-                0.0, # base temp
-                0.0, # moisture
+                _climate_zones[0],  # Placeholder climate zone
+                MIN_ELEVATION,  # Placeholder elevation
+                [],  # Placeholder features
+                null,  # Placeholder surface material
+                AirMass.new(),  # Boundary layer
+                AirMass.new(),  # Troposphere
+                0.0,  # Base temp
+                0.0,  # Moisture
                 true
             )
             world_map[tile_id] = tile
 
     return world_map
 
-
 func _create_landmasses() -> void:
     var land_tiles = []
     var target_land_tiles = int(TILE_COUNT * (LAND_COVERAGE_PERCENTAGE / 100.0))
+    var seed_tiles = _initialize_land_seeds(land_tiles)
 
-    # Initialize land seeds
+    _grow_landmasses(land_tiles, target_land_tiles)
+    _create_mountain_ranges(seed_tiles)
+    _set_remaining_land_tile_elevations(land_tiles)
+
+func _initialize_land_seeds(land_tiles: Array) -> Array:
     var seed_tiles = []
     while land_tiles.size() < LANDMASS_COUNT:
         var random_tile = _world_map.values()[randi() % _world_map.size()]
         if random_tile.is_ocean and _is_far_enough(random_tile, land_tiles):
             random_tile.is_ocean = false
-            random_tile.elevation = 1  # Set initial elevation for land
+            random_tile.elevation = MIN_ELEVATION
             land_tiles.append(random_tile)
             seed_tiles.append(random_tile)
-
     print("Initialized landmasses: %s" % land_tiles.size())
+    return seed_tiles
 
-    # Grow landmasses
+func _grow_landmasses(land_tiles: Array, target_land_tiles: int) -> void:
     var current_land_count = LANDMASS_COUNT
     while current_land_count < target_land_tiles:
         var added_tiles = []
@@ -100,85 +108,66 @@ func _create_landmasses() -> void:
             neighbors.shuffle()
             for neighbor_id in neighbors:
                 var neighbor_tile = _world_map[neighbor_id]
-                if neighbor_tile.is_ocean:
-                    if randf() < LAND_GROWTH_RANDOMNESS:
-                        neighbor_tile.is_ocean = false
-                        neighbor_tile.elevation = 1
-                        added_tiles.append(neighbor_tile)
-                        current_land_count += 1
-                        if current_land_count >= target_land_tiles:
-                            break
+                if neighbor_tile.is_ocean and randf() < LAND_GROWTH_RANDOMNESS:
+                    neighbor_tile.is_ocean = false
+                    neighbor_tile.elevation = MIN_ELEVATION
+                    added_tiles.append(neighbor_tile)
+                    current_land_count += 1
+                    if current_land_count >= target_land_tiles:
+                        break
             if current_land_count >= target_land_tiles:
                 break
         land_tiles.append_array(added_tiles)
-    
-    # Add additional mountain seeds based on elevation change
-    for _i in range(_planet.elevation_change):
-        var additional_mountain_seed = null
-        while additional_mountain_seed == null or additional_mountain_seed.is_ocean:
-            additional_mountain_seed = _world_map.values()[randi() % _world_map.size()]
-        additional_mountain_seed.elevation = 5  # Set as mountain
-        seed_tiles.append(additional_mountain_seed)
 
-    # Create mountain ranges using the same seed tiles
+func _create_mountain_ranges(seed_tiles: Array) -> void:
     for seed_tile in seed_tiles:
-        var range_length = randi_range(10, 40) * _planet.elevation_change
-        for _j in range(range_length):
-            seed_tile.elevation = 5
+        var range_length = randi_range(MOUNTAIN_RANGE_MIN_LENGTH, MOUNTAIN_RANGE_MAX_LENGTH) * _planet.elevation_change
+        for x in range(range_length):
+            seed_tile.elevation = MAX_ELEVATION
             var neighbors = seed_tile.get_neighbors(num_rows, num_cols)
             if neighbors.size() > 0:
                 var next_tile_id = neighbors[randi() % neighbors.size()]
                 if next_tile_id != -1:
                     seed_tile = _world_map[next_tile_id]
-    
-    # Adjust elevations for tiles adjacent to mountain ranges
+        _adjust_elevations()
+
+func _adjust_elevations() -> void:
     var tiles_to_adjust = []
     for tile in _world_map.values():
-        if tile.elevation == 5:
+        if tile.elevation == MAX_ELEVATION:
             for neighbor_id in tile.get_neighbors(num_rows, num_cols):
                 var neighbor_tile = _world_map[neighbor_id]
-                if neighbor_tile.elevation < 4 and not neighbor_tile.is_ocean:
-                    neighbor_tile.elevation = 4
+                if neighbor_tile.elevation < MAX_ELEVATION - 1 and not neighbor_tile.is_ocean:
+                    neighbor_tile.elevation = MAX_ELEVATION - 1
                     tiles_to_adjust.append(neighbor_tile)
+    _further_adjust_elevations(tiles_to_adjust)
 
-    # Further adjust elevations for tiles next to elevation 4
+func _further_adjust_elevations(tiles_to_adjust: Array) -> void:
     for tile in tiles_to_adjust:
         for neighbor_id in tile.get_neighbors(num_rows, num_cols):
             var neighbor_tile = _world_map[neighbor_id]
-            if neighbor_tile.elevation < 3 and not neighbor_tile.is_ocean:
+            if neighbor_tile.elevation < MAX_ELEVATION - 2 and not neighbor_tile.is_ocean:
                 var rand_val = randf()
-                if rand_val < 0.1:
-                    neighbor_tile.elevation = 4
-                if rand_val < 0.4:
-                    neighbor_tile.elevation = 3
-                elif rand_val < 0.8:
-                    neighbor_tile.elevation = 2
+                if rand_val < ELEVATION_ADJUSTMENT_CHANCE:
+                    neighbor_tile.elevation = MAX_ELEVATION - 1
+                elif rand_val < ELEVATION_ADJUSTMENT_THRESHOLD:
+                    neighbor_tile.elevation = MAX_ELEVATION - 2
+                elif rand_val < ELEVATION_ADJUSTMENT_SECOND_THRESHOLD:
+                    neighbor_tile.elevation = MAX_ELEVATION - 3
 
-    # Set elevation for remaining land tiles
-    for tile in land_tiles:
-        if tile.elevation == 1:
-            var elevation_chance = randf()
-            if elevation_chance < 0.4:
-                tile.elevation = 1
-            elif elevation_chance < 0.8:
-                tile.elevation = 2
-            else:
-                tile.elevation = 3
-
-
-func _get_next_tile_id(tile, direction) -> int:
-    var next_row = tile.row + int(direction.y)
-    var next_col = tile.col + int(direction.x)
-
-    if next_row < 0 or next_row >= num_rows or next_col < 0 or next_col >= num_cols:
-        return -1  # Return -1 if the next tile is out of bounds
-
-    return next_row * num_cols + next_col
-    
 func _is_far_enough(candidate_tile, existing_land_tiles):
     for tile in existing_land_tiles:
         if candidate_tile.coordinates.distance_to(tile.coordinates) < _min_distance:
-            # TODO :: make this min distance dependant on the planet preset
             return false
     return true
 
+func _set_remaining_land_tile_elevations(land_tiles: Array) -> void:
+    for tile in land_tiles:
+        if tile.elevation == MIN_ELEVATION:
+            var elevation_chance = randf()
+            if elevation_chance < ELEVATION_ADJUSTMENT_THRESHOLD:
+                tile.elevation = MIN_ELEVATION
+            elif elevation_chance < ELEVATION_ADJUSTMENT_SECOND_THRESHOLD:
+                tile.elevation = MIN_ELEVATION + 1
+            else:
+                tile.elevation = MIN_ELEVATION + 2
