@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ResourceGroup" load_steps=2 format=3 uid="uid://dmgobbxgjn5br"]
+
+[ext_resource type="Script" path="res://addons/godot_resource_groups/resource_group.gd" id="1_47sdr"]
+
+[resource]
+script = ExtResource("1_47sdr")
+base_folder = "res://data/climate_zones"
+includes = Array[String]([])
+excludes = Array[String]([])
+paths = Array[String](["res://data/climate_zones/alpine.tres", "res://data/climate_zones/boreal_forest.tres", "res://data/climate_zones/boreal_tundra.tres", "res://data/climate_zones/climate_zones_group.tres", "res://data/climate_zones/mediterranean.tres", "res://data/climate_zones/polar_ice_cap.tres", "res://data/climate_zones/polar_tundra.tres", "res://data/climate_zones/subtropical_dry.tres", "res://data/climate_zones/subtropical_humid.tres", "res://data/climate_zones/temperate_continental.tres", "res://data/climate_zones/temperate_desert.tres", "res://data/climate_zones/temperate_oceanic.tres", "res://data/climate_zones/temperate_steppe.tres", "res://data/climate_zones/tropical_monsoon.tres", "res://data/climate_zones/tropical_rainforest.tres", "res://data/climate_zones/tropical_savanna.tres"])
