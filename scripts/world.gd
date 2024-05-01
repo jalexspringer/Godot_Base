@@ -2,17 +2,21 @@
 extends Node2D
 
 func _ready():
+    # Load the world_tile.tscn scene once
+    var world_tile_scene = load("res://scenes/world_tile.tscn")
+
     # Get the generated world map from WorldGenerator
     var _world_map = WorldGenerator._world_map
     for coords in _world_map:
-        var world_tile_scene: Node2D = load("res://scenes/world_tile.tscn").instantiate()
-        world_tile_scene.position = coords
-        $WorldView.add_child(world_tile_scene)
+        # Create an instance of the world_tile.tscn scene
+        var world_tile_instance = world_tile_scene.instantiate()
+        world_tile_instance.position = coords
+        $WorldView.add_child(world_tile_instance)
 
         # Assign the WorldTile resource to the tile_resource property of the instantiated scene
-        world_tile_scene.set("tile_resource", _world_map[coords])
+        world_tile_instance.set("tile_resource", _world_map[coords])
 
-        var hex_polygon = world_tile_scene.get_node("HexPolygon")
+        var hex_polygon = world_tile_instance.get_node("HexPolygon")
         var points = []
         var num_sides = 6
         var angle_step = 2 * PI / num_sides
@@ -27,22 +31,17 @@ func _ready():
         # Set default fill color
         hex_polygon.color = Color(1.0, 0.5, 0.5, 1.0)
 
-        # Create a Line2D node for the outline
-        var outline = Line2D.new()
+        var outline: Line2D = world_tile_instance.get_node("HexPolygon/Outline")
         outline.points = points
         outline.default_color = Color.BLACK
         outline.width = 2
-        hex_polygon.add_child(outline)
 
-        var area_2d = Area2D.new()
-        world_tile_scene.add_child(area_2d)
-
-        # Create a CollisionPolygon2D as a child of Area2D
-        var collision_polygon = CollisionPolygon2D.new()
+        # Get the existing CollisionPolygon2D node from the instantiated scene
+        var collision_polygon = world_tile_instance.get_node("HexPolygon/Area2D/CollisionPolygon2D")
         collision_polygon.polygon = points
-        area_2d.add_child(collision_polygon)
 
         # Connect mouse events for color change on hover
+        var area_2d = world_tile_instance.get_node("HexPolygon/Area2D")
         area_2d.connect("mouse_entered", _on_HexPolygon_mouse_entered.bind(outline))
         area_2d.connect("mouse_exited", _on_HexPolygon_mouse_exited.bind(outline))
 
