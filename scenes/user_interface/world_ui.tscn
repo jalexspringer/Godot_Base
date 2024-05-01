@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://cpoyrrh6sjc46"]
+[gd_scene load_steps=2 format=3 uid="uid://cpoyrrh6sjc46"]
+
+[ext_resource type="Script" path="res://scripts/world_ui.gd" id="1_7g5n3"]
 
 [node name="WorldUI" type="Control"]
 layout_mode = 3
@@ -7,6 +9,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_7g5n3")
 
 [node name="MenuButton" type="Button" parent="."]
 layout_mode = 1
@@ -39,7 +42,8 @@ layout_mode = 1
 offset_right = 107.0
 offset_bottom = 405.0
 
-[node name="TitleLabel" type="Label" parent="TileInfoPanel/VBoxContainer"]
+[node name="TileLabel" type="Label" parent="TileInfoPanel/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Tile Info"
 horizontal_alignment = 1
@@ -47,6 +51,33 @@ horizontal_alignment = 1
 [node name="GridContainer" type="GridContainer" parent="TileInfoPanel/VBoxContainer"]
 layout_mode = 2
 columns = 2
+
+[node name="TileIDLabel" type="Label" parent="TileInfoPanel/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Tile ID:"
+
+[node name="TileIDValue" type="Label" parent="TileInfoPanel/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Placeholder"
+
+[node name="RowLabel" type="Label" parent="TileInfoPanel/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Row:"
+
+[node name="RowValue" type="Label" parent="TileInfoPanel/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Placeholder"
+
+[node name="ColLabel" type="Label" parent="TileInfoPanel/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Col:"
+
+[node name="ColValue" type="Label" parent="TileInfoPanel/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Placeholder"
 
 [node name="CoordinatesLabel" type="Label" parent="TileInfoPanel/VBoxContainer/GridContainer"]
 layout_mode = 2

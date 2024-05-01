@@ -6,29 +6,22 @@ extends Node2D
 @onready var outline: Line2D = $Outline
 @onready var collision_polygon = $HexPolygon/Area2D/CollisionPolygon2D
 
-@onready var coordinates_value = get_node("/root/World/WorldUI/TileInfoPanel/VBoxContainer/GridContainer/CoordinatesValue")
-@onready var climate_zone_value = get_node("/root/World/WorldUI/TileInfoPanel/VBoxContainer/GridContainer/ClimateZoneValue")
-@onready var elevation_value = get_node("/root/World/WorldUI/TileInfoPanel/VBoxContainer/GridContainer/ElevationValue")
-@onready var features_value = get_node("/root/World/WorldUI/TileInfoPanel/VBoxContainer/GridContainer/FeaturesValue")
-@onready var temperature_value = get_node("/root/World/WorldUI/TileInfoPanel/VBoxContainer/GridContainer/TemperatureValue")
-@onready var moisture_value = get_node("/root/World/WorldUI/TileInfoPanel/VBoxContainer/GridContainer/MoistureValue")
-@onready var is_ocean_value = get_node("/root/World/WorldUI/TileInfoPanel/VBoxContainer/GridContainer/IsOceanValue")
-
 func _ready() -> void:
     update_hex_polygon_color()
 
-func populate_ui_panel():
-    coordinates_value.text = str(tile_resource.coordinates)
-    climate_zone_value.text = tile_resource.climate_zone_name
-    elevation_value.text = str(tile_resource.elevation)
-    features_value.text = ", ".join(tile_resource.features)
-    temperature_value.text = str(tile_resource.base_temperature)
-    moisture_value.text = str(tile_resource.moisture)
-    is_ocean_value.text = str(tile_resource.is_ocean)
 
 func update_hex_polygon_color():
     if not tile_resource.is_ocean:
-        hex_polygon.color = Color.GREEN
+        if tile_resource.elevation == 5:
+            hex_polygon.color = Color.RED
+        elif tile_resource.elevation == 4:
+            hex_polygon.color = Color.ORANGE
+        elif tile_resource.elevation == 3:
+            hex_polygon.color = Color.YELLOW
+        elif tile_resource.elevation == 2:
+            hex_polygon.color = Color.PINK
+        else:
+            hex_polygon.color = Color.GREEN
 
 func __create_points() -> Array[Vector2]:
     ## TODO : This function creates the points for the polygon2d that makes the tile shape. It uses the constants in the global scope. It should be made dynamic, maybe by having it as part of the constructor for @world_tile.gd
@@ -48,6 +41,6 @@ func _on_area_2d_mouse_exited() -> void:
     outline.default_color = Color.BLACK
 
 func _on_area_2d_mouse_entered() -> void:
-    populate_ui_panel()
+    DataBus._world_tile_hovered.emit(tile_resource)
     outline.z_index = 2
     outline.default_color = Color.RED

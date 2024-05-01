@@ -31,9 +31,12 @@ WorldGenerator="*res://scripts/global/world_generator.gd"
 EventManager="*res://scripts/global/event_manager.gd"
 ResourceManager="*res://scripts/global/resource_manager.gd"
 WeatherSystem="*res://scripts/global/weather_system.gd"
+DataBus="*res://scripts/global/data_bus.gd"
 
 [display]
 
+window/size/viewport_width=2000
+window/size/viewport_height=1200
 window/size/always_on_top=true
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
