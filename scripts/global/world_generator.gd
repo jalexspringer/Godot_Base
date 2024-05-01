@@ -179,7 +179,7 @@ func _assign_base_temperatures() -> void:
 func _calculate_base_temperature(row: int, elevation: float, is_ocean: bool) -> float:
     # Calculate the temperature based on the latitude (y-coordinate)
     var latitude_factor = abs(float(row) / (num_rows - 1) - 0.5)
-    var latitude_temperature = (1.0 - pow(latitude_factor * 3, 2)) * (_planet.average_temperature * 3)
+    var latitude_temperature = (1.0 - pow(latitude_factor * 3, 1.7)) * (_planet.average_temperature * 3)
 
     # Calculate the temperature based on the elevation
     var elevation_factor = elevation / MAX_ELEVATION
