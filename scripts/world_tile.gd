@@ -44,8 +44,10 @@ func __create_points() -> Array[Vector2]:
     return points
 
 func _on_area_2d_mouse_exited() -> void:
+    outline.z_index = 1
     outline.default_color = Color.BLACK
 
 func _on_area_2d_mouse_entered() -> void:
     populate_ui_panel()
+    outline.z_index = 2
     outline.default_color = Color.RED

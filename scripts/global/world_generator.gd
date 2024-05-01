@@ -1,130 +1,126 @@
 extends Node
 
-const TILE_COUNT = 5000
-const OCEAN_COUNT = 3
+const TILE_COUNT = 10000
+const LANDMASS_COUNT = 6 # TODO Add this to planet preset
 const TILE_SIZE = 64 # Tile size in pixels
+const LAND_COVERAGE_PERCENTAGE = 40.0  # TODO : this come from planet preset
+const OFFSET_X := TILE_SIZE * 0.75
+const OFFSET_Y := TILE_SIZE * sqrt(3) / 2
+
 
 var _planet: Planet
 var _world_map: Dictionary
 var _climate_zones: Array[ClimateZone]
-var _voronoi_diagram: Dictionary
+var _min_distance: float
+var num_rows: int
+var num_cols: int
+
 
 @export var climate_zones_group: Resource = preload ("res://data/climate_zones/climate_zones_group.tres")
 
 func _ready() -> void:
-	_load_climate_zones()
+    _load_climate_zones()
+    _min_distance = TILE_SIZE / (LAND_COVERAGE_PERCENTAGE * 5)
 
 func _load_climate_zones() -> void:
-	_climate_zones = []
-	for path in climate_zones_group.paths:
-		var resource = load(path)
-		if resource is ClimateZone:
-			_climate_zones.append(resource)
+    _climate_zones = []
+    for path in climate_zones_group.paths:
+        var resource = load(path)
+        if resource is ClimateZone:
+            _climate_zones.append(resource)
 
 func generate_world(planet: Planet) -> void:
-	_planet = planet
-	var voronoi_points: Array[Vector2] = _generate_voronoi_points(100, TILE_COUNT)
-	_voronoi_diagram = _generate_voronoi_diagram(voronoi_points)
-	_world_map = _build_world_map(TILE_COUNT, voronoi_points)
-
-func _build_world_map(num_tiles: int, voronoi_points: Array[Vector2]) -> Dictionary:
-	var world_map := {}
-	var num_rows := int(sqrt(num_tiles))
-	var num_cols := num_rows
-	var offset_x: float = TILE_SIZE * 0.75
-	var offset_y: float = TILE_SIZE * sqrt(3) / 2
-
-	var ocean_cells: Array = _determine_ocean_cells(voronoi_points.size(), _planet.ocean_coverage_percentage)
-
-	for row in range(num_rows):
-		for col in range(num_cols):
-			var x: float = col * offset_x
-			var y: float = row * offset_y
-			if col % 2 == 1:
-				y += offset_y * 0.5
-
-			var coords := Vector2(x, y)
-			var cell_index = _find_closest_voronoi_point(coords, voronoi_points)
-			var is_ocean : bool = cell_index in ocean_cells
-
-			var tile := WorldTile.new(
-				coords,
-				_climate_zones[0], # Placeholder climate zone
-				0, # Placeholder elevation
-				[], # Placeholder features
-				null, # Placeholder surface material
-				AirMass.new(), # Boundary layer
-				AirMass.new(), # Troposphere
-				_calculate_base_temp(coords),
-				0.0, # Placeholder moisture
-				is_ocean
-			)
-			world_map[coords] = tile
-
-	return world_map
-
-func _generate_voronoi_points(num_points: int, num_tiles: int) -> Array[Vector2]:
-	var points: Array[Vector2] = []
-	var min_distance : float = sqrt(float(num_tiles) / float(num_points)) * 0.8
-	var max_attempts :int = 30
-
-	while points.size() < num_points:
-		var candidate := Vector2(randf() * sqrt(num_tiles), randf() * sqrt(num_tiles))
-		var valid := true
-
-		for point in points:
-			if candidate.distance_to(point) < min_distance:
-				valid = false
-				break
-
-		if valid:
-			points.append(candidate)
-		else:
-			max_attempts -= 1
-			if max_attempts <= 0:
-				break
-
-	return points
+    _planet = planet
+    print("creating world map")
+    _world_map = _build_world_map(TILE_COUNT)
+    print("creating landmasses")
+    _create_landmasses()
 
 
-func _generate_voronoi_diagram(points: Array[Vector2]) -> Dictionary:
-	var voronoi_diagram = {}
-	var triangulation = Geometry2D.triangulate_delaunay(PackedVector2Array(points))
-	for i in range(0, triangulation.size(), 3):
-		var p1 = points[triangulation[i]]
-		var p2 = points[triangulation[i + 1]]
-		var p3 = points[triangulation[i + 2]]
-		var circumcenter = _calculate_circumcenter(p1, p2, p3)
-		for j in range(3):
-			var vertex_index = triangulation[i + j]
-			voronoi_diagram[vertex_index] = voronoi_diagram.get(vertex_index, []) + [circumcenter]
-	return voronoi_diagram
+func _build_world_map(num_tiles: int) -> Dictionary:
+    var world_map := {}
+    num_rows = int(sqrt(num_tiles))
+    num_cols = num_rows
 
-func _determine_ocean_cells(num_points: int, ocean_percentage: float) -> Array:
-	var num_ocean_cells = int(num_points * ocean_percentage / 100.0)
-	var ocean_cells = []
-	for i in range(num_ocean_cells):
-		ocean_cells.append(randi() % num_points)
-	return ocean_cells
+    for row in range(num_rows):
+        for col in range(num_cols):
+            var x: float = col * OFFSET_X
+            var y: float = row * OFFSET_Y
+            if col % 2 == 1:
+                y += OFFSET_Y * 0.5
 
-func _calculate_circumcenter(p1: Vector2, p2: Vector2, p3: Vector2) -> Vector2:
-	var d = 2 * (p1.x * (p2.y - p3.y) + p2.x * (p3.y - p1.y) + p3.x * (p1.y - p2.y))
-	var x = ((p1.x * p1.x + p1.y * p1.y) * (p2.y - p3.y) + (p2.x  * p2.x + p2.y * p2.y) * (p3.y - p1.y) + (p3.x * p3.x + p3.y * p3.y) * (p1.y - p2.y)) / d
-	var y = ((p1.x * p1.x + p1.y * p1.y) * (p3.x - p2.x) + (p2.x * p2.x + p2.y * p2.y) * (p1.x - p3.x) + (p3.x * p3.x + p3.y * p3.y) * (p2.x - p1.x)) / d
-	return Vector2(x, y)
+            var coords := Vector2(x, y)
+            var tile_id := row * num_cols + col
 
-func _find_closest_voronoi_point(coords: Vector2, voronoi_points: Array[Vector2]) -> int:
-	var min_distance = INF
-	var closest_index = -1
-	for i in range(voronoi_points.size()):
-		var distance = coords.distance_to(voronoi_points[i])
-		if distance < min_distance:
-			min_distance = distance
-			closest_index = i
-	return closest_index
+            var tile := WorldTile.new(
+                coords,
+                tile_id,
+                row,
+                col,
+                _climate_zones[0], # Placeholder climate zone
+                0, # Placeholder elevation
+                [], # Placeholder features
+                null, # Placeholder surface material
+                AirMass.new(), # Boundary layer
+                AirMass.new(), # Troposphere
+                0.0, # base temp
+                0.0, # moisture
+                true
+            )
+            world_map[tile_id] = tile
+
+    return world_map
 
 
-# Placeholder function to calculate the base temperature based on coordinates
-func _calculate_base_temp(_coords: Vector2) -> float:
-	# Implement your temperature calculation logic here
-	return 0.0
+func _create_landmasses() -> void:
+    var land_tiles = []
+    var target_land_tiles = int(TILE_COUNT * (LAND_COVERAGE_PERCENTAGE / 100.0))
+
+    # Initialize land seeds
+    while land_tiles.size() < LANDMASS_COUNT:
+        var random_tile = _world_map.values()[randi() % _world_map.size()]
+        if random_tile.is_ocean and _is_far_enough(random_tile, land_tiles):
+            random_tile.is_ocean = false
+            land_tiles.append(random_tile)
+
+    print("Initialized landmasses: %s" % land_tiles.size())
+
+    # Grow landmasses
+    var current_land_count = LANDMASS_COUNT
+    var iteration_count = 0
+    while current_land_count < target_land_tiles:
+        var added_tiles = []
+
+        for land_tile in land_tiles:
+            var neighbors = land_tile.get_neighbors(num_rows, num_cols)
+            neighbors.shuffle()
+
+            for neighbor_id in neighbors:
+                var neighbor_tile = _world_map[neighbor_id]
+                if neighbor_tile.is_ocean:
+                    neighbor_tile.is_ocean = false
+                    added_tiles.append(neighbor_tile)
+                    current_land_count += 1
+
+                    if current_land_count >= target_land_tiles:
+                        break
+
+            if current_land_count >= target_land_tiles:
+                break
+
+        land_tiles.append_array(added_tiles)
+        iteration_count += 1
+
+        if iteration_count % 10 == 0:
+            print("Current land count: %s / Target: %s" % [current_land_count, target_land_tiles])
+
+    print("Final land count: %s / Target: %s" % [current_land_count, target_land_tiles])
+
+
+func _is_far_enough(candidate_tile, existing_land_tiles):
+    for tile in existing_land_tiles:
+        if candidate_tile.coordinates.distance_to(tile.coordinates) < _min_distance:
+            # TODO :: make this min distance dependant on the planet preset
+            return false
+    return true
+

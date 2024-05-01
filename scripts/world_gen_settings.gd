@@ -94,8 +94,7 @@ func _populate_preset_option_button() -> void:
 			preset_option_button.add_item("Invalid Preset", i)
 
 func _on_generate_button_pressed() -> void:
-	var planet = _create_planet()
-	WorldGenerator.generate_world(planet)
+	WorldGenerator._planet = _create_planet()
 	get_tree().change_scene_to_file("res://scenes/world.tscn")
 
 func _on_save_preset_button_pressed() -> void:
