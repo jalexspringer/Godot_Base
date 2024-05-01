@@ -5,9 +5,11 @@ extends Node2D
 @onready var hex_polygon = $HexPolygon
 @onready var outline: Line2D = $Outline
 @onready var collision_polygon = $HexPolygon/Area2D/CollisionPolygon2D
+@onready var base_temp_label = $BaseTempLabel
 
 func _ready() -> void:
     update_hex_polygon_color()
+    #print(tile_resource.base_temperature)
 
 
 func update_hex_polygon_color():
@@ -22,6 +24,7 @@ func update_hex_polygon_color():
             hex_polygon.color = Color.PINK
         else:
             hex_polygon.color = Color.GREEN
+    base_temp_label.text = str(tile_resource.base_temperature)# + "°"
 
 func __create_points() -> Array[Vector2]:
     ## TODO : This function creates the points for the polygon2d that makes the tile shape. It uses the constants in the global scope. It should be made dynamic, maybe by having it as part of the constructor for @world_tile.gd

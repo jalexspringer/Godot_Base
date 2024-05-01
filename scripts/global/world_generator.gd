@@ -1,9 +1,9 @@
 extends Node
 
-const TILE_COUNT = 10000
+const TILE_COUNT = 12000
 const LANDMASS_COUNT = 5
 const TILE_SIZE = 64
-const LAND_COVERAGE_PERCENTAGE = 50.0
+const LAND_COVERAGE_PERCENTAGE = 30.0
 const OFFSET_X := TILE_SIZE * 0.75
 const OFFSET_Y := TILE_SIZE * sqrt(3) / 2
 const LAND_GROWTH_RANDOMNESS := 0.1
@@ -15,7 +15,7 @@ const ELEVATION_ADJUSTMENT_SECOND_THRESHOLD = 0.8
 const MOUNTAIN_RANGE_MIN_LENGTH = 10
 const MOUNTAIN_RANGE_MAX_LENGTH = 40
 
-var _planet: Planet = load("res://data/planets/presets/earthlike.tres")
+var _planet: Planet = Planet.new()
 var _world_map: Dictionary
 var _climate_zones: Array[ClimateZone]
 var _min_distance: float
@@ -39,10 +39,9 @@ func _load_climate_zones() -> void:
 func generate_world(planet: Planet) -> void:
     if planet != null:
         _planet = planet
-    print("Creating world map")
     _world_map = _build_world_map(TILE_COUNT)
-    print("Creating landmasses")
     _create_landmasses()
+    _assign_base_temperatures()
 
 func _build_world_map(num_tiles: int) -> Dictionary:
     var world_map := {}
@@ -171,3 +170,26 @@ func _set_remaining_land_tile_elevations(land_tiles: Array) -> void:
                 tile.elevation = MIN_ELEVATION + 1
             else:
                 tile.elevation = MIN_ELEVATION + 2
+
+func _assign_base_temperatures() -> void:
+    for tile in _world_map.values():
+        var temperature = _calculate_base_temperature(tile.row, tile.elevation, tile.is_ocean)
+        tile.base_temperature = round(temperature)
+
+func _calculate_base_temperature(row: int, elevation: float, is_ocean: bool) -> float:
+    # Calculate the temperature based on the latitude (y-coordinate)
+    var latitude_factor = abs(float(row) / (num_rows - 1) - 0.5)
+    var latitude_temperature = (1.0 - pow(latitude_factor * 3, 2)) * (_planet.average_temperature * 3)
+
+    # Calculate the temperature based on the elevation
+    var elevation_factor = elevation / MAX_ELEVATION
+    var elevation_temperature = (1.0 - elevation_factor) * _planet.average_temperature
+
+    # Calculate the final base temperature
+    var base_temperature = (latitude_temperature + elevation_temperature) / 2.0
+
+    # Adjust the temperature for ocean tiles
+    if is_ocean:
+        base_temperature -= 8.0  # Decrease the temperature for ocean tiles
+
+    return base_temperature

@@ -13,6 +13,7 @@ extends Control
 @onready var day_length_slider = $"%DayLengthSlider"
 @onready var ocean_coverage_percentage_slider = $"%OceanCoverageSlider"
 @onready var elevation_change_slider = $"%ElevationChangeSlider"
+@onready var atmospheric_greenhouse_gas_slider = $"%AtmosphericGreenhouseGasSlider"
 @onready var preset_option_button = $"%PresetOptionButton"
 @onready var save_preset_button = $"%SavePresetButton"
 
@@ -69,6 +70,7 @@ func _on_preset_option_button_item_selected(index: int) -> void:
 	day_length_slider.value = selected_preset.day_length
 	ocean_coverage_percentage_slider.value = selected_preset.ocean_coverage_percentage
 	elevation_change_slider.value = selected_preset.elevation_change
+	atmospheric_greenhouse_gas_slider.value = selected_preset.greenhouse_gas
 	save_preset_button.disabled = true
 
 func _on_slider_drag_ended(value_changed: bool) -> void:
@@ -139,9 +141,10 @@ func _create_planet() -> Planet:
 		orbital_period_slider.value,
 		day_length_slider.value,
 		ocean_coverage_percentage_slider.value,
-		elevation_change_slider.value
+		elevation_change_slider.value,
+		atmospheric_greenhouse_gas_slider.value
 	)
-
+	
 func _find_existing_preset(preset_name: String) -> int:
 	for i in range(preset_resources.size()):
 		if preset_resources[i].name == preset_name:

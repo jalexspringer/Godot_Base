@@ -220,6 +220,18 @@ unique_name_in_owner = true
 layout_mode = 2
 value = 70.0
 
+[node name="AtmosphericGreenhouseGasLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2"]
+layout_mode = 2
+text = "Atmospheric Greenhouse Gas (%)"
+
+[node name="AtmosphericGreenhouseGasSlider" type="HSlider" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 0.01
+max_value = 1.0
+step = 0.01
+value = 0.04
+
 [node name="VBoxContainer3" type="VBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
@@ -290,6 +302,8 @@ text = "Back"
 [connection signal="drag_ended" from="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2/OrbitalPeriodSlider" to="." method="_on_slider_drag_ended"]
 [connection signal="drag_ended" from="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2/DayLengthSlider" to="." method="_on_slider_drag_ended"]
 [connection signal="drag_ended" from="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2/OceanCoverageSlider" to="." method="_on_slider_drag_ended"]
+[connection signal="drag_ended" from="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2/AtmosphericGreenhouseGasSlider" to="." method="_on_slider_drag_ended"]
 [connection signal="item_selected" from="CenterContainer/MarginContainer/VBoxContainer/VBoxContainer3/MarginContainer/PresetOptionButton" to="." method="_on_preset_option_button_item_selected"]
 [connection signal="pressed" from="CenterContainer/MarginContainer/VBoxContainer/VBoxContainer3/MarginContainer2/GenerateButton" to="." method="_on_generate_button_pressed"]
 [connection signal="pressed" from="CenterContainer/MarginContainer/VBoxContainer/VBoxContainer3/MarginContainer3/BackButton" to="." method="_on_back_button_pressed"]
+
