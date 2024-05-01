@@ -1,31 +1,8 @@
 {
   "hidden_columns": {
-    "res://data/climate_zones/climate_zones/": {
-      "resource_local_to_scene": true,
-      "resource_name": true
-    },
-    "res://data/elements/": {
-      "resource_local_to_scene": true,
-      "resource_name": true
-    },
-    "res://data/elements/element_db/elements/": {
-      "resource_local_to_scene": true,
-      "resource_name": true
-    },
-    "res://data/recipes_db/": {
-      "resource_local_to_scene": true,
-      "resource_name": true
-    },
-    "res://data/recipes_db/recipes/": {
-      "resource_local_to_scene": true,
-      "resource_name": true
-    }
+
   },
-  "recent_paths": [
-    "res://data/recipes_db/",
-    "res://data/recipes_db/recipes/",
-    "res://data/climate_zones/climate_zones/"
-  ],
+  "recent_paths": [],
   "table_functions": {
     "filter": [
       "return true"

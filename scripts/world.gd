@@ -7,49 +7,17 @@ func _ready():
 
     # Get the generated world map from WorldGenerator
     var _world_map = WorldGenerator._world_map
+
     for coords in _world_map:
         # Create an instance of the world_tile.tscn scene
+
         var world_tile_instance = world_tile_scene.instantiate()
         world_tile_instance.position = coords
-        $WorldView.add_child(world_tile_instance)
 
         # Assign the WorldTile resource to the tile_resource property of the instantiated scene
         world_tile_instance.set("tile_resource", _world_map[coords])
 
-        var hex_polygon = world_tile_instance.get_node("HexPolygon")
-        var points = []
-        var num_sides = 6
-        var angle_step = 2 * PI / num_sides
-        var radius = WorldGenerator.TILE_SIZE / 2.0
-
-        for i in range(num_sides):
-            var angle = angle_step * i
-            points.append(Vector2(cos(angle), sin(angle)) * radius)
-
-        hex_polygon.polygon = points
-
-        # Set default fill color
-        hex_polygon.color = Color(1.0, 0.5, 0.5, 1.0)
-
-        var outline: Line2D = world_tile_instance.get_node("HexPolygon/Outline")
-        outline.points = points
-        outline.default_color = Color.BLACK
-        outline.width = 2
-
-        # Get the existing CollisionPolygon2D node from the instantiated scene
-        var collision_polygon = world_tile_instance.get_node("HexPolygon/Area2D/CollisionPolygon2D")
-        collision_polygon.polygon = points
-
-        # Connect mouse events for color change on hover
-        var area_2d = world_tile_instance.get_node("HexPolygon/Area2D")
-        area_2d.connect("mouse_entered", _on_HexPolygon_mouse_entered.bind(outline))
-        area_2d.connect("mouse_exited", _on_HexPolygon_mouse_exited.bind(outline))
-
-func _on_HexPolygon_mouse_entered(outline: Line2D):
-    outline.default_color = Color.RED
-
-func _on_HexPolygon_mouse_exited(outline: Line2D):
-    outline.default_color = Color.BLACK
+        $WorldView.add_child(world_tile_instance)
 
 func _process(delta):
     var camera = $Camera2D

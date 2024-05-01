@@ -3,16 +3,19 @@ extends Node
 const TILE_COUNT = 5000
 const OCEAN_COUNT = 3
 const TILE_SIZE = 64 # Tile size in pixels
+const HEX_POINTS: Array[Vector2] = [Vector2(32, 0), Vector2(16, 27.71281), Vector2( - 16, 27.71281), Vector2( - 32, 0), Vector2( - 16, -27.71281), Vector2(16, -27.71281)]
 
 # var _planet: Planet
 var _world_map: Dictionary
+var _climate_zones: Array[ClimateZone]
+var hex_points: Array[Vector2]
 
 @export var climate_zones_group: Resource = preload ("res://data/climate_zones/climate_zones_group.tres")
 
-var _climate_zones: Array[ClimateZone]
-
 func _ready() -> void:
 	_load_climate_zones()
+	#hex_points = _create_points()
+	#print(hex_points)
 
 func _load_climate_zones() -> void:
 	_climate_zones = []
@@ -77,6 +80,18 @@ func build_world_map(num_tiles: int) -> Dictionary:
 
 	return world_map
 
+func _create_points() -> Array[Vector2]:
+	var points: Array[Vector2] = []
+	var num_sides: int = 6
+	var angle_step: float = 2 * PI / num_sides
+	var radius: float = TILE_SIZE / 2.0
+
+	for i in range(num_sides):
+		var angle: float = angle_step * i
+		points.append(Vector2(cos(angle), sin(angle)) * radius)
+
+	return points
+
 # Placeholder function to calculate the base temperature based on coordinates
 func calculate_base_temp(_coords: Vector2) -> float:
 	# Implement your temperature calculation logic here
@@ -92,7 +107,7 @@ func generate_voronoi_points(num_points: int, num_tiles: int) -> Array[Vector2]:
 
 func generate_and_assign_voronoi_diagram(world_map: Dictionary, voronoi_points: Array[Vector2]) -> Dictionary:
 	# Generate Voronoi diagram using Bowyer-Watson algorithm
-	var voronoi_diagram = generate_voronoi_diagram_bowyer_watson(voronoi_points)
+	var _voronoi_diagram = generate_voronoi_diagram_bowyer_watson(voronoi_points)
 
 	# Assign Voronoi cells to tiles
 	for coords in world_map.keys():
