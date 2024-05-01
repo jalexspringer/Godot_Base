@@ -15,9 +15,3 @@ atmospheric_pressure = 1.0
 magnetic_field_strength = 1.0
 orbital_period = 365.25
 day_length = 24.0
-atmosphere = {
-"oxygen": 21.0,
-"nitrogen": 78.0,
-"carbon_dioxide": 0.04,
-"particulates": 0.96
-}

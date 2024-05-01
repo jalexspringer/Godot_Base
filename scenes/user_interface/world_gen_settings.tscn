@@ -21,7 +21,6 @@ grow_vertical = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="CenterContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
@@ -33,18 +32,43 @@ color = Color(0, 0, 0, 0.196078)
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="NameLineEdit" type="LineEdit" parent="CenterContainer/MarginContainer/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Generating New Planet"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="NameLineEdit" type="LineEdit" parent="CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
 text = "New Planet"
 placeholder_text = "Planet Name"
+
+[node name="SavePresetButton" type="Button" parent="CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Save As.."
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(350, 2.08165e-12)
 layout_mode = 2
-theme_override_constants/margin_top = 30
+theme_override_constants/margin_left = 20
 theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer"]
 layout_mode = 2
@@ -100,11 +124,22 @@ max_value = 1.0
 step = 0.1
 value = 0.3
 
+[node name="ElevationChangeLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Elevation Change (1-5)"
+
+[node name="ElevationChangeSlider" type="HSlider" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+min_value = 1.0
+max_value = 5.0
+value = 3.0
+
 [node name="MarginContainer2" type="MarginContainer" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 auto_translate_mode = 1
+custom_minimum_size = Vector2(350, 2.08165e-12)
 layout_mode = 2
-theme_override_constants/margin_left = 30
-theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 10
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2"]
 layout_mode = 2
@@ -112,7 +147,7 @@ size_flags_horizontal = 3
 
 [node name="GravityLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2"]
 layout_mode = 2
-text = "Gravity (relative to Earth)"
+text = "Gravity (Earth relative)"
 
 [node name="GravitySlider" type="HSlider" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2"]
 layout_mode = 2
@@ -123,7 +158,7 @@ value = 1.0
 
 [node name="AtmosphericPressureLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2"]
 layout_mode = 2
-text = "Atmospheric Pressure (relative to Earth)"
+text = "Atmospheric Pressure (Earth relative)"
 
 [node name="AtmosphericPressureSlider" type="HSlider" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2"]
 layout_mode = 2
@@ -134,7 +169,7 @@ value = 1.0
 
 [node name="MagneticFieldStrengthLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2"]
 layout_mode = 2
-text = "Magnetic Field Strength (relative to Earth)"
+text = "Magnetic Field Strength (Earth relative)"
 
 [node name="MagneticFieldStrengthSlider" type="HSlider" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2"]
 layout_mode = 2
@@ -163,6 +198,14 @@ min_value = 10.0
 max_value = 40.0
 value = 24.0
 
+[node name="OceanCoverageLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2"]
+layout_mode = 2
+text = "Ocean Coverage (%)"
+
+[node name="OceanCoverageSlider" type="HSlider" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2"]
+layout_mode = 2
+value = 70.0
+
 [node name="VBoxContainer3" type="VBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
@@ -170,40 +213,66 @@ layout_mode = 2
 custom_minimum_size = Vector2(2.08165e-12, 20)
 layout_mode = 2
 
-[node name="PresetLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/VBoxContainer3"]
+[node name="MarginContainer4" type="MarginContainer" parent="CenterContainer/MarginContainer/VBoxContainer/VBoxContainer3"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 50
+
+[node name="PresetLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/VBoxContainer3/MarginContainer4"]
 layout_mode = 2
 text = "Select Preset (Will Update Settings Above)"
 
-[node name="PresetOptionButton" type="OptionButton" parent="CenterContainer/MarginContainer/VBoxContainer/VBoxContainer3"]
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/VBoxContainer/VBoxContainer3"]
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_right = 50
+
+[node name="PresetOptionButton" type="OptionButton" parent="CenterContainer/MarginContainer/VBoxContainer/VBoxContainer3/MarginContainer"]
 layout_mode = 2
 item_count = 1
 popup/item_0/text = "Custom"
 popup/item_0/id = 0
 
-[node name="SavePresetButton" type="Button" parent="CenterContainer/MarginContainer/VBoxContainer/VBoxContainer3"]
+[node name="MarginContainer2" type="MarginContainer" parent="CenterContainer/MarginContainer/VBoxContainer/VBoxContainer3"]
+auto_translate_mode = 1
 layout_mode = 2
-text = "Save New Preset"
+theme_override_constants/margin_left = 150
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 150
+theme_override_constants/margin_bottom = 5
 
-[node name="GenerateButton" type="Button" parent="CenterContainer/MarginContainer/VBoxContainer/VBoxContainer3"]
+[node name="GenerateButton" type="Button" parent="CenterContainer/MarginContainer/VBoxContainer/VBoxContainer3/MarginContainer2"]
 layout_mode = 2
 text = "Generate Planet"
 
-[node name="BackButton" type="Button" parent="CenterContainer/MarginContainer/VBoxContainer/VBoxContainer3"]
+[node name="MarginContainer3" type="MarginContainer" parent="CenterContainer/MarginContainer/VBoxContainer/VBoxContainer3"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_constants/margin_left = 150
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 150
+theme_override_constants/margin_bottom = 10
+
+[node name="BackButton" type="Button" parent="CenterContainer/MarginContainer/VBoxContainer/VBoxContainer3/MarginContainer3"]
 layout_mode = 2
 text = "Back"
 
-[connection signal="text_changed" from="CenterContainer/MarginContainer/VBoxContainer/NameLineEdit" to="." method="_on_name_line_edit_text_changed"]
+[connection signal="text_changed" from="CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/NameLineEdit" to="." method="_on_name_line_edit_text_changed"]
+[connection signal="pressed" from="CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/SavePresetButton" to="." method="_on_save_preset_button_pressed"]
 [connection signal="drag_ended" from="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer/SolarConstantSlider" to="." method="_on_slider_drag_ended"]
 [connection signal="drag_ended" from="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer/RadiusSlider" to="." method="_on_slider_drag_ended"]
 [connection signal="drag_ended" from="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer/DistanceFromSunSlider" to="." method="_on_slider_drag_ended"]
 [connection signal="drag_ended" from="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer/AxialTiltSlider" to="." method="_on_slider_drag_ended"]
 [connection signal="drag_ended" from="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer/AlbedoSlider" to="." method="_on_slider_drag_ended"]
+[connection signal="drag_ended" from="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer/ElevationChangeSlider" to="." method="_on_slider_drag_ended"]
 [connection signal="drag_ended" from="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2/GravitySlider" to="." method="_on_slider_drag_ended"]
 [connection signal="drag_ended" from="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2/AtmosphericPressureSlider" to="." method="_on_slider_drag_ended"]
 [connection signal="drag_ended" from="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2/MagneticFieldStrengthSlider" to="." method="_on_slider_drag_ended"]
 [connection signal="drag_ended" from="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2/OrbitalPeriodSlider" to="." method="_on_slider_drag_ended"]
 [connection signal="drag_ended" from="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2/DayLengthSlider" to="." method="_on_slider_drag_ended"]
-[connection signal="item_selected" from="CenterContainer/MarginContainer/VBoxContainer/VBoxContainer3/PresetOptionButton" to="." method="_on_preset_option_button_item_selected"]
-[connection signal="pressed" from="CenterContainer/MarginContainer/VBoxContainer/VBoxContainer3/SavePresetButton" to="." method="_on_save_preset_button_pressed"]
-[connection signal="pressed" from="CenterContainer/MarginContainer/VBoxContainer/VBoxContainer3/GenerateButton" to="." method="_on_generate_button_pressed"]
-[connection signal="pressed" from="CenterContainer/MarginContainer/VBoxContainer/VBoxContainer3/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="drag_ended" from="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2/OceanCoverageSlider" to="." method="_on_slider_drag_ended"]
+[connection signal="item_selected" from="CenterContainer/MarginContainer/VBoxContainer/VBoxContainer3/MarginContainer/PresetOptionButton" to="." method="_on_preset_option_button_item_selected"]
+[connection signal="pressed" from="CenterContainer/MarginContainer/VBoxContainer/VBoxContainer3/MarginContainer2/GenerateButton" to="." method="_on_generate_button_pressed"]
+[connection signal="pressed" from="CenterContainer/MarginContainer/VBoxContainer/VBoxContainer3/MarginContainer3/BackButton" to="." method="_on_back_button_pressed"]
