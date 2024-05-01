@@ -8,32 +8,53 @@ func _ready():
         var world_tile_scene: Node2D = load("res://scenes/world_tile.tscn").instantiate()
         world_tile_scene.position = coords
         $WorldView.add_child(world_tile_scene)
-        
+
+        # Assign the WorldTile resource to the tile_resource property of the instantiated scene
+        world_tile_scene.set("tile_resource", _world_map[coords])
+
         var hex_polygon = world_tile_scene.get_node("HexPolygon")
         var points = []
         var num_sides = 6
         var angle_step = 2 * PI / num_sides
         var radius = WorldGenerator.TILE_SIZE / 2.0
-        
+
         for i in range(num_sides):
             var angle = angle_step * i
             points.append(Vector2(cos(angle), sin(angle)) * radius)
-        
+
         hex_polygon.polygon = points
 
-        # Create a CollisionPolygon2D as a child of HexPolygon
+        # Set default fill color
+        hex_polygon.color = Color(1.0, 0.5, 0.5, 1.0)
+
+        # Create a Line2D node for the outline
+        var outline = Line2D.new()
+        outline.points = points
+        outline.default_color = Color.BLACK
+        outline.width = 2
+        hex_polygon.add_child(outline)
+
+        var area_2d = Area2D.new()
+        world_tile_scene.add_child(area_2d)
+
+        # Create a CollisionPolygon2D as a child of Area2D
         var collision_polygon = CollisionPolygon2D.new()
         collision_polygon.polygon = points
-        hex_polygon.add_child(collision_polygon)
+        area_2d.add_child(collision_polygon)
 
+        # Connect mouse events for color change on hover
+        area_2d.connect("mouse_entered", _on_HexPolygon_mouse_entered.bind(outline))
+        area_2d.connect("mouse_exited", _on_HexPolygon_mouse_exited.bind(outline))
 
-func _on_Tile_mouse_entered(world_tile_scene: Node2D) -> void:
-    world_tile_scene.show_tile_info()
+func _on_HexPolygon_mouse_entered(outline: Line2D):
+    outline.default_color = Color.RED
 
-    
+func _on_HexPolygon_mouse_exited(outline: Line2D):
+    outline.default_color = Color.BLACK
+
 func _process(delta):
     var camera = $Camera2D
-    var speed = 500  # Adjust the camera movement speed as needed
+    var speed = 500 # Adjust the camera movement speed as needed
 
     if Input.is_action_pressed("ui_left"):
         camera.position.x -= speed * delta
@@ -45,8 +66,6 @@ func _process(delta):
         camera.position.y += speed * delta
 
 ## TODO :: implement zoom on the world map
-
-
 
 func _get_climate_zone_color(zone):
     match zone:
@@ -81,4 +100,3 @@ func _get_climate_zone_color(zone):
         ClimateZone.ZoneType.ALPINE:
             return Color.DARK_GRAY
     return Color.BLACK
-
