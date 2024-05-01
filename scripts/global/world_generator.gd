@@ -1,11 +1,12 @@
 extends Node
 
 const TILE_COUNT = 10000
-const LANDMASS_COUNT = 6 # TODO Add this to planet preset
+const LANDMASS_COUNT = 12 # TODO Add this to planet preset
 const TILE_SIZE = 64 # Tile size in pixels
 const LAND_COVERAGE_PERCENTAGE = 40.0  # TODO : this come from planet preset
 const OFFSET_X := TILE_SIZE * 0.75
 const OFFSET_Y := TILE_SIZE * sqrt(3) / 2
+const LAND_GROWTH_RANDOMNESS := 0.2
 
 
 var _planet: Planet
@@ -98,9 +99,11 @@ func _create_landmasses() -> void:
             for neighbor_id in neighbors:
                 var neighbor_tile = _world_map[neighbor_id]
                 if neighbor_tile.is_ocean:
-                    neighbor_tile.is_ocean = false
-                    added_tiles.append(neighbor_tile)
-                    current_land_count += 1
+                    var probability = randf()
+                    if probability < LAND_GROWTH_RANDOMNESS:  # Adjust this value to control the randomness
+                        neighbor_tile.is_ocean = false
+                        added_tiles.append(neighbor_tile)
+                        current_land_count += 1
 
                     if current_land_count >= target_land_tiles:
                         break
