@@ -9,3 +9,135 @@ script = ExtResource("1_yvqjk")
 position = Vector2(576, 324)
 
 [node name="WorldView" type="Node2D" parent="."]
+
+[node name="WorldUI" type="Control" parent="."]
+auto_translate_mode = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MenuButton" type="Button" parent="WorldUI"]
+auto_translate_mode = 1
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -53.0
+offset_bottom = 31.0
+grow_horizontal = 0
+text = "Menu"
+
+[node name="WorldClock" type="Label" parent="WorldUI"]
+auto_translate_mode = 1
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -32.0
+offset_right = 32.0
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "00:00:00"
+
+[node name="TileInfoPanel" type="Panel" parent="WorldUI"]
+auto_translate_mode = 1
+layout_mode = 1
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="WorldUI/TileInfoPanel"]
+auto_translate_mode = 1
+layout_mode = 1
+offset_right = 107.0
+offset_bottom = 405.0
+
+[node name="TitleLabel" type="Label" parent="WorldUI/TileInfoPanel/VBoxContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Tile Info"
+horizontal_alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="WorldUI/TileInfoPanel/VBoxContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+columns = 2
+
+[node name="CoordinatesLabel" type="Label" parent="WorldUI/TileInfoPanel/VBoxContainer/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Coordinates:"
+
+[node name="CoordinatesValue" type="Label" parent="WorldUI/TileInfoPanel/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+text = "Placeholder"
+
+[node name="ClimateZoneLabel" type="Label" parent="WorldUI/TileInfoPanel/VBoxContainer/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Climate Zone:"
+
+[node name="ClimateZoneValue" type="Label" parent="WorldUI/TileInfoPanel/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+text = "Placeholder"
+
+[node name="ElevationLabel" type="Label" parent="WorldUI/TileInfoPanel/VBoxContainer/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Elevation:"
+
+[node name="ElevationValue" type="Label" parent="WorldUI/TileInfoPanel/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+text = "Placeholder"
+
+[node name="FeaturesLabel" type="Label" parent="WorldUI/TileInfoPanel/VBoxContainer/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Features:"
+
+[node name="FeaturesValue" type="Label" parent="WorldUI/TileInfoPanel/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+text = "Placeholder"
+
+[node name="TemperatureLabel" type="Label" parent="WorldUI/TileInfoPanel/VBoxContainer/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Temperature:"
+
+[node name="TemperatureValue" type="Label" parent="WorldUI/TileInfoPanel/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+text = "Placeholder"
+
+[node name="MoistureLabel" type="Label" parent="WorldUI/TileInfoPanel/VBoxContainer/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Moisture:"
+
+[node name="MoistureValue" type="Label" parent="WorldUI/TileInfoPanel/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+text = "Placeholder"
+
+[node name="IsOceanLabel" type="Label" parent="WorldUI/TileInfoPanel/VBoxContainer/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Is Ocean:"
+
+[node name="IsOceanValue" type="Label" parent="WorldUI/TileInfoPanel/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+text = "Placeholder"

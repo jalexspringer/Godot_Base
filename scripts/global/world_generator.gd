@@ -3,7 +3,7 @@ extends Node
 const TILE_COUNT = 5000
 const OCEAN_COUNT = 3
 const TILE_SIZE = 64 # Tile size in pixels
-const HEX_POINTS: Array[Vector2] = [Vector2(32, 0), Vector2(16, 27.71281), Vector2( - 16, 27.71281), Vector2( - 32, 0), Vector2( - 16, -27.71281), Vector2(16, -27.71281)]
+# const HEX_POINTS: Array[Vector2] = [Vector2(32, 0), Vector2(16, 27.71281), Vector2( - 16, 27.71281), Vector2( - 32, 0), Vector2( - 16, -27.71281), Vector2(16, -27.71281)]
 
 # var _planet: Planet
 var _world_map: Dictionary

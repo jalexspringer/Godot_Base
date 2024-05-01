@@ -5,100 +5,21 @@
 [node name="WorldTile" type="Node2D"]
 script = ExtResource("1_44btt")
 
+[node name="Outline" type="Line2D" parent="."]
+z_index = 1
+points = PackedVector2Array(32, 0, 16, 27.7128, -16, 27.7128, -32, 0, -16, -27.7128, 16, -27.7128, 32, 2.08165e-12)
+width = 1.0
+default_color = Color(0, 0, 0, 1)
+end_cap_mode = 2
+
 [node name="HexPolygon" type="Polygon2D" parent="."]
 color = Color(0.368627, 0.360784, 1, 1)
+polygon = PackedVector2Array(32, 0, 16, 27.7128, -16, 27.7128, -32, 0, -16, -27.7128, 16, -27.7128)
 
 [node name="Area2D" type="Area2D" parent="HexPolygon"]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HexPolygon/Area2D"]
 polygon = PackedVector2Array(32, 0, 16, 27.7128, -16, 27.7128, -32, 0, -16, -27.7128, 16, -27.7128)
-
-[node name="Outline" type="Line2D" parent="HexPolygon"]
-width = 2.0
-default_color = Color(0, 0, 0, 1)
-
-[node name="PopupPanel" type="PopupPanel" parent="."]
-title = "Tile Info"
-size = Vector2i(211, 220)
-
-[node name="VBoxContainer" type="VBoxContainer" parent="PopupPanel"]
-offset_left = 4.0
-offset_top = 4.0
-offset_right = 207.0
-offset_bottom = 216.0
-
-[node name="TitleLabel" type="Label" parent="PopupPanel/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Tile Info"
-horizontal_alignment = 1
-
-[node name="GridContainer" type="GridContainer" parent="PopupPanel/VBoxContainer"]
-layout_mode = 2
-columns = 2
-
-[node name="CoordinatesLabel" type="Label" parent="PopupPanel/VBoxContainer/GridContainer"]
-layout_mode = 2
-text = "Coordinates:"
-
-[node name="CoordinatesValue" type="Label" parent="PopupPanel/VBoxContainer/GridContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Placeholder"
-
-[node name="ClimateZoneLabel" type="Label" parent="PopupPanel/VBoxContainer/GridContainer"]
-layout_mode = 2
-text = "Climate Zone:"
-
-[node name="ClimateZoneValue" type="Label" parent="PopupPanel/VBoxContainer/GridContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Placeholder"
-
-[node name="ElevationLabel" type="Label" parent="PopupPanel/VBoxContainer/GridContainer"]
-layout_mode = 2
-text = "Elevation:"
-
-[node name="ElevationValue" type="Label" parent="PopupPanel/VBoxContainer/GridContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Placeholder"
-
-[node name="FeaturesLabel" type="Label" parent="PopupPanel/VBoxContainer/GridContainer"]
-layout_mode = 2
-text = "Features:"
-
-[node name="FeaturesValue" type="Label" parent="PopupPanel/VBoxContainer/GridContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Placeholder"
-
-[node name="TemperatureLabel" type="Label" parent="PopupPanel/VBoxContainer/GridContainer"]
-layout_mode = 2
-text = "Temperature:"
-
-[node name="TemperatureValue" type="Label" parent="PopupPanel/VBoxContainer/GridContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Placeholder"
-
-[node name="MoistureLabel" type="Label" parent="PopupPanel/VBoxContainer/GridContainer"]
-layout_mode = 2
-text = "Moisture:"
-
-[node name="MoistureValue" type="Label" parent="PopupPanel/VBoxContainer/GridContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Placeholder"
-
-[node name="IsOceanLabel" type="Label" parent="PopupPanel/VBoxContainer/GridContainer"]
-layout_mode = 2
-text = "Is Ocean:"
-
-[node name="IsOceanValue" type="Label" parent="PopupPanel/VBoxContainer/GridContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Placeholder"
 
 [connection signal="mouse_entered" from="HexPolygon/Area2D" to="." method="_on_area_2d_mouse_entered"]
 [connection signal="mouse_exited" from="HexPolygon/Area2D" to="." method="_on_area_2d_mouse_exited"]
