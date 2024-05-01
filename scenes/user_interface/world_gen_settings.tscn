@@ -50,12 +50,14 @@ text = "Generating New Planet"
 layout_mode = 2
 
 [node name="NameLineEdit" type="LineEdit" parent="CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "New Planet"
 placeholder_text = "Planet Name"
 
 [node name="SavePresetButton" type="Button" parent="CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Save As.."
@@ -79,6 +81,7 @@ layout_mode = 2
 text = "Solar Constant (W/m^2)"
 
 [node name="SolarConstantSlider" type="HSlider" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 min_value = 1000.0
 max_value = 2000.0
@@ -89,6 +92,7 @@ layout_mode = 2
 text = "Planet Radius (km)"
 
 [node name="RadiusSlider" type="HSlider" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 min_value = 4000.0
 max_value = 8000.0
@@ -99,6 +103,7 @@ layout_mode = 2
 text = "Distance from Sun (AU)"
 
 [node name="DistanceFromSunSlider" type="HSlider" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 min_value = 0.5
 max_value = 2.0
@@ -110,6 +115,7 @@ layout_mode = 2
 text = "Axial Tilt (degrees)"
 
 [node name="AxialTiltSlider" type="HSlider" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 max_value = 45.0
 value = 24.0
@@ -119,6 +125,7 @@ layout_mode = 2
 text = "Albedo"
 
 [node name="AlbedoSlider" type="HSlider" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 max_value = 1.0
 step = 0.1
@@ -129,6 +136,7 @@ layout_mode = 2
 text = "Elevation Change (1-5)"
 
 [node name="ElevationChangeSlider" type="HSlider" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 min_value = 1.0
 max_value = 5.0
@@ -150,6 +158,7 @@ layout_mode = 2
 text = "Gravity (Earth relative)"
 
 [node name="GravitySlider" type="HSlider" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 min_value = 0.5
 max_value = 1.5
@@ -161,6 +170,7 @@ layout_mode = 2
 text = "Atmospheric Pressure (Earth relative)"
 
 [node name="AtmosphericPressureSlider" type="HSlider" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 min_value = 0.5
 max_value = 1.5
@@ -172,6 +182,7 @@ layout_mode = 2
 text = "Magnetic Field Strength (Earth relative)"
 
 [node name="MagneticFieldStrengthSlider" type="HSlider" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 min_value = 0.5
 max_value = 1.5
@@ -183,6 +194,7 @@ layout_mode = 2
 text = "Orbital Period (Earth days)"
 
 [node name="OrbitalPeriodSlider" type="HSlider" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 min_value = 200.0
 max_value = 500.0
@@ -193,6 +205,7 @@ layout_mode = 2
 text = "Day Length (Earth hours)"
 
 [node name="DayLengthSlider" type="HSlider" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 min_value = 10.0
 max_value = 40.0
@@ -203,6 +216,7 @@ layout_mode = 2
 text = "Ocean Coverage (%)"
 
 [node name="OceanCoverageSlider" type="HSlider" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 value = 70.0
 
@@ -230,6 +244,7 @@ theme_override_constants/margin_left = 50
 theme_override_constants/margin_right = 50
 
 [node name="PresetOptionButton" type="OptionButton" parent="CenterContainer/MarginContainer/VBoxContainer/VBoxContainer3/MarginContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 item_count = 1
 popup/item_0/text = "Custom"
@@ -244,6 +259,7 @@ theme_override_constants/margin_right = 150
 theme_override_constants/margin_bottom = 5
 
 [node name="GenerateButton" type="Button" parent="CenterContainer/MarginContainer/VBoxContainer/VBoxContainer3/MarginContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Generate Planet"
 
@@ -256,6 +272,7 @@ theme_override_constants/margin_right = 150
 theme_override_constants/margin_bottom = 10
 
 [node name="BackButton" type="Button" parent="CenterContainer/MarginContainer/VBoxContainer/VBoxContainer3/MarginContainer3"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Back"
 

@@ -1,18 +1,20 @@
 extends Control
 
-@onready var name_line_edit = $CenterContainer/MarginContainer/VBoxContainer/NameLineEdit
-@onready var solar_constant_slider = $CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer/SolarConstantSlider
-@onready var radius_slider = $CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer/RadiusSlider
-@onready var distance_from_sun_slider = $CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer/DistanceFromSunSlider
-@onready var axial_tilt_slider = $CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer/AxialTiltSlider
-@onready var albedo_slider = $CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer/AlbedoSlider
-@onready var gravity_slider = $CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2/GravitySlider
-@onready var atmospheric_pressure_slider = $CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2/AtmosphericPressureSlider
-@onready var magnetic_field_strength_slider = $CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2/MagneticFieldStrengthSlider
-@onready var orbital_period_slider = $CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2/OrbitalPeriodSlider
-@onready var day_length_slider = $CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2/DayLengthSlider
-@onready var preset_option_button = $CenterContainer/MarginContainer/VBoxContainer/VBoxContainer3/PresetOptionButton
-@onready var save_preset_button = $CenterContainer/MarginContainer/VBoxContainer/VBoxContainer3/SavePresetButton
+@onready var name_line_edit = $"%NameLineEdit"
+@onready var solar_constant_slider = $"%SolarConstantSlider"
+@onready var radius_slider = $"%RadiusSlider"
+@onready var distance_from_sun_slider = $"%DistanceFromSunSlider"
+@onready var axial_tilt_slider = $"%AxialTiltSlider"
+@onready var albedo_slider = $"%AlbedoSlider"
+@onready var gravity_slider = $"%GravitySlider"
+@onready var atmospheric_pressure_slider = $"%AtmosphericPressureSlider"
+@onready var magnetic_field_strength_slider = $"%MagneticFieldStrengthSlider"
+@onready var orbital_period_slider = $"%OrbitalPeriodSlider"
+@onready var day_length_slider = $"%DayLengthSlider"
+@onready var ocean_coverage_percentage_slider = $"%OceanCoverageSlider"
+@onready var elevation_change_slider = $"%ElevationChangeSlider"
+@onready var preset_option_button = $"%PresetOptionButton"
+@onready var save_preset_button = $"%SavePresetButton"
 
 const PRESET_PATH = "user://world_gen_presets/"
 const DATA_PRESET_PATH = "res://data/planets/presets/"
@@ -65,6 +67,8 @@ func _on_preset_option_button_item_selected(index: int) -> void:
 	magnetic_field_strength_slider.value = selected_preset.magnetic_field_strength
 	orbital_period_slider.value = selected_preset.orbital_period
 	day_length_slider.value = selected_preset.day_length
+	ocean_coverage_percentage_slider.value = selected_preset.ocean_coverage_percentage
+	elevation_change_slider.value = selected_preset.elevation_change
 	save_preset_button.disabled = true
 
 func _on_slider_drag_ended(value_changed: bool) -> void:
@@ -134,7 +138,9 @@ func _create_planet() -> Planet:
 		atmospheric_pressure_slider.value,
 		magnetic_field_strength_slider.value,
 		orbital_period_slider.value,
-		day_length_slider.value
+		day_length_slider.value,
+		ocean_coverage_percentage_slider.value,
+		elevation_change_slider.value
 	)
 
 func _find_existing_preset(preset_name: String) -> int:

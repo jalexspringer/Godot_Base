@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://duu1n4d8rndt2"]
+
+[ext_resource type="Script" path="res://scripts/world_tile.gd" id="1_44btt"]
+[ext_resource type="Shader" path="res://assets/shaders/world_tile.gdshader" id="2_k4xwu"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i5xw6"]
+shader = ExtResource("2_k4xwu")
+
+[node name="WorldTile" type="Node2D"]
+script = ExtResource("1_44btt")
+
+[node name="HexPolygon" type="Polygon2D" parent="."]
+material = SubResource("ShaderMaterial_i5xw6")

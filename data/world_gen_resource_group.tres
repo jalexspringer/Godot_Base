@@ -7,4 +7,4 @@ script = ExtResource("1_burh6")
 base_folder = "res://data/planets"
 includes = Array[String]([])
 excludes = Array[String]([])
-paths = Array[String](["res://data/planets/presets/dune.tres", "res://data/planets/presets/earthlike.tres", "res://data/planets/presets/pandora.tres", "res://data/planets/presets/tatooine.tres", "res://data/planets/presets/water_world.tres"])
+paths = Array[String](["res://data/planets/presets/earthlike.tres"])

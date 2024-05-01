@@ -15,3 +15,5 @@ atmospheric_pressure = 1.0
 magnetic_field_strength = 1.0
 orbital_period = 365.25
 day_length = 24.0
+ocean_coverage_percentage = 70.0
+elevation_change = 3
