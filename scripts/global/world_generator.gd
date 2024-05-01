@@ -6,7 +6,7 @@ const TILE_SIZE = 64 # Tile size in pixels
 const LAND_COVERAGE_PERCENTAGE = 40.0  # TODO : this come from planet preset
 const OFFSET_X := TILE_SIZE * 0.75
 const OFFSET_Y := TILE_SIZE * sqrt(3) / 2
-const LAND_GROWTH_RANDOMNESS := 0.2
+const LAND_GROWTH_RANDOMNESS := 0.1
 
 
 var _planet: Planet
