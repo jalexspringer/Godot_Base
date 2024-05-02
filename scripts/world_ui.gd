@@ -11,6 +11,7 @@ extends Control
 @onready var base_temperature_label: Label = %TemperatureValue
 @onready var moisture_label: Label = %MoistureValue
 @onready var is_ocean_label: Label = %IsOceanValue
+@onready var is_volcano_label: Label = %IsVolcanoValue
 
 func _ready() -> void:
 	DataBus._world_tile_hovered.connect(func(tile: WorldTile) -> void:
@@ -29,3 +30,4 @@ func update_tile_info(tile: WorldTile) -> void:
 	base_temperature_label.text = "Base Temperature: " + str(tile.base_temperature)
 	moisture_label.text = "Moisture: " + str(tile.moisture)
 	is_ocean_label.text = "Is Ocean: " + str(tile.is_ocean)
+	is_volcano_label.text = "Is Volcano: " + str(tile.is_volcano)

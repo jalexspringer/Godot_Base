@@ -34,110 +34,148 @@ text = "00:00:00"
 
 [node name="TileInfoPanel" type="Panel" parent="."]
 layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 434.0
+offset_bottom = -802.0
+grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TileInfoPanel"]
+[node name="ColorRect" type="ColorRect" parent="TileInfoPanel"]
 layout_mode = 1
-offset_right = 107.0
-offset_bottom = 405.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="TileLabel" type="Label" parent="TileInfoPanel/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="TileInfoPanel/ColorRect"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TileInfoPanel/ColorRect/MarginContainer"]
+layout_mode = 2
+
+[node name="TileLabel" type="Label" parent="TileInfoPanel/ColorRect/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Tile Info"
 horizontal_alignment = 1
 
-[node name="GridContainer" type="GridContainer" parent="TileInfoPanel/VBoxContainer"]
+[node name="GridContainer" type="GridContainer" parent="TileInfoPanel/ColorRect/MarginContainer/VBoxContainer"]
 layout_mode = 2
 columns = 2
 
-[node name="TileIDLabel" type="Label" parent="TileInfoPanel/VBoxContainer/GridContainer"]
+[node name="TileIDLabel" type="Label" parent="TileInfoPanel/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Tile ID:"
 
-[node name="TileIDValue" type="Label" parent="TileInfoPanel/VBoxContainer/GridContainer"]
+[node name="TileIDValue" type="Label" parent="TileInfoPanel/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Placeholder"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 
-[node name="RowLabel" type="Label" parent="TileInfoPanel/VBoxContainer/GridContainer"]
+[node name="RowLabel" type="Label" parent="TileInfoPanel/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Row:"
 
-[node name="RowValue" type="Label" parent="TileInfoPanel/VBoxContainer/GridContainer"]
+[node name="RowValue" type="Label" parent="TileInfoPanel/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Placeholder"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 
-[node name="ColLabel" type="Label" parent="TileInfoPanel/VBoxContainer/GridContainer"]
+[node name="ColLabel" type="Label" parent="TileInfoPanel/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Col:"
 
-[node name="ColValue" type="Label" parent="TileInfoPanel/VBoxContainer/GridContainer"]
+[node name="ColValue" type="Label" parent="TileInfoPanel/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Placeholder"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 
-[node name="CoordinatesLabel" type="Label" parent="TileInfoPanel/VBoxContainer/GridContainer"]
+[node name="CoordinatesLabel" type="Label" parent="TileInfoPanel/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Coordinates:"
 
-[node name="CoordinatesValue" type="Label" parent="TileInfoPanel/VBoxContainer/GridContainer"]
+[node name="CoordinatesValue" type="Label" parent="TileInfoPanel/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Placeholder"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 
-[node name="ClimateZoneLabel" type="Label" parent="TileInfoPanel/VBoxContainer/GridContainer"]
+[node name="ClimateZoneLabel" type="Label" parent="TileInfoPanel/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Climate Zone:"
 
-[node name="ClimateZoneValue" type="Label" parent="TileInfoPanel/VBoxContainer/GridContainer"]
+[node name="ClimateZoneValue" type="Label" parent="TileInfoPanel/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Placeholder"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 
-[node name="ElevationLabel" type="Label" parent="TileInfoPanel/VBoxContainer/GridContainer"]
+[node name="ElevationLabel" type="Label" parent="TileInfoPanel/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Elevation:"
 
-[node name="ElevationValue" type="Label" parent="TileInfoPanel/VBoxContainer/GridContainer"]
+[node name="ElevationValue" type="Label" parent="TileInfoPanel/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Placeholder"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 
-[node name="FeaturesLabel" type="Label" parent="TileInfoPanel/VBoxContainer/GridContainer"]
+[node name="FeaturesLabel" type="Label" parent="TileInfoPanel/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Features:"
 
-[node name="FeaturesValue" type="Label" parent="TileInfoPanel/VBoxContainer/GridContainer"]
+[node name="FeaturesValue" type="Label" parent="TileInfoPanel/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Placeholder"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 
-[node name="TemperatureLabel" type="Label" parent="TileInfoPanel/VBoxContainer/GridContainer"]
+[node name="TemperatureLabel" type="Label" parent="TileInfoPanel/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Temperature:"
 
-[node name="TemperatureValue" type="Label" parent="TileInfoPanel/VBoxContainer/GridContainer"]
+[node name="TemperatureValue" type="Label" parent="TileInfoPanel/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Placeholder"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 
-[node name="MoistureLabel" type="Label" parent="TileInfoPanel/VBoxContainer/GridContainer"]
+[node name="MoistureLabel" type="Label" parent="TileInfoPanel/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Moisture:"
 
-[node name="MoistureValue" type="Label" parent="TileInfoPanel/VBoxContainer/GridContainer"]
+[node name="MoistureValue" type="Label" parent="TileInfoPanel/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Placeholder"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 
-[node name="IsOceanLabel" type="Label" parent="TileInfoPanel/VBoxContainer/GridContainer"]
+[node name="IsOceanLabel" type="Label" parent="TileInfoPanel/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Is Ocean:"
 
-[node name="IsOceanValue" type="Label" parent="TileInfoPanel/VBoxContainer/GridContainer"]
+[node name="IsOceanValue" type="Label" parent="TileInfoPanel/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Placeholder"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+
+[node name="IsVolcanoLabel" type="Label" parent="TileInfoPanel/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Is Volcano:"
+
+[node name="IsVolcanoValue" type="Label" parent="TileInfoPanel/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)

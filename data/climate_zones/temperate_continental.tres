@@ -1,13 +1,14 @@
-[gd_resource type="Resource" script_class="ClimateZone" load_steps=2 format=3 uid="uid://3yarpkwl3s3c"]
+[gd_resource type="Resource" script_class="ClimateZone" load_steps=2 format=3 uid="uid://cv460i8b6h"]
 
 [ext_resource type="Script" path="res://resource_models/climate_zone.gd" id="1_i8idg"]
 
 [resource]
 script = ExtResource("1_i8idg")
 zone_type = 7
-allowed_elevations = Array[int]([0, 1, 2])
 water_coverage = 30.0
 salinity = 0.0
 precipitation = 70.0
 plant_life = 3
 animal_life = 3
+min_elevation = 1
+max_elevation = 5

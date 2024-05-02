@@ -1,7 +1,8 @@
 extends Node
 
 const TILE_COUNT = 12000
-const LANDMASS_COUNT = 5
+const LANDMASS_COUNT = 4
+const ISLAND_COUNT = 15
 const TILE_SIZE = 64
 const LAND_COVERAGE_PERCENTAGE = 30.0
 const OFFSET_X := TILE_SIZE * 0.75
@@ -14,27 +15,42 @@ const ELEVATION_ADJUSTMENT_THRESHOLD = 0.4
 const ELEVATION_ADJUSTMENT_SECOND_THRESHOLD = 0.8
 const MOUNTAIN_RANGE_MIN_LENGTH = 10
 const MOUNTAIN_RANGE_MAX_LENGTH = 40
+const VOLCANIC_ACTIVITY = 0.02
 
 var _planet: Planet = Planet.new()
 var _world_map: Dictionary
-var _climate_zones: Array[ClimateZone]
 var _min_distance: float
 var num_rows: int
 var num_cols: int
 
-@export var climate_zones_group: Resource = preload("res://data/climate_zones/climate_zones_group.tres")
+var tile_shader : Shader = preload("res://assets/shaders/world_tile.gdshader")
+
+var _climate_zones : Dictionary = {
+    ClimateZone.ZoneType.TROPICAL_RAINFOREST: ClimateZone.new(ClimateZone.ZoneType.TROPICAL_RAINFOREST, 0.05, 0.0, 2000.0, 5, 5, 1, 3, Color(0.0, 0.5, 0.0, 1.0), tile_shader),
+    ClimateZone.ZoneType.TROPICAL_MONSOON: ClimateZone.new(ClimateZone.ZoneType.TROPICAL_MONSOON, 0.05, 0.0, 1500.0, 4, 4, 1, 3, Color(0.0, 0.4, 0.0, 1.0), tile_shader),
+    ClimateZone.ZoneType.TROPICAL_SAVANNA: ClimateZone.new(ClimateZone.ZoneType.TROPICAL_SAVANNA, 0.03, 0.0, 1000.0, 3, 4, 1, 3, Color(0.8, 0.8, 0.0, 1.0), tile_shader),
+    ClimateZone.ZoneType.SUBTROPICAL_HUMID: ClimateZone.new(ClimateZone.ZoneType.SUBTROPICAL_HUMID, 0.05, 0.0, 1200.0, 4, 3, 1, 3, Color(0.0, 0.6, 0.0, 1.0), tile_shader),
+    ClimateZone.ZoneType.SUBTROPICAL_DESERT: ClimateZone.new(ClimateZone.ZoneType.SUBTROPICAL_DESERT, 0.01, 0.0, 100.0, 1, 2, 1, 4, Color(0.8, 0.6, 0.0, 1.0), tile_shader),
+    ClimateZone.ZoneType.TEMPERATE_OCEANIC: ClimateZone.new(ClimateZone.ZoneType.TEMPERATE_OCEANIC, 0.1, 0.0, 800.0, 3, 3, 1, 4, Color(0.0, 0.4, 0.6, 1.0), tile_shader),
+    ClimateZone.ZoneType.TEMPERATE_CONTINENTAL: ClimateZone.new(ClimateZone.ZoneType.TEMPERATE_CONTINENTAL, 0.05, 0.0, 600.0, 3, 3, 1, 4, Color(0.0, 0.6, 0.4, 1.0), tile_shader),
+    ClimateZone.ZoneType.TEMPERATE_STEPPE: ClimateZone.new(ClimateZone.ZoneType.TEMPERATE_STEPPE, 0.02, 0.0, 400.0, 2, 2, 2, 4, Color(0.6, 0.6, 0.0, 1.0), tile_shader),
+    ClimateZone.ZoneType.TEMPERATE_DESERT: ClimateZone.new(ClimateZone.ZoneType.TEMPERATE_DESERT, 0.0, 0.0, 200.0, 1, 2, 1, 4, Color(0.8, 0.6, 0.4, 1.0), tile_shader),
+    ClimateZone.ZoneType.BOREAL_FOREST: ClimateZone.new(ClimateZone.ZoneType.BOREAL_FOREST, 0.1, 0.0, 500.0, 3, 2, 1, 4, Color(0.0, 0.3, 0.0, 1.0), tile_shader),
+    ClimateZone.ZoneType.TUNDRA: ClimateZone.new(ClimateZone.ZoneType.TUNDRA, 0.05, 0.0, 200.0, 1, 1, 2, 4, Color(0.6, 0.8, 0.8, 1.0), tile_shader),
+    ClimateZone.ZoneType.POLAR_ICE_CAP: ClimateZone.new(ClimateZone.ZoneType.POLAR_ICE_CAP, 0.0, 0.0, 100.0, 1, 1, 1, 5, Color(1.0, 1.0, 1.0, 1.0), tile_shader),
+    ClimateZone.ZoneType.ALPINE: ClimateZone.new(ClimateZone.ZoneType.ALPINE, 0.05, 0.0, 1000.0, 2, 2, 4, 5, Color(0.6, 0.4, 0.2, 1.0), tile_shader),
+    ClimateZone.ZoneType.OCEAN_TROPICAL: ClimateZone.new(ClimateZone.ZoneType.OCEAN_TROPICAL, 1.0, 0.035, 2000.0, 4, 5, 1, 1, Color(0.0, 0.0, 0.8, 1.0), tile_shader),
+    ClimateZone.ZoneType.OCEAN_TEMPERATE: ClimateZone.new(ClimateZone.ZoneType.OCEAN_TEMPERATE, 1.0, 0.035, 1000.0, 3, 4, 1, 1, Color(0.0, 0.0, 0.6, 1.0), tile_shader),
+    ClimateZone.ZoneType.OCEAN_POLAR: ClimateZone.new(ClimateZone.ZoneType.OCEAN_POLAR, 1.0, 0.035, 500.0, 1, 2, 1, 1, Color(0.4, 0.6, 0.8, 1.0), tile_shader),
+    ClimateZone.ZoneType.LAKE_TROPICAL: ClimateZone.new(ClimateZone.ZoneType.LAKE_TROPICAL, 0.8, 0.005, 2000.0, 4, 4, 1, 3, Color(0.0, 0.4, 0.8, 1.0), tile_shader),
+    ClimateZone.ZoneType.LAKE_TEMPERATE: ClimateZone.new(ClimateZone.ZoneType.LAKE_TEMPERATE, 0.8, 0.005, 800.0, 3, 3, 1, 4, Color(0.0, 0.2, 0.6, 1.0), tile_shader),
+    ClimateZone.ZoneType.LAKE_ALPINE: ClimateZone.new(ClimateZone.ZoneType.LAKE_ALPINE, 0.8, 0.005, 1000.0, 2, 2, 4, 5, Color(0.4, 0.6, 0.8, 1.0), tile_shader),
+}
 
 func _ready() -> void:
-    _load_climate_zones()
     _min_distance = TILE_SIZE / (LAND_COVERAGE_PERCENTAGE * 5)
     print(_planet.elevation_change)
 
-func _load_climate_zones() -> void:
-    _climate_zones = []
-    for path in climate_zones_group.paths:
-        var resource = load(path)
-        if resource is ClimateZone:
-            _climate_zones.append(resource)
 
 func generate_world(planet: Planet) -> void:
     if planet != null:
@@ -47,7 +63,7 @@ func _build_world_map(num_tiles: int) -> Dictionary:
     var world_map := {}
     num_rows = int(sqrt(num_tiles))
     num_cols = num_rows
-
+    
     for row in range(num_rows):
         for col in range(num_cols):
             var x: float = col * OFFSET_X
@@ -63,7 +79,7 @@ func _build_world_map(num_tiles: int) -> Dictionary:
                 tile_id,
                 row,
                 col,
-                _climate_zones[0],  # Placeholder climate zone
+                _climate_zones[ClimateZone.ZoneType.TEMPERATE_OCEANIC],
                 MIN_ELEVATION,  # Placeholder elevation
                 [],  # Placeholder features
                 null,  # Placeholder surface material
@@ -82,24 +98,32 @@ func _create_landmasses() -> void:
     var target_land_tiles = int(TILE_COUNT * (LAND_COVERAGE_PERCENTAGE / 100.0))
     var seed_tiles = _initialize_land_seeds(land_tiles)
 
-    _grow_landmasses(land_tiles, target_land_tiles)
-    _create_mountain_ranges(seed_tiles)
+    _grow_landmasses(land_tiles, target_land_tiles, seed_tiles[1])
+    _create_mountain_ranges(seed_tiles[0])
     _set_remaining_land_tile_elevations(land_tiles)
 
-func _initialize_land_seeds(land_tiles: Array) -> Array:
-    var seed_tiles = []
-    while land_tiles.size() < LANDMASS_COUNT:
+func _initialize_land_seeds(land_tiles: Array) -> Array[Array]:
+    """
+    Initializes the seed tiles for landmasses and islands.
+    Returns a 2D array where the first array contains the seed tiles for large landmasses
+    and the second array contains the seed tiles for islands.
+    """
+    var seed_tiles: Array[Array] = [[], []]
+    while land_tiles.size() < LANDMASS_COUNT + ISLAND_COUNT:
         var random_tile = _world_map.values()[randi() % _world_map.size()]
         if random_tile.is_ocean and _is_far_enough(random_tile, land_tiles):
             random_tile.is_ocean = false
             random_tile.elevation = MIN_ELEVATION
             land_tiles.append(random_tile)
-            seed_tiles.append(random_tile)
+            if land_tiles.size() <= LANDMASS_COUNT:
+                seed_tiles[0].append(random_tile)
+            else:
+                seed_tiles[1].append(random_tile)
     print("Initialized landmasses: %s" % land_tiles.size())
     return seed_tiles
 
-func _grow_landmasses(land_tiles: Array, target_land_tiles: int) -> void:
-    var current_land_count = LANDMASS_COUNT
+func _grow_landmasses(land_tiles: Array, target_land_tiles: int, island_tiles: Array) -> void:
+    var current_land_count = LANDMASS_COUNT + ISLAND_COUNT
     while current_land_count < target_land_tiles:
         var added_tiles = []
         for land_tile in land_tiles:
@@ -117,6 +141,13 @@ func _grow_landmasses(land_tiles: Array, target_land_tiles: int) -> void:
             if current_land_count >= target_land_tiles:
                 break
         land_tiles.append_array(added_tiles)
+
+    for island_tile in island_tiles:
+        island_tile.is_ocean = false
+        island_tile.elevation = randi_range(1, 3)
+        if randf() < VOLCANIC_ACTIVITY * 0.5:
+            island_tile.is_volcano = true
+        
 
 func _create_mountain_ranges(seed_tiles: Array) -> void:
     for seed_tile in seed_tiles:

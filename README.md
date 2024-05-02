@@ -41,23 +41,29 @@ The `Planet` class has several functions that calculate various properties:
 These properties and functions are used to generate realistic and diverse planets for world creation, taking into account various physical and environmental factors that shape the planet's characteristics.
 
 ## Climate Zones
-Here's a brief description of each climate zone:
 
-- TROPICAL_RAINFOREST: Hot and wet year-round, with dense vegetation and high biodiversity.
-- TROPICAL_MONSOON: Seasonal rainfall patterns, with a pronounced wet season and a dry season.
-- TROPICAL_SAVANNA: Grasslands with scattered trees, hot year-round with distinct wet and dry seasons.
-- SUBTROPICAL_HUMID: Warm and humid, with rainfall throughout the year and mild winters.
-- SUBTROPICAL_DRY: Semi-arid regions with low precipitation and hot summers.
-- MEDITERRANEAN: Mild, wet winters and hot, dry summers, with characteristic shrublands.
-- TEMPERATE_OCEANIC: Mild temperatures, high humidity, and frequent rainfall throughout the year.
-- TEMPERATE_CONTINENTAL: Large seasonal temperature variations, with cold winters and warm summers.
-- TEMPERATE_STEPPE: Semi-arid grasslands, with hot summers and cold winters.
-- TEMPERATE_DESERT: Arid regions with low precipitation and large temperature variations.
-- BOREAL_FOREST: Coniferous forests, with long, cold winters and short, mild summers.
-- BOREAL_TUNDRA: Treeless regions with low-growing vegetation, long, cold winters, and short, cool summers.
-- POLAR_TUNDRA: Treeless regions with permafrost, extremely cold winters, and short, cool summers.
-- POLAR_ICE_CAP: Perpetually covered in ice and snow, with extremely cold temperatures year-round.
-- ALPINE: High-altitude regions with cold temperatures, often above the tree line.
+Here's a brief description of each climate zone, along with a reference area from Earth as an example:
+
+1. TROPICAL_RAINFOREST: Hot and wet year-round, with dense vegetation and high biodiversity. (e.g., Amazon Rainforest, Brazil)
+2. TROPICAL_MONSOON: Seasonal rainfall patterns, with a pronounced wet season and a dry season. (e.g., Southeast Asia, India)
+3. TROPICAL_SAVANNA: Grasslands with scattered trees, hot year-round with distinct wet and dry seasons. (e.g., Serengeti, Tanzania)
+4. SUBTROPICAL_HUMID: Warm and humid, with rainfall throughout the year and mild winters. (e.g., Southeastern United States)
+5. SUBTROPICAL_DESERT: Hot and arid regions with low precipitation and mild winters. (e.g., Sahara Desert, North Africa)
+6. TEMPERATE_OCEANIC: Mild temperatures, high humidity, and frequent rainfall throughout the year. (e.g., Western Europe)
+7. TEMPERATE_CONTINENTAL: Large seasonal temperature variations, with cold winters and warm summers. (e.g., Eastern Europe, Russia)
+8. TEMPERATE_STEPPE: Semi-arid grasslands, with hot summers and cold winters. (e.g., Great Plains, United States)
+9. TEMPERATE_DESERT: Arid regions with low precipitation and large temperature variations. (e.g., Gobi Desert, Mongolia)
+10. BOREAL_FOREST: Coniferous forests, with long, cold winters and short, mild summers. (e.g., Siberia, Russia)
+11. TUNDRA: Treeless regions with permafrost, extremely cold winters, and short, cool summers. (e.g., Arctic regions of North America and Eurasia)
+12. POLAR_ICE_CAP: Perpetually covered in ice and snow, with extremely cold temperatures year-round. (e.g., Antarctica)
+13. ALPINE: High-altitude regions with cold temperatures, often above the tree line. (e.g., Swiss Alps, Europe)
+14. OCEAN_TROPICAL: Warm ocean waters near the equator, supporting coral reefs and diverse marine life. (e.g., Great Barrier Reef, Australia)
+15. OCEAN_TEMPERATE: Moderate ocean temperatures, supporting a variety of marine ecosystems. (e.g., North Atlantic Ocean)
+16. OCEAN_POLAR: Cold ocean waters near the poles, often covered by sea ice. (e.g., Southern Ocean, Antarctica)
+17. LAKE_TROPICAL: Warm, freshwater lakes in tropical regions, supporting diverse aquatic life. (e.g., Lake Victoria, Africa)
+18. LAKE_TEMPERATE: Freshwater lakes in temperate regions, with seasonal temperature variations. (e.g., Great Lakes, North America)
+19. LAKE_ALPINE: Cold, freshwater lakes in mountainous regions, often covered by ice for much of the year. (e.g., Lake Vostok, Antarctica)
+
 
 ## Elements
 The `Element` class in Godot represents various elements in a simulated environment. These elements can be fundamental building blocks, minerals, organic compounds, or constructed elements. The class has properties that define the characteristics and behavior of each element.

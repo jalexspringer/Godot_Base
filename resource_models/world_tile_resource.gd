@@ -15,6 +15,7 @@ class_name WorldTile
 @export var base_temperature: float
 @export var moisture: float
 @export var is_ocean: bool
+@export var is_volcano: bool
 
 func _init(
     coords: Vector2, 
@@ -29,7 +30,8 @@ func _init(
     tropo: AirMass, 
     temp: float, 
     moist: float, 
-    ocean: bool
+    ocean: bool,
+    volcano: bool = false
 ) -> void:
     coordinates = coords
     tile_id = p_tile_id
@@ -45,6 +47,7 @@ func _init(
     base_temperature = temp
     moisture = moist
     is_ocean = ocean
+    is_volcano = volcano
 
 func get_neighbors(num_rows: int, num_cols: int) -> Array[int]:
     var neighbors : Array[int] = []
