@@ -41,12 +41,33 @@ func _init(p_name: String = "", p_solar_constant: float = 1361.0, p_radius: floa
     elevation_change = p_elevation_change
     greenhouse_gas = p_greenhouse_gas
     _calculate_derived_properties()
-    print(average_temperature)
+    #_planet_created_print()
+
+func _planet_created_print() -> void:
+    print("Planet created:")
+    print("Name: ", name)
+    print("Solar Constant: ", solar_constant)
+    print("Radius: ", radius)
+    print("Distance from Sun: ", distance_from_sun)
+    print("Axial Tilt: ", axial_tilt)
+    print("Albedo: ", albedo)
+    print("Gravity: ", gravity)
+    print("Atmospheric Pressure: ", atmospheric_pressure)
+    print("Magnetic Field Strength: ", magnetic_field_strength)
+    print("Orbital Period: ", orbital_period)
+    print("Day Length: ", day_length)
+    print("Ocean Coverage Percentage: ", ocean_coverage_percentage)
+    print("Elevation Change: ", elevation_change)
+    print("Greenhouse Gas: ", greenhouse_gas)
+    print("Average Temperature: ", average_temperature)
+    print("Spin Speed: ", spin_speed)
+    print("Average Wind Speed: ", average_wind_speed)
 
 func _calculate_derived_properties() -> void:
     average_temperature = calculate_average_temperature()
     spin_speed = calculate_spin_speed()
     average_wind_speed = estimate_average_wind_speed()
+    
 
 func get_cross_sectional_area() -> float:
     return PI * pow(radius * 1e3, 2)  # Convert radius from kilometers to meters

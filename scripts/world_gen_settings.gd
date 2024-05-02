@@ -96,12 +96,12 @@ func _populate_preset_option_button() -> void:
 			preset_option_button.add_item("Invalid Preset", i)
 
 func _on_generate_button_pressed() -> void:
-	WorldGenerator._planet = _create_planet()
+	DataBus.ACTIVE_WORLD.planet = _create_planet_from_settings()
 	get_tree().change_scene_to_file("res://scenes/world.tscn")
 
 func _on_save_preset_button_pressed() -> void:
 	## TODO: This preset saving is bugged and needs fixing
-	var new_preset = _create_planet()
+	var new_preset = _create_planet_from_settings()
 	
 	var preset_path = PRESET_PATH.path_join(name_line_edit.text.replace(" ", "_") + ".tres")
 	var dir = DirAccess.open("user://")
@@ -127,7 +127,7 @@ func _on_save_preset_button_pressed() -> void:
 	save_preset_button.disabled = true
 	preset_option_button.select(preset_resources.size())
 
-func _create_planet() -> Planet:
+func _create_planet_from_settings() -> Planet:
 	return Planet.new(
 		name_line_edit.text,
 		solar_constant_slider.value,

@@ -1,78 +1,78 @@
 extends Resource
 class_name WorldTile
 
+enum TileShapes {
+    HEXAGON,
+    PENTAGON
+}
+
 @export var coordinates: Vector2
-@export var tile_id: int
-@export var row: int
-@export var col: int
+@export var map_row: int
+@export var map_col: int
 @export var climate_zone: ClimateZone
-@export var climate_zone_name: String
-@export var elevation: int
-@export var features: Array[String]
-@export var surface_material: ShaderMaterial
-@export var boundary_layer: AirMass
-@export var troposphere: AirMass
-@export var base_temperature: float
-@export var moisture: float
-@export var is_ocean: bool
-@export var is_volcano: bool
+@export var elevation: int = 0
+@export var features: Array[String] = []
+@export var boundary_layer: AirMass = AirMass.new()
+@export var troposphere: AirMass = AirMass.new()
+@export var base_temperature: float = 0.0
+@export var moisture: float = 0.0
+@export var is_ocean: bool = true
+@export var is_volcano: bool = false
+@export var tile_shape: TileShapes = TileShapes.HEXAGON
+
+var pentagon_flat_size_orientation: String = "North"
+
 
 func _init(
-    coords: Vector2, 
-    p_tile_id: int,
+    coords: Vector2,
     p_row: int,
-    p_col: int,
-    p_climate_zone: ClimateZone, 
-    elev: int, 
-    feat: Array[String], 
-    material: ShaderMaterial, 
-    boundary: AirMass, 
-    tropo: AirMass, 
-    temp: float, 
-    moist: float, 
-    ocean: bool,
-    volcano: bool = false
+    p_col: int
 ) -> void:
+
     coordinates = coords
-    tile_id = p_tile_id
-    row = p_row
-    col = p_col
-    climate_zone = p_climate_zone
-    climate_zone_name = ClimateZone.ZoneType.keys()[p_climate_zone.zone_type]
-    elevation = elev
-    features = feat
-    surface_material = material
-    boundary_layer = boundary
-    troposphere = tropo
-    base_temperature = temp
-    moisture = moist
-    is_ocean = ocean
-    is_volcano = volcano
+    map_row = p_row
+    map_col = p_col
 
-func get_neighbors(num_rows: int, num_cols: int) -> Array[int]:
-    var neighbors : Array[int] = []
-    var even_row := self.row % 2 == 0
+func get_neighbors() -> Dictionary:
+    var neighbors := {}
+    var row := map_row
+    var col := map_col
+    var world_map = DataBus.ACTIVE_WORLD
 
-    var neighbor_offsets = [
-        Vector2(-1, 0),  # Left
-        Vector2(1, 0),   # Right
-        Vector2(0, -1),  # Top
-        Vector2(0, 1)    # Bottom
-    ]
-
-    if even_row:
-        neighbor_offsets.append(Vector2(-1, -1))  # Top-Left
-        neighbor_offsets.append(Vector2(-1, 1))   # Bottom-Left
+    # Top-left neighbor
+    if row > 0 and (col > 0 or row % 2 == 0):
+        neighbors["northwest"] = world_map.get_tile(row - 1, col - int(row % 2 == 1))
     else:
-        neighbor_offsets.append(Vector2(1, -1))   # Top-Right
-        neighbor_offsets.append(Vector2(1, 1))    # Bottom-Right
+        neighbors["northwest"] = null
 
-    for offset in neighbor_offsets:
-        var neighbor_row : int = self.row + offset.y
-        var neighbor_col : int = self.col + offset.x
+    # Top-right neighbor
+    if row > 0 and (col < world_map.get_num_cols() - 1 or row % 2 == 1):
+        neighbors["northeast"] = world_map.get_tile(row - 1, col + int(row % 2 == 0))
+    else:
+        neighbors["northeast"] = null
 
-        if neighbor_row >= 0 and neighbor_row < num_rows and neighbor_col >= 0 and neighbor_col < num_cols:
-            var neighbor_id := neighbor_row * num_cols + neighbor_col
-            neighbors.append(neighbor_id)
+    # Left neighbor
+    if col > 0:
+        neighbors["west"] = world_map.get_tile(row, col - 1)
+    else:
+        neighbors["west"] = null
+
+    # Right neighbor
+    if col < world_map.get_num_cols() - 1:
+        neighbors["east"] = world_map.get_tile(row, col + 1)
+    else:
+        neighbors["east"] = null
+
+    # Bottom-left neighbor
+    if row < world_map.get_num_rows() - 1 and (col > 0 or row % 2 == 0):
+        neighbors["southwest"] = world_map.get_tile(row + 1, col - int(row % 2 == 1))
+    else:
+        neighbors["southwest"] = null
+
+    # Bottom-right neighbor
+    if row < world_map.get_num_rows() - 1 and (col < world_map.get_num_cols() - 1 or row % 2 == 1):
+        neighbors["southeast"] = world_map.get_tile(row + 1, col + int(row % 2 == 0))
+    else:
+        neighbors["southeast"] = null
 
     return neighbors

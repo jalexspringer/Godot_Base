@@ -70,42 +70,32 @@ horizontal_alignment = 1
 layout_mode = 2
 columns = 2
 
-[node name="TileIDLabel" type="Label" parent="TileInfoPanel/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Tile ID:"
-
-[node name="TileIDValue" type="Label" parent="TileInfoPanel/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-
-[node name="RowLabel" type="Label" parent="TileInfoPanel/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Row:"
-
-[node name="RowValue" type="Label" parent="TileInfoPanel/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-
-[node name="ColLabel" type="Label" parent="TileInfoPanel/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Col:"
-
-[node name="ColValue" type="Label" parent="TileInfoPanel/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-
 [node name="CoordinatesLabel" type="Label" parent="TileInfoPanel/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Coordinates:"
 
 [node name="CoordinatesValue" type="Label" parent="TileInfoPanel/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+
+[node name="MapRowLabel" type="Label" parent="TileInfoPanel/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Map Row:"
+
+[node name="MapRowValue" type="Label" parent="TileInfoPanel/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+
+[node name="MapColLabel" type="Label" parent="TileInfoPanel/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Map Col:"
+
+[node name="MapColValue" type="Label" parent="TileInfoPanel/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -140,12 +130,12 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 
-[node name="TemperatureLabel" type="Label" parent="TileInfoPanel/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
+[node name="BaseTemperatureLabel" type="Label" parent="TileInfoPanel/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Temperature:"
+text = "Base Temperature:"
 
-[node name="TemperatureValue" type="Label" parent="TileInfoPanel/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
+[node name="BaseTemperatureValue" type="Label" parent="TileInfoPanel/ColorRect/MarginContainer/VBoxContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)

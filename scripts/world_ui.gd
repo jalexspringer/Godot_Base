@@ -1,14 +1,13 @@
 extends Control
 
 @onready var tile_name_label: Label = %TileLabel
-@onready var tile_id_label: Label = %TileIDValue
-@onready var row_label: Label = %RowValue
-@onready var col_label: Label = %ColValue
+@onready var row_label: Label = %MapRowValue
+@onready var col_label: Label = %MapColValue
 @onready var coords_label: Label = %CoordinatesValue
 @onready var climate_zone_label: Label = %ClimateZoneValue
 @onready var elevation_label: Label = %ElevationValue
 @onready var features_label: Label = %FeaturesValue
-@onready var base_temperature_label: Label = %TemperatureValue
+@onready var base_temperature_label: Label = %BaseTemperatureValue
 @onready var moisture_label: Label = %MoistureValue
 @onready var is_ocean_label: Label = %IsOceanValue
 @onready var is_volcano_label: Label = %IsVolcanoValue
@@ -19,15 +18,14 @@ func _ready() -> void:
 	)
 
 func update_tile_info(tile: WorldTile) -> void:
-	tile_name_label.text = "Tile Name: " + str(tile.coordinates)
-	tile_id_label.text = "Tile ID: " + str(tile.tile_id)
-	row_label.text = "Row: " + str(tile.row)
-	col_label.text = "Col: " + str(tile.col)
-	coords_label.text = "Coordinates: " + str(tile.coordinates)
-	climate_zone_label.text = "Climate Zone: " + tile.climate_zone_name
-	elevation_label.text = "Elevation: " + str(tile.elevation)
-	features_label.text = "Features: " + str(tile.features)
-	base_temperature_label.text = "Base Temperature: " + str(tile.base_temperature)
-	moisture_label.text = "Moisture: " + str(tile.moisture)
-	is_ocean_label.text = "Is Ocean: " + str(tile.is_ocean)
-	is_volcano_label.text = "Is Volcano: " + str(tile.is_volcano)
+	tile_name_label.text = str(tile.coordinates)
+	row_label.text = str(tile.map_row)
+	col_label.text = str(tile.map_col)
+	coords_label.text = str(tile.coordinates)
+	#climate_zone_label.text = str(tile.climate_zone.zone_type)
+	elevation_label.text = str(tile.elevation)
+	features_label.text = str(tile.features)
+	base_temperature_label.text = str(tile.base_temperature)
+	moisture_label.text = str(tile.moisture)
+	is_ocean_label.text = str(tile.is_ocean)
+	is_volcano_label.text = str(tile.is_volcano)

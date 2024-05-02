@@ -12,3 +12,4 @@ plant_life = 5
 animal_life = 5
 min_elevation = 1
 max_elevation = 5
+color = Color(1, 1, 1, 1)

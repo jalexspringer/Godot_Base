@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://blnuauc78h6m4"]
+
+[ext_resource type="TileSet" uid="uid://3hatt0ctdsv7" path="res://assets/tiles/tilemap.tres" id="1_ailr7"]
+[ext_resource type="Script" path="res://scripts/tilemap.gd" id="2_v1ljq"]
+
+[node name="TileMap" type="TileMap"]
+scale = Vector2(1.92834, 2.11469)
+tile_set = ExtResource("1_ailr7")
+format = 2
+layer_0/tile_data = PackedInt32Array(0, 131072, 0, 1, 131072, 0, 65538, 131072, 0, 65537, 131072, 0, 3, 131072, 0, 4, 131072, 0)
+script = ExtResource("2_v1ljq")
