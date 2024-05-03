@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c7vaumr7m65px"
-path="res://.godot/imported/stress_white.png-010f55cd804cad69cee2af66592cacf6.ctex"
+uid="uid://criy1opfvriey"
+path="res://.godot/imported/noodles.png-f59101b0f01207602af94e421a9fac11.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/stress_white.png"
-dest_files=["res://.godot/imported/stress_white.png-010f55cd804cad69cee2af66592cacf6.ctex"]
+source_file="res://assets/images/noodles.png"
+dest_files=["res://.godot/imported/noodles.png-f59101b0f01207602af94e421a9fac11.ctex"]
 
 [params]
 

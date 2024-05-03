@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://kxep8qcja5x"
-path="res://.godot/imported/stress.png-9f2fdd9172c5b92695a7232a9edd1806.ctex"
+uid="uid://b42xjsacpm6fn"
+path="res://.godot/imported/hex_grid.png-8add56b65afe5341ed76c2420dd5d103.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/stress.png"
-dest_files=["res://.godot/imported/stress.png-9f2fdd9172c5b92695a7232a9edd1806.ctex"]
+source_file="res://assets/images/hex_grid.png"
+dest_files=["res://.godot/imported/hex_grid.png-8add56b65afe5341ed76c2420dd5d103.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://db6f4sau8mamu"
-path="res://.godot/imported/secret.png-7c6cf746118e7cf2347125ac2673ed31.ctex"
+uid="uid://decsx45xkdpk6"
+path="res://.godot/imported/handshake_white.png-3ffe6000c4749f8f88bae812b1744007.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/secret.png"
-dest_files=["res://.godot/imported/secret.png-7c6cf746118e7cf2347125ac2673ed31.ctex"]
+source_file="res://assets/images/handshake_white.png"
+dest_files=["res://.godot/imported/handshake_white.png-3ffe6000c4749f8f88bae812b1744007.ctex"]
 
 [params]
 

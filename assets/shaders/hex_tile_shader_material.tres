@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://5i3se4qfcgvh"]
+
+[ext_resource type="Shader" path="res://assets/shaders/world_tile.gdshader" id="1_0o4kg"]
+
+[resource]
+shader = ExtResource("1_0o4kg")
+shader_parameter/is_ocean = null

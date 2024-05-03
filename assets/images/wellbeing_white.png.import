@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cr7lm6geq5tuk"
-path="res://.godot/imported/noodles_white.png-8d20bfa2ae76b2daace9771d0c60c029.ctex"
+uid="uid://ywqw2ssiqi2o"
+path="res://.godot/imported/wellbeing_white.png-19deed262b19ba62d57a59692dc50ffe.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/noodles_white.png"
-dest_files=["res://.godot/imported/noodles_white.png-8d20bfa2ae76b2daace9771d0c60c029.ctex"]
+source_file="res://assets/images/wellbeing_white.png"
+dest_files=["res://.godot/imported/wellbeing_white.png-19deed262b19ba62d57a59692dc50ffe.ctex"]
 
 [params]
 

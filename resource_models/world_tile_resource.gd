@@ -1,10 +1,6 @@
 extends Resource
 class_name WorldTile
 
-enum TileShapes {
-    HEXAGON,
-    PENTAGON
-}
 
 @export var coordinates: Vector2
 @export var map_row: int
@@ -18,9 +14,8 @@ enum TileShapes {
 @export var moisture: float = 0.0
 @export var is_ocean: bool = true
 @export var is_volcano: bool = false
-@export var tile_shape: TileShapes = TileShapes.HEXAGON
 
-var pentagon_flat_size_orientation: String = "North"
+var tilemap_tile: TileData
 
 
 func _init(
@@ -33,7 +28,6 @@ func _init(
     map_row = p_row
     map_col = p_col
 
-#enum Direction = WorldGenerator.DIRECTION
 
 func get_neighbors() -> Dictionary:
     var neighbors := {}

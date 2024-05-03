@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://22saj1aiays2"
-path="res://.godot/imported/wellbeing.png-000c3650e37dcdb99aef5d67aaede46a.ctex"
+uid="uid://c7vaumr7m65px"
+path="res://.godot/imported/stress_white.png-f3cb6eb038ad7f7023cb4e1d87cc986f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/wellbeing.png"
-dest_files=["res://.godot/imported/wellbeing.png-000c3650e37dcdb99aef5d67aaede46a.ctex"]
+source_file="res://assets/images/stress_white.png"
+dest_files=["res://.godot/imported/stress_white.png-f3cb6eb038ad7f7023cb4e1d87cc986f.ctex"]
 
 [params]
 

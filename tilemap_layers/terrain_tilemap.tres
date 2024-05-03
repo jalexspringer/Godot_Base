@@ -1,16 +1,14 @@
-[gd_resource type="TileSet" load_steps=4 format=3 uid="uid://3hatt0ctdsv7"]
+[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://ec4l50u3ha3t"]
 
-[ext_resource type="Material" uid="uid://5i3se4qfcgvh" path="res://assets/shaders/hex_tile_shader_material.tres" id="1_coqm8"]
-[ext_resource type="Texture2D" uid="uid://bnh1xfh2nclus" path="res://assets/tiles/hex_grid.png" id="1_lnmcr"]
+[ext_resource type="Texture2D" uid="uid://bnh1xfh2nclus" path="res://assets/tiles/hex_grid.png" id="2_0eemk"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ogss1"]
-texture = ExtResource("1_lnmcr")
+texture = ExtResource("2_0eemk")
 margins = Vector2i(9, 8)
 separation = Vector2i(18, 0)
 texture_region_size = Vector2i(110, 96)
 2:0/next_alternative_id = 9
 2:0/0 = 0
-2:0/0/material = ExtResource("1_coqm8")
 2:0/1 = 1
 2:0/1/modulate = Color(0.769761, 0.670375, 0.358969, 1)
 2:0/2 = 2
