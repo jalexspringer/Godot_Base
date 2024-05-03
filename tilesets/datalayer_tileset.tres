@@ -1,14 +1,15 @@
-[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://ec4l50u3ha3t"]
+[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://4ucwrv77bykg"]
 
-[ext_resource type="Texture2D" uid="uid://bnh1xfh2nclus" path="res://assets/tiles/hex_grid.png" id="2_0eemk"]
+[ext_resource type="Texture2D" uid="uid://bnh1xfh2nclus" path="res://assets/tiles/hex_grid.png" id="2_rxob2"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ogss1"]
-texture = ExtResource("2_0eemk")
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wujr5"]
+texture = ExtResource("2_rxob2")
 margins = Vector2i(9, 8)
 separation = Vector2i(18, 0)
 texture_region_size = Vector2i(110, 96)
 2:0/next_alternative_id = 9
 2:0/0 = 0
+2:0/0/modulate = Color(0.412152, 0.412152, 0.412152, 1)
 2:0/1 = 1
 2:0/1/modulate = Color(0.769761, 0.670375, 0.358969, 1)
 2:0/2 = 2
@@ -28,8 +29,8 @@ texture_region_size = Vector2i(110, 96)
 [resource]
 tile_shape = 3
 tile_offset_axis = 1
-tile_size = Vector2i(102, 94)
+tile_size = Vector2i(102, 85)
 custom_data_layer_0/name = "worldtile"
 custom_data_layer_0/type = 0
-sources/0 = SubResource("TileSetAtlasSource_ogss1")
+sources/0 = SubResource("TileSetAtlasSource_wujr5")
 tile_proxies/coords_level = [[1, Vector2i(0, 0)], [4, Vector2i(0, 0)], [2, Vector2i(0, 0)], [4, Vector2i(1, 0)], [3, Vector2i(0, 0)], [4, Vector2i(2, 0)]]
