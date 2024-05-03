@@ -33,46 +33,46 @@ func _init(
     map_row = p_row
     map_col = p_col
 
+#enum Direction = WorldGenerator.DIRECTION
+
 func get_neighbors() -> Dictionary:
     var neighbors := {}
+    neighbors["N"] = get_neighbor(WorldGenerator.DIRECTION.N)
+    neighbors["S"] = get_neighbor(WorldGenerator.DIRECTION.S)
+    neighbors["SW"] = get_neighbor(WorldGenerator.DIRECTION.SW)
+    neighbors["SE"] = get_neighbor(WorldGenerator.DIRECTION.SE)
+    neighbors["NW"] = get_neighbor(WorldGenerator.DIRECTION.NW)
+    neighbors["NE"] = get_neighbor(WorldGenerator.DIRECTION.NE)
+    return neighbors
+
+func get_neighbor(direction: WorldGenerator.DIRECTION) -> WorldTile:
     var row := map_row
     var col := map_col
     var world_map = DataBus.ACTIVE_WORLD
+    var num_rows = world_map.get_num_rows()
+    var num_cols = world_map.get_num_cols()
 
-    # Top-left neighbor
-    if row > 0 and (col > 0 or row % 2 == 0):
-        neighbors["northwest"] = world_map.get_tile(row - 1, col - int(row % 2 == 1))
-    else:
-        neighbors["northwest"] = null
+    match direction:
+        WorldGenerator.DIRECTION.N:
+            return world_map.get_tile((row - 1 + num_rows) % num_rows, col)
+        WorldGenerator.DIRECTION.S:
+            return world_map.get_tile((row + 1) % num_rows, col)
+        WorldGenerator.DIRECTION.SW:
+            var new_row = (row + 1) % num_rows
+            var new_col = (col - int(row % 2 == 1) + num_cols) % num_cols
+            return world_map.get_tile(new_row, new_col)
+        WorldGenerator.DIRECTION.SE:
+            var new_row = (row + 1) % num_rows
+            var new_col = (col + int(row % 2 == 0)) % num_cols
+            return world_map.get_tile(new_row, new_col)
+        WorldGenerator.DIRECTION.NW:
+            var new_row = (row - 1 + num_rows) % num_rows
+            var new_col = (col - int(row % 2 == 1) + num_cols) % num_cols
+            return world_map.get_tile(new_row, new_col)
+        WorldGenerator.DIRECTION.NE:
+            var new_row = (row - 1 + num_rows) % num_rows
+            var new_col = (col + int(row % 2 == 0)) % num_cols
+            return world_map.get_tile(new_row, new_col)
+        _:
+            return null
 
-    # Top-right neighbor
-    if row > 0 and (col < world_map.get_num_cols() - 1 or row % 2 == 1):
-        neighbors["northeast"] = world_map.get_tile(row - 1, col + int(row % 2 == 0))
-    else:
-        neighbors["northeast"] = null
-
-    # Left neighbor
-    if col > 0:
-        neighbors["west"] = world_map.get_tile(row, col - 1)
-    else:
-        neighbors["west"] = null
-
-    # Right neighbor
-    if col < world_map.get_num_cols() - 1:
-        neighbors["east"] = world_map.get_tile(row, col + 1)
-    else:
-        neighbors["east"] = null
-
-    # Bottom-left neighbor
-    if row < world_map.get_num_rows() - 1 and (col > 0 or row % 2 == 0):
-        neighbors["southwest"] = world_map.get_tile(row + 1, col - int(row % 2 == 1))
-    else:
-        neighbors["southwest"] = null
-
-    # Bottom-right neighbor
-    if row < world_map.get_num_rows() - 1 and (col < world_map.get_num_cols() - 1 or row % 2 == 1):
-        neighbors["southeast"] = world_map.get_tile(row + 1, col + int(row % 2 == 0))
-    else:
-        neighbors["southeast"] = null
-
-    return neighbors

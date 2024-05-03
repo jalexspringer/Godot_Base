@@ -21,28 +21,7 @@ const VOLCANIC_ACTIVITY = 0.1
 
 var tile_shader : Shader = preload("res://assets/shaders/world_tile.gdshader")
 
-var _climate_zones : Dictionary = {
-    ClimateZone.ZoneType.TROPICAL_RAINFOREST: ClimateZone.new(ClimateZone.ZoneType.TROPICAL_RAINFOREST, 0.05, 0.0, 2000.0, 5, 5, 1, 3, Color(0.0, 0.5, 0.0, 1.0), tile_shader),
-    ClimateZone.ZoneType.TROPICAL_MONSOON: ClimateZone.new(ClimateZone.ZoneType.TROPICAL_MONSOON, 0.05, 0.0, 1500.0, 4, 4, 1, 3, Color(0.0, 0.4, 0.0, 1.0), tile_shader),
-    ClimateZone.ZoneType.TROPICAL_SAVANNA: ClimateZone.new(ClimateZone.ZoneType.TROPICAL_SAVANNA, 0.03, 0.0, 1000.0, 3, 4, 1, 3, Color(0.8, 0.8, 0.0, 1.0), tile_shader),
-    ClimateZone.ZoneType.SUBTROPICAL_HUMID: ClimateZone.new(ClimateZone.ZoneType.SUBTROPICAL_HUMID, 0.05, 0.0, 1200.0, 4, 3, 1, 3, Color(0.0, 0.6, 0.0, 1.0), tile_shader),
-    ClimateZone.ZoneType.SUBTROPICAL_DESERT: ClimateZone.new(ClimateZone.ZoneType.SUBTROPICAL_DESERT, 0.01, 0.0, 100.0, 1, 2, 1, 4, Color(0.8, 0.6, 0.0, 1.0), tile_shader),
-    ClimateZone.ZoneType.TEMPERATE_OCEANIC: ClimateZone.new(ClimateZone.ZoneType.TEMPERATE_OCEANIC, 0.1, 0.0, 800.0, 3, 3, 1, 4, Color(0.0, 0.4, 0.6, 1.0), tile_shader),
-    ClimateZone.ZoneType.TEMPERATE_CONTINENTAL: ClimateZone.new(ClimateZone.ZoneType.TEMPERATE_CONTINENTAL, 0.05, 0.0, 600.0, 3, 3, 1, 4, Color(0.0, 0.6, 0.4, 1.0), tile_shader),
-    ClimateZone.ZoneType.TEMPERATE_STEPPE: ClimateZone.new(ClimateZone.ZoneType.TEMPERATE_STEPPE, 0.02, 0.0, 400.0, 2, 2, 2, 4, Color(0.6, 0.6, 0.0, 1.0), tile_shader),
-    ClimateZone.ZoneType.TEMPERATE_DESERT: ClimateZone.new(ClimateZone.ZoneType.TEMPERATE_DESERT, 0.0, 0.0, 200.0, 1, 2, 1, 4, Color(0.8, 0.6, 0.4, 1.0), tile_shader),
-    ClimateZone.ZoneType.BOREAL_FOREST: ClimateZone.new(ClimateZone.ZoneType.BOREAL_FOREST, 0.1, 0.0, 500.0, 3, 2, 1, 4, Color(0.0, 0.3, 0.0, 1.0), tile_shader),
-    ClimateZone.ZoneType.TUNDRA: ClimateZone.new(ClimateZone.ZoneType.TUNDRA, 0.05, 0.0, 200.0, 1, 1, 2, 4, Color(0.6, 0.8, 0.8, 1.0), tile_shader),
-    ClimateZone.ZoneType.POLAR_ICE_CAP: ClimateZone.new(ClimateZone.ZoneType.POLAR_ICE_CAP, 0.0, 0.0, 100.0, 1, 1, 1, 5, Color(1.0, 1.0, 1.0, 1.0), tile_shader),
-    ClimateZone.ZoneType.ALPINE: ClimateZone.new(ClimateZone.ZoneType.ALPINE, 0.05, 0.0, 1000.0, 2, 2, 4, 5, Color(0.6, 0.4, 0.2, 1.0), tile_shader),
-    ClimateZone.ZoneType.OCEAN_TROPICAL: ClimateZone.new(ClimateZone.ZoneType.OCEAN_TROPICAL, 1.0, 0.035, 2000.0, 4, 5, 1, 1, Color(0.0, 0.0, 0.8, 1.0), tile_shader),
-    ClimateZone.ZoneType.OCEAN_TEMPERATE: ClimateZone.new(ClimateZone.ZoneType.OCEAN_TEMPERATE, 1.0, 0.035, 1000.0, 3, 4, 1, 1, Color(0.0, 0.0, 0.6, 1.0), tile_shader),
-    ClimateZone.ZoneType.OCEAN_POLAR: ClimateZone.new(ClimateZone.ZoneType.OCEAN_POLAR, 1.0, 0.035, 500.0, 1, 2, 1, 1, Color(0.4, 0.6, 0.8, 1.0), tile_shader),
-    ClimateZone.ZoneType.LAKE_TROPICAL: ClimateZone.new(ClimateZone.ZoneType.LAKE_TROPICAL, 0.8, 0.005, 2000.0, 4, 4, 1, 3, Color(0.0, 0.4, 0.8, 1.0), tile_shader),
-    ClimateZone.ZoneType.LAKE_TEMPERATE: ClimateZone.new(ClimateZone.ZoneType.LAKE_TEMPERATE, 0.8, 0.005, 800.0, 3, 3, 1, 4, Color(0.0, 0.2, 0.6, 1.0), tile_shader),
-    ClimateZone.ZoneType.LAKE_ALPINE: ClimateZone.new(ClimateZone.ZoneType.LAKE_ALPINE, 0.8, 0.005, 1000.0, 2, 2, 4, 5, Color(0.4, 0.6, 0.8, 1.0), tile_shader),
-}
-
+enum DIRECTION {N, S, SW, SE, NW, NE}
 
 func _ready() -> void:
     pass
