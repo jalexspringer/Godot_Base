@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://blnuauc78h6m4" path="res://scenes/tilemap.tscn" id="3_1e3pn"]
 
 [node name="World" type="Node2D"]
+scale = Vector2(1.00108, 1.00232)
 script = ExtResource("1_yvqjk")
 
 [node name="Camera2D" type="Camera2D" parent="."]

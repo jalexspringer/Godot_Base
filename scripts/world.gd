@@ -2,7 +2,8 @@
 extends Node2D
 
 func _ready():
-	WorldGenerator.generate_world(DataBus.ACTIVE_WORLD_PLANET)
+	pass
+	#WorldGenerator.generate_world(DataBus.ACTIVE_WORLD_PLANET)
 	
 
 
