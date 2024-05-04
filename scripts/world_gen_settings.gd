@@ -96,7 +96,7 @@ func _populate_preset_option_button() -> void:
 			preset_option_button.add_item("Invalid Preset", i)
 
 func _on_generate_button_pressed() -> void:
-	DataBus.ACTIVE_WORLD.planet = _create_planet_from_settings()
+	DataBus.ACTIVE_WORLDMAP.planet = _create_planet_from_settings()
 	get_tree().change_scene_to_file("res://scenes/world.tscn")
 
 func _on_save_preset_button_pressed() -> void:

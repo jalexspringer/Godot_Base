@@ -18,10 +18,10 @@ var alt_tile_colors: Dictionary = {
 
 func _ready() -> void:
     DataBus.DATA_LAYER = data_layer
-    WorldGenerator.connect("generation_step_complete", _on_generation_step_complete)
-    WorldGenerator.connect("map_gen_complete", _on_map_gen_complete)
-    if DataBus.ACTIVE_WORLD == null:
+    if DataBus.ACTIVE_WORLDMAP == null:
         WorldGenerator.generate_world(DataBus.ACTIVE_WORLD_PLANET)
+    _on_map_gen_complete()
+    _on_generation_step_complete()
 
 func toggle_layer_visibility(layer_name: String) -> void:
     match layer_name:
@@ -34,28 +34,33 @@ func toggle_layer_visibility(layer_name: String) -> void:
         _:
             push_error("Invalid layer name: %s" % layer_name)
 
+
+
 func _on_map_gen_complete() -> void:
-    var world_map: WorldMap = DataBus.ACTIVE_WORLD
+    var world_map: World = DataBus.ACTIVE_WORLDMAP
     print("Generating initial ocean tile map - Starting time: %s", DataBus.TIME_SINCE_START)
     terrain_layer.clear()
 
-    for row in range(world_map.get_num_rows()):
-        for col in range(world_map.get_num_cols()):
+    for row in range(world_map.total_rows):
+        for col in range(world_map.total_columns):
             var tile = world_map.get_tile(row, col)
 
             ocean_layer.set_cell(Vector2i(tile.map_col, tile.map_row), main_atlas_id, white_hex_atlas_id, alt_tile_colors["Ocean"])
 
             data_layer.set_cell(Vector2i(tile.map_col, tile.map_row), main_atlas_id, white_hex_atlas_id)
+            
             var cell_tile_data: TileData = data_layer.get_cell_tile_data(Vector2i(tile.map_col, tile.map_row))
+            
             cell_tile_data.set_custom_data("worldtile", tile)
+            
             tile.data_layer_tile = cell_tile_data
+
+
+
 
 func _on_generation_step_complete() -> void:
     for land_mass in DataBus.ACTIVE_LANDMASSES.values():
-        for tile in land_mass['Land_Mass']:
-            if tile.is_ocean:
-                terrain_layer.set_cell(Vector2i(tile.map_col, tile.map_row), main_atlas_id, white_hex_atlas_id, alt_tile_colors["Ocean"])
-            else:
+        for tile in land_mass:
                 var color_key = "Flat"
                 match tile.elevation:
                     5:

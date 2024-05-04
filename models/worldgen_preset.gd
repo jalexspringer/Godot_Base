@@ -1,10 +1,10 @@
 extends Resource
-class_name Planet
+class_name WorldPreset
 
-const STEFAN_BOLTZMANN_CONSTANT = 5.670374419e-8  # Stefan-Boltzmann constant in W⋅m^-2⋅K^-4
+@export var STEFAN_BOLTZMANN_CONSTANT = 5.670374419e-8  # Stefan-Boltzmann @export varant in W⋅m^-2⋅K^-4
 
 @export var name: String = "Planet Name"
-@export_range(1000, 2000) var solar_constant: float = 1361.0  # Solar constant in W/m^2
+@export_range(1000, 2000) var solar_constant: float = 1361.0  # Solar @export varant in W/m^2
 @export_range(4000, 8000) var radius: float = 6371.0  # Planet radius in kilometers
 @export_range(0.5, 2.0) var distance_from_sun: float = 1.0  # Distance from the sun in AU
 @export_range(0, 45) var axial_tilt: float = 23.5  # Axial tilt in degrees
@@ -18,6 +18,29 @@ const STEFAN_BOLTZMANN_CONSTANT = 5.670374419e-8  # Stefan-Boltzmann constant in
 @export_range(1, 5) var elevation_change: int = 3  # Level of mountainous terrain (1-5, 5 being most mountains)
 @export_range(0.01, 1.0) var greenhouse_gas: float = 0.1  # Percentage of atmosphere made up of greenhouse gases
 
+@export var MAP_SIZE = 10000
+@export var LANDMASS_COUNT = 5
+@export var ISLAND_COUNT = 0
+
+@export var NORTH_POLE_GAP = 5
+@export var SOUTH_POLE_GAP = 2
+
+@export var TECTONIC_DIVISIONS = 5
+@export var LAND_COVERAGE_PERCENTAGE = 0.3
+@export var LAND_GROWTH_RANDOMNESS := 0.15
+
+@export var MIN_ELEVATION = 1
+@export var MAX_ELEVATION = 5
+
+@export var ELEVATION_ADJUSTMENT_CHANCE = 0.1
+@export var ELEVATION_ADJUSTMENT_THRESHOLD = 0.4
+@export var ELEVATION_ADJUSTMENT_SECOND_THRESHOLD = 0.8
+
+@export var MOUNTAIN_RANGE_MIN_LENGTH = 10
+@export var MOUNTAIN_RANGE_MAX_LENGTH = 30
+
+@export var VOLCANO_CHANCE = 0.1
+
 var average_temperature: float = 0.0
 var spin_speed: float = 0.0
 var average_wind_speed: float = 0.0
@@ -27,6 +50,7 @@ func _init(p_name: String = "", p_solar_constant: float = 1361.0, p_radius: floa
             p_magnetic_field_strength: float = 1.0, p_orbital_period: float = 365.25, p_day_length: float = 24.0,
             p_ocean_coverage_percentage: float = 70.0, p_elevation_change: int = 3, p_greenhouse_gas: float = 0.04) -> void:
     name = p_name
+    solar_constant = p_solar_constant
     solar_constant = p_solar_constant
     radius = p_radius
     distance_from_sun = p_distance_from_sun
@@ -41,27 +65,7 @@ func _init(p_name: String = "", p_solar_constant: float = 1361.0, p_radius: floa
     elevation_change = p_elevation_change
     greenhouse_gas = p_greenhouse_gas
     _calculate_derived_properties()
-    #_planet_created_print()
 
-func _planet_created_print() -> void:
-    print("Planet created:")
-    print("Name: ", name)
-    print("Solar Constant: ", solar_constant)
-    print("Radius: ", radius)
-    print("Distance from Sun: ", distance_from_sun)
-    print("Axial Tilt: ", axial_tilt)
-    print("Albedo: ", albedo)
-    print("Gravity: ", gravity)
-    print("Atmospheric Pressure: ", atmospheric_pressure)
-    print("Magnetic Field Strength: ", magnetic_field_strength)
-    print("Orbital Period: ", orbital_period)
-    print("Day Length: ", day_length)
-    print("Ocean Coverage Percentage: ", ocean_coverage_percentage)
-    print("Elevation Change: ", elevation_change)
-    print("Greenhouse Gas: ", greenhouse_gas)
-    print("Average Temperature: ", average_temperature)
-    print("Spin Speed: ", spin_speed)
-    print("Average Wind Speed: ", average_wind_speed)
 
 func _calculate_derived_properties() -> void:
     average_temperature = calculate_average_temperature()

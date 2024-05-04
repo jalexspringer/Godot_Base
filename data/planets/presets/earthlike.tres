@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="Planet" load_steps=2 format=3 uid="uid://bcbjd51eyh1f0"]
 
-[ext_resource type="Script" path="res://resource_models/planet.gd" id="1_5nc65"]
+[ext_resource type="Script" path="res://models/worldgen_preset.gd" id="1_5nc65"]
 
 [resource]
 script = ExtResource("1_5nc65")

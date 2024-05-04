@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="ClimateZone" load_steps=2 format=3 uid="uid://cp6sucaxe12fw"]
 
-[ext_resource type="Script" path="res://resource_models/climate_zone.gd" id="1_r6p5f"]
+[ext_resource type="Script" path="res://models/climate_zone.gd" id="1_r6p5f"]
 
 [resource]
 script = ExtResource("1_r6p5f")

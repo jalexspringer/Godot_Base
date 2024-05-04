@@ -1,6 +1,6 @@
 [gd_resource type="Resource" load_steps=2 format=3 uid="uid://bufvil16m4ppo"]
 
-[ext_resource type="Script" path="res://resource_models/recipe.gd" id="1_pcal4"]
+[ext_resource type="Script" path="res://models/recipe.gd" id="1_pcal4"]
 
 [resource]
 script = ExtResource("1_pcal4")
