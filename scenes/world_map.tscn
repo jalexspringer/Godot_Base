@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://bv1rr8gdq2pke"]
+
+[ext_resource type="Script" path="res://scripts/world_map.gd" id="1_yvqjk"]
+[ext_resource type="Script" path="res://scripts/world_camera.gd" id="2_gsyc4"]
+[ext_resource type="PackedScene" uid="uid://cpoyrrh6sjc46" path="res://scenes/user_interface/main_ui.tscn" id="2_t61dn"]
+[ext_resource type="PackedScene" uid="uid://blnuauc78h6m4" path="res://scenes/tilemaps/tilemap.tscn" id="4_3tly3"]
+
+[node name="World" type="Node2D"]
+scale = Vector2(1.00013, 1.00232)
+script = ExtResource("1_yvqjk")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MainUI" parent="CanvasLayer" instance=ExtResource("2_t61dn")]
+unique_name_in_owner = true
+scale = Vector2(1.0029, 0.994134)
+mouse_filter = 2
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(576, 324)
+scale = Vector2(1.00317, 1)
+zoom = Vector2(0.5, 0.5)
+script = ExtResource("2_gsyc4")
+CAMERA_ZOOM_MAX = Vector2(0.148, 0.148)
+
+[node name="WorldView" type="Node2D" parent="."]
+
+[node name="TileMap" parent="." instance=ExtResource("4_3tly3")]

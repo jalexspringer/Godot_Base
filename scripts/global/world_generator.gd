@@ -1,21 +1,19 @@
 extends Node
 
-var current_land_tiles := 0
+# var current_land_tiles := 0
 
+# func generate_world(preset: WorldPreset) -> void:
+# 	if DataBus.WORLD.preset == null:
+# 		DataBus.WORLD.preset = WorldPreset.new()
+# 	DataBus.WORLD = World.new()
 
-func generate_world(preset: WorldPreset) -> void:
-	if DataBus.ACTIVE_WORLD_PLANET == null:
-		DataBus.WORLD.preset = WorldPreset.new()
-	DataBus.WORLD = World.new()
+# 	#var seed_tile_array := pick_land_seeds()
 
-	var seed_tile_array := pick_land_seeds()
+# 	#_grow_landmasses(seed_tile_array)
 
-	#_grow_landmasses(seed_tile_array)
-
-func pick_land_seeds() -> Dictionary:
-	var seed_array := {}
-	return seed_array
-
+# func pick_land_seeds() -> Dictionary:
+# 	var seed_array := {}
+# 	return seed_array
 
 # func _grow_landmasses(seed_tiles: Dictionary) -> void:
 # 	var threads := []
@@ -28,7 +26,7 @@ func pick_land_seeds() -> Dictionary:
 # 	for thread in threads:
 # 		thread.wait_to_finish()
 
-# func _grow_landmass_thread(landmass_id: String, seed_tile: HexData) -> void:
+# func _grow_landmass_thread(landmass_id: String, seed_tile: CellData) -> void:
 # 	for neighbor_tile in seed_tile.get_neighbors().values():
 # 		print(neighbor_tile)
 # 		if neighbor_tile:
@@ -37,4 +35,3 @@ func pick_land_seeds() -> Dictionary:
 # 			DataBus.ACTIVE_LANDMASSES["Landmass_%s" % [landmass_id]].append(neighbor_tile)
 # 			DataBus.ACTIVE_WORLDMAP.continents["Landmass_%s" % [landmass_id]].append(neighbor_tile)
 # 			DataBus.ACTIVE_WORLDMAP.mountain_ranges["Landmass_%s_Mountain_Range_1" % [landmass_id]].append(neighbor_tile)
-

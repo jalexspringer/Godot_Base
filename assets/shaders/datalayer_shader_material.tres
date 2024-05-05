@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://twrbh8e30mri"]
+
+[ext_resource type="Shader" path="res://assets/shaders/datalayer.gdshader" id="1_fes7j"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_fes7j")
