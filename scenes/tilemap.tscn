@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=4 uid="uid://brxd3c7ojtw4p"]
+
+[ext_resource type="TileSet" uid="uid://4ucwrv77bykg" path="res://tilesets/datalayer_tileset.tres" id="2_ujrpp"]
+[ext_resource type="Script" path="res://scripts/tilemap_scripts/tilemap.gd" id="2_v1ljq"]
+
+[node name="TileMap" type="Node2D"]
+scale = Vector2(1.92472, 2.1103)
+script = ExtResource("2_v1ljq")
+
+[node name="DataLayer" type="TileMapLayer" parent="."]
+unique_name_in_owner = true
+z_index = -2
+tile_map_data = PackedByteArray("AAABAAAAAAACAAAAAAADAAEAAAACAAAAAAACAAEAAAACAAAAAAADAAAAAAACAAAAAAACAAAAAAACAAAAAAAFAAEAAAACAAAAAAAIAAEAAAACAAAAAAAGAAEAAAACAAAAAAAGAAIAAAACAAAAAAAFAAIAAAACAAAAAAAEAAIAAAACAAAAAAAEAAEAAAACAAAAAAAFAAAAAAACAAAAAAA=")
+tile_set = ExtResource("2_ujrpp")
+
+[node name="OceanLayer" type="TileMapLayer" parent="."]
+unique_name_in_owner = true
+z_index = -2
+tile_map_data = PackedByteArray("AAABAAAAAAACAAAAAAADAAEAAAACAAAAAAACAAEAAAACAAAAAAADAAAAAAACAAAAAAACAAAAAAACAAAAAAAFAAEAAAACAAAAAAAIAAEAAAACAAAAAAAGAAEAAAACAAAAAAAGAAIAAAACAAAAAAAFAAIAAAACAAAAAAAEAAIAAAACAAAAAAAEAAEAAAACAAAAAAAFAAAAAAACAAAAAAA=")
+tile_set = ExtResource("2_ujrpp")
+
+[node name="TerrainLayer" type="TileMapLayer" parent="."]
+unique_name_in_owner = true
+z_index = -2
+tile_map_data = PackedByteArray("AAABAAAAAAACAAAAAAADAAEAAAACAAAAAAACAAEAAAACAAAAAAADAAAAAAACAAAAAAACAAAAAAACAAAAAAAFAAEAAAACAAAAAAAIAAEAAAACAAAAAAAGAAEAAAACAAAAAAAGAAIAAAACAAAAAAAFAAIAAAACAAAAAAAEAAIAAAACAAAAAAAEAAEAAAACAAAAAAAFAAAAAAACAAAAAAA=")
+tile_set = ExtResource("2_ujrpp")

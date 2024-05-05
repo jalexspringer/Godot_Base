@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://d3xafttvo7666"]
 
-[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_v8xih"]
+[ext_resource type="Script" path="res://scripts/ui_scripts/main_menu.gd" id="1_v8xih"]
 [ext_resource type="PackedScene" uid="uid://bi112daseypfb" path="res://scenes/user_interface/world_gen_settings.tscn" id="2_fts22"]
 [ext_resource type="PackedScene" uid="uid://bnedqojkffktf" path="res://scenes/user_interface/game_settings.tscn" id="4_jop5k"]
 [ext_resource type="PackedScene" uid="uid://yo6lqoksa53k" path="res://addons/naejimer_3d_planet_generator/scenes/planet_terrestrial.tscn" id="6_8nsga"]
@@ -26,7 +26,7 @@ script = ExtResource("1_v8xih")
 [node name="Planets" type="Node3D" parent="Background"]
 
 [node name="PlanetTerrestrial" parent="Background/Planets" instance=ExtResource("6_8nsga")]
-transform = Transform3D(443.284, 0, 541.755, 0, 700, 0, -541.755, 0, 443.284, 1803.38, 0, 0)
+transform = Transform3D(566.13, 0, -411.697, 0, 700, 0, 411.697, 0, 566.13, 1803.38, 0, 0)
 
 [node name="Environment" type="Node3D" parent="Background"]
 
@@ -95,5 +95,4 @@ layout_mode = 1
 [connection signal="pressed" from="VBoxContainer/LoadButton" to="." method="_on_load_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
-[connection signal="back_to_main_menu_signal" from="WorldGenSettings" to="." method="_on_world_gen_settings_back_to_main_menu_signal"]
 [connection signal="close_settings_menu" from="GameSettings" to="." method="_on_game_settings_close_settings_menu"]

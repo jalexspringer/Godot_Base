@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bi112daseypfb"]
 
-[ext_resource type="Script" path="res://scripts/world_gen_settings.gd" id="1_m4nyn"]
+[ext_resource type="Script" path="res://scripts/ui_scripts/world_gen_settings.gd" id="1_m4nyn"]
 
 [node name="WorldGenSettings" type="Control"]
 layout_mode = 3

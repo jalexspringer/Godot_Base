@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://blnuauc78h6m4"]
 
 [ext_resource type="TileSet" uid="uid://ec4l50u3ha3t" path="res://tilesets/terrain_tileset.tres" id="2_h1jpn"]
-[ext_resource type="Script" path="res://scripts/tilemap.gd" id="2_v1ljq"]
+[ext_resource type="Script" path="res://scripts/tilemap_scripts/tilemap.gd" id="2_v1ljq"]
 [ext_resource type="TileSet" uid="uid://4ucwrv77bykg" path="res://tilesets/datalayer_tileset.tres" id="3_oj56u"]
 
 [node name="TileMap" type="Node2D"]
@@ -11,6 +11,7 @@ script = ExtResource("2_v1ljq")
 [node name="DataLayer" type="TileMapLayer" parent="."]
 unique_name_in_owner = true
 z_index = -2
+tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 1, 0, 255, 255, 0, 0, 2, 0, 0, 0, 0, 0)
 tile_set = ExtResource("3_oj56u")
 
 [node name="OceanLayer" type="TileMapLayer" parent="."]

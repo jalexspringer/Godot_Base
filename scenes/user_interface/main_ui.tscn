@@ -1,0 +1,178 @@
+[gd_scene load_steps=4 format=3 uid="uid://cpoyrrh6sjc46"]
+
+[ext_resource type="Script" path="res://scripts/ui_scripts/main_ui.gd" id="1_7g5n3"]
+[ext_resource type="Theme" uid="uid://bnmbmkn8g3l3a" path="res://assets/themes/debug_panel.tres" id="2_yuy5q"]
+[ext_resource type="Script" path="res://scripts/ui_scripts/debug_panel.gd" id="3_lkq6q"]
+
+[node name="WorldUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_7g5n3")
+
+[node name="MenuButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -53.0
+offset_bottom = 31.0
+grow_horizontal = 0
+text = "Menu"
+
+[node name="WorldClock" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -32.0
+offset_right = 32.0
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "00:00:00"
+
+[node name="TileInfoPanel" type="Panel" parent="."]
+custom_minimum_size = Vector2(200, 400)
+layout_mode = 1
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("2_yuy5q")
+
+[node name="MarginContainer" type="MarginContainer" parent="TileInfoPanel"]
+layout_mode = 0
+offset_right = 172.0
+offset_bottom = 313.0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TileInfoPanel/MarginContainer"]
+layout_mode = 2
+
+[node name="TileLabel" type="Label" parent="TileInfoPanel/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Tile Info"
+uppercase = true
+
+[node name="HSeparator" type="HSeparator" parent="TileInfoPanel/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="TileInfoPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+columns = 2
+
+[node name="CoordinatesLabel" type="Label" parent="TileInfoPanel/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Coordinates:"
+
+[node name="CoordinatesValue" type="Label" parent="TileInfoPanel/MarginContainer/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+
+[node name="ClimateZoneLabel" type="Label" parent="TileInfoPanel/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Climate Zone:"
+
+[node name="ClimateZoneValue" type="Label" parent="TileInfoPanel/MarginContainer/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+
+[node name="ElevationLabel" type="Label" parent="TileInfoPanel/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Elevation:"
+
+[node name="ElevationValue" type="Label" parent="TileInfoPanel/MarginContainer/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+
+[node name="FeaturesLabel" type="Label" parent="TileInfoPanel/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Features:"
+
+[node name="FeaturesValue" type="Label" parent="TileInfoPanel/MarginContainer/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+
+[node name="BaseTemperatureLabel" type="Label" parent="TileInfoPanel/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Base Temperature:"
+
+[node name="BaseTemperatureValue" type="Label" parent="TileInfoPanel/MarginContainer/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+
+[node name="MoistureLabel" type="Label" parent="TileInfoPanel/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Moisture:"
+
+[node name="MoistureValue" type="Label" parent="TileInfoPanel/MarginContainer/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+
+[node name="IsOceanLabel" type="Label" parent="TileInfoPanel/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Is Ocean:"
+
+[node name="IsOceanValue" type="Label" parent="TileInfoPanel/MarginContainer/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+
+[node name="IsVolcanoLabel" type="Label" parent="TileInfoPanel/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Is Volcano:"
+
+[node name="IsVolcanoValue" type="Label" parent="TileInfoPanel/MarginContainer/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+
+[node name="DebugPanel" type="Panel" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(800, 600)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -200.0
+grow_horizontal = 0
+grow_vertical = 0
+theme = ExtResource("2_yuy5q")
+script = ExtResource("3_lkq6q")
+
+[node name="MarginContainer" type="MarginContainer" parent="DebugPanel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="DebugVBox" type="VBoxContainer" parent="DebugPanel/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="DebugPanelLabel" type="Label" parent="DebugPanel/MarginContainer/DebugVBox"]
+layout_mode = 2
+text = "Debug Panel"
+
+[node name="HSeparator" type="HSeparator" parent="DebugPanel/MarginContainer/DebugVBox"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
