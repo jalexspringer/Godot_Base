@@ -35,7 +35,7 @@ grow_horizontal = 2
 text = "00:00:00"
 
 [node name="TileInfoPanel" type="Panel" parent="."]
-custom_minimum_size = Vector2(200, 400)
+custom_minimum_size = Vector2(400, 400)
 layout_mode = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -71,6 +71,26 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 text = "Coordinates:"
 
 [node name="CoordinatesValue" type="Label" parent="TileInfoPanel/MarginContainer/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+
+[node name="LatitudeLabel" type="Label" parent="TileInfoPanel/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Latitude:"
+
+[node name="LatitudeValue" type="Label" parent="TileInfoPanel/MarginContainer/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+
+[node name="LongitudeLabel" type="Label" parent="TileInfoPanel/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Longitude:"
+
+[node name="LongitudeValue" type="Label" parent="TileInfoPanel/MarginContainer/VBoxContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)

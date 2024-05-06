@@ -4,21 +4,26 @@ extends Node2D
 @onready var terrain_layer: TileMapLayer = $"%TerrainLayer"
 @onready var ocean_layer: TileMapLayer = $"%OceanLayer"
 
-var main_atlas_id: int = 0
-var white_hex_atlas_id: Vector2i = Vector2i(2, 0)
-var alt_tile_colors: Dictionary = {
-    "Ocean": 4,
-    "Mountain": 3,
-    "Grassland": 5,
-    "Small_Hills": 1,
-    "Hills": 2,
-    "Flat": 0,
+var atlas_id: int = 0
+var atlas_coords: Vector2i = Vector2i(2, 0)
+
+enum HexAlternativeID {
+    SMALL_HILLS = 1,
+    HILLS = 2,
+    MOUNTAINS = 3,
+    OCEAN = 4,
+    FLATLAND = 5,
+    ICE = 6,
+    VOLCANO = 7,
+    POLE = 8
 }
 
 signal hex_clicked(hex: CellData)
 
 func _ready() -> void:
     DataBus.DATA_LAYER = data_layer
+    DataBus.OCEAN_LAYER = ocean_layer
+    DataBus.TERRAIN_LAYER = terrain_layer
 
 func toggle_layer_visibility(layer_name: String) -> void:
     match layer_name:
@@ -28,39 +33,41 @@ func toggle_layer_visibility(layer_name: String) -> void:
             data_layer.visible = not data_layer.visible
         "ocean":
             ocean_layer.visible = not ocean_layer.visible
+            var zero_zero_cell = ocean_layer.get_cell_atlas_coords(Vector2i(0, 0))
+            print(zero_zero_cell)
         _:
             push_error("Invalid layer name: %s" % layer_name)
 
-func draw_hexmap(tilemap: TileMapLayer) -> void:
+func draw_hexmap(tilemap: TileMapLayer, cell_array: Array, debug: bool = false) -> void:
     tilemap.clear()
-    var cell_map: Array[Array] = DataBus.WORLD.cell_map
-    for col in cell_map:
-        for cell in col:
+
+    for cell in cell_array:
+        var coords = cell.coordinates
+        if debug:
+            data_layer.set_cell(coords, atlas_id, atlas_coords, 0)
+        if coords == DataBus.selected_cell_coordinates:
+            tilemap.set_cell(coords, atlas_id, atlas_coords, 6)
+        else:
+            # if cell.is_pole:
+            #     tilemap.set_cell(coords, atlas_id, atlas_coords, HexAlternativeID.POLE)
             if cell.is_ocean:
-                tilemap.set_cell(cell.coordinates, main_atlas_id, white_hex_atlas_id, 9)
+                tilemap.set_cell(coords, atlas_id, atlas_coords, HexAlternativeID.OCEAN)
             else:
-                tilemap.set_cell(cell.coordinates, main_atlas_id, white_hex_atlas_id, 0)
-
-            var cell_tile_data: TileData = data_layer.get_cell_tile_data(cell.coordinates)
-            cell_tile_data.set_custom_data("hexdata", cell)
-
-func re_draw_hexmap(tilemap: TileMapLayer) -> void:
-    tilemap.clear()
-    var cell_map: Array[Array] = DataBus.WORLD.cell_map
-    for col in cell_map:
-        for cell in col:
-            if cell.is_ocean:
-                tilemap.set_cell(cell.coordinates, main_atlas_id, white_hex_atlas_id, 9)
-            else:
-                tilemap.set_cell(cell.coordinates, main_atlas_id, white_hex_atlas_id, 0)
-
-func get_cell_data(coords: Vector2i) -> CellData:
-    var cell_map = DataBus.WORLD.cell_map
-    if coords.y >= 0 and coords.y < cell_map.size() and coords.x >= 0 and coords.x < cell_map[0].size():
-        return cell_map[coords.y][coords.x]
-    return null
-
+                if cell.is_volcano:
+                    tilemap.set_cell(coords, atlas_id, atlas_coords, HexAlternativeID.VOLCANO)
+                elif cell.elevation == 5:
+                    tilemap.set_cell(coords, atlas_id, atlas_coords, HexAlternativeID.MOUNTAINS)
+                elif cell.elevation == 4:
+                    tilemap.set_cell(coords, atlas_id, atlas_coords, HexAlternativeID.HILLS)
+                elif cell.elevation == 3:
+                    tilemap.set_cell(coords, atlas_id, atlas_coords, HexAlternativeID.SMALL_HILLS)
+                elif cell.elevation == 2:
+                    tilemap.set_cell(coords, atlas_id, atlas_coords, HexAlternativeID.FLATLAND)
+                elif cell.elevation == 1:
+                    tilemap.set_cell(coords, atlas_id, atlas_coords, HexAlternativeID.FLATLAND)
 ## Clickable events and other interactions
+
+
 
 func _input(event):
     if event is InputEventMouseButton:
@@ -68,35 +75,13 @@ func _input(event):
             var global_clicked = get_global_mouse_position()
             var pos_clicked = data_layer.to_local(global_clicked)
             var clicked_coords = data_layer.local_to_map(pos_clicked)
-            var clicked_hex = get_cell_data(clicked_coords)
+            DataBus.selected_cell_coordinates = clicked_coords
+            hex_clicked.emit(clicked_coords)
+            draw_hexmap(ocean_layer, DataBus.WORLD.ocean_tiles, true)
+            draw_hexmap(terrain_layer, DataBus.WORLD.land_tiles, true)
 
-            if clicked_hex:
-                print("global", global_clicked)
-                print("local", pos_clicked)
-                print("hex", clicked_hex.coordinates)
+    if event.is_action_pressed("Toggle_Ocean"):
+        ocean_layer.visible = not ocean_layer.visible
 
-                clicked_hex.is_ocean = false
-
-                var neighbor_cells: Array[Vector2i] = data_layer.get_surrounding_cells(clicked_coords)
-                for neighbor_cell in neighbor_cells:
-                    var neighbor_cell_data = get_cell_data(neighbor_cell)
-                    print(neighbor_cell_data.coordinates)
-                    neighbor_cell_data.is_ocean = false
-                    neighbor_cell_data.elevation = 5
-                re_draw_hexmap(data_layer)
-                hex_clicked.emit(clicked_hex)
-
-        if event.button_index == MOUSE_BUTTON_RIGHT and event.is_pressed():
-            var global_clicked = get_global_mouse_position()
-            var pos_clicked = data_layer.to_local(global_clicked)
-            var clicked_coords = data_layer.local_to_map(pos_clicked)
-            var clicked_hex = get_cell_data(clicked_coords)
-
-            if clicked_hex:
-                print("global", global_clicked)
-                print("local", pos_clicked)
-                print("hex", clicked_hex.coordinates)
-
-                clicked_hex.is_ocean = true
-                # re_draw_hexmap(data_layer)
-                hex_clicked.emit(clicked_hex)
+    if event.is_action_pressed("Toggle_Terrain"):
+        terrain_layer.visible = not terrain_layer.visible

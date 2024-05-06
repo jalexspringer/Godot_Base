@@ -15,7 +15,7 @@ class_name WorldPreset
 @export_range(200, 500) var ORBITAL_PERIOD: float = 365.25 # Orbital period in Earth days
 @export_range(10, 40) var DAY_LENGTH: float = 24.0 # Day length in Earth hours
 @export_range(0, 100) var OCEAN_COVERAGE_PERCENTAGE: float = 70.0 # Percentage of surface area covered by oceans
-@export_range(1, 5) var ELEVATION_CHANGE: int = 3 # Level of mountainous terrain (1-5, 5 being most mountains)
+@export_range(1, 10) var ELEVATION_CHANGE: int = 5 # Level of mountainous terrain (1-5, 5 being most mountains)
 @export_range(0.01, 1.0) var GREENHOUSE_GAS: float = 0.1 # Percentage of atmosphere made up of greenhouse gases
 
 enum MapSize {
@@ -26,13 +26,14 @@ enum MapSize {
 }
 
 @export var MAP_SIZE: int = MapSize.MEDIUM
-@export_range(0, 10) var LANDMASS_COUNT: int = 5
-@export_range(0, 100) var ISLAND_COUNT: int = 0
+@export_range(0, 10) var LANDMASS_COUNT: int = 8
+@export_range(0, 100) var ISLAND_COUNT: int = 12
 
-@export_range(0, 10) var NORTH_POLE_GAP: int = 5
-@export_range(0, 10) var SOUTH_POLE_GAP: int = 2
+# These gaps are in degrees latitude
+@export_range(0.0, 89.0) var NORTH_POLE_GAP: float = 0.0
+@export_range(0.0, 89.0) var SOUTH_POLE_GAP: float = 0.0
 
-@export_range(0.0, 1.0) var LAND_COVERAGE_PERCENTAGE: float = 0.3
+@export_range(0.0, 1.0) var LAND_COVERAGE_PERCENTAGE: float = 0.35
 @export_range(0.0, 1.0) var LAND_GROWTH_RANDOMNESS: float = 0.15
 
 @export_range(1, 5) var MIN_ELEVATION: int = 1

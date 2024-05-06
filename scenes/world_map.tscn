@@ -26,3 +26,9 @@ CAMERA_ZOOM_MAX = Vector2(0.148, 0.148)
 [node name="WorldView" type="Node2D" parent="."]
 
 [node name="TileMap" parent="." instance=ExtResource("4_3tly3")]
+rotation = -0.523599
+
+[node name="NoisePolygon" type="Polygon2D" parent="."]
+visible = false
+
+[connection signal="hex_clicked" from="TileMap" to="." method="_on_tile_map_hex_clicked"]

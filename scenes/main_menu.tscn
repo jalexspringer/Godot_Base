@@ -26,7 +26,7 @@ script = ExtResource("1_v8xih")
 [node name="Planets" type="Node3D" parent="Background"]
 
 [node name="PlanetTerrestrial" parent="Background/Planets" instance=ExtResource("6_8nsga")]
-transform = Transform3D(566.13, 0, -411.697, 0, 700, 0, 411.697, 0, 566.13, 1803.38, 0, 0)
+transform = Transform3D(698.294, 0, 48.8154, 0, 700, 0, -48.8154, 0, 698.294, 1803.38, 0, 0)
 
 [node name="Environment" type="Node3D" parent="Background"]
 
