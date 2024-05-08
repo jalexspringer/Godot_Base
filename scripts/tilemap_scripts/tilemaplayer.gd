@@ -1,5 +1,7 @@
 extends TileMapLayer
 
+@export var hemisphere: int = 0
+
 var atlas_id: int = 0
 var fill_atlas_coords: Vector2i = Vector2i(2, 0)
 var outline_atlas_coords: Vector2i = Vector2i(0, 0)
@@ -18,17 +20,22 @@ enum HexAlternativeID {
     BLACK = 8,  # 902998
 }
 
-signal hex_clicked(hex: CellData)
+signal hex_clicked(hex: Vector2i, cell: CellData)
 
-func draw_hexmap(cell_array: Array) -> void:
+func draw_hexmap(cell_array: Array, hemisphere: int) -> void:
     for cell in cell_array:
         var coords = cell.coordinates
-        set_cell(coords, atlas_id, outline_atlas_coords, HexAlternativeID.BLUE)
-        set_cell(coords, atlas_id, outline_atlas_coords, HexAlternativeID.BLUE)
-
+        var color : HexAlternativeID = HexAlternativeID.BLACK
+        if hemisphere == -1:
+            color = HexAlternativeID.BLACK
+        elif hemisphere == 0:
+            color = HexAlternativeID.BLUE
+        else:
+            color = HexAlternativeID.GREEN
         if coords == DataBus.selected_cell_coordinates:
             set_cell(coords, atlas_id, outline_atlas_coords, HexAlternativeID.RED)
-            set_cell(coords, atlas_id, outline_atlas_coords, HexAlternativeID.RED)
+        else:
+            set_cell(coords, atlas_id, outline_atlas_coords, color)
         
         # if cell.is_pole:
         #     tilemap.set_cell(coords, atlas_id, fill_atlas_coords, HexAlternativeID.BLACK)
@@ -56,5 +63,6 @@ func _input(event):
             var pos_clicked = to_local(global_clicked)
             var clicked_coords = local_to_map(pos_clicked)
             DataBus.selected_cell_coordinates = clicked_coords
-            hex_clicked.emit(clicked_coords)
-            draw_hexmap(DataBus.WORLD.cell_map.values())
+            hex_clicked.emit(clicked_coords, hemisphere)
+            # draw_hexmap(DataBus.WORLD.cell_map.values(), 0)
+

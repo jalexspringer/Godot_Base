@@ -75,6 +75,16 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 
+[node name="HemisphereLabel" type="Label" parent="TileInfoPanel/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Hemisphere:"
+
+[node name="HemisphereValue" type="Label" parent="TileInfoPanel/MarginContainer/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+
 [node name="LatitudeLabel" type="Label" parent="TileInfoPanel/MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -167,6 +177,7 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 
 [node name="DebugPanel" type="Panel" parent="."]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(800, 600)
 layout_mode = 1
 anchors_preset = 3

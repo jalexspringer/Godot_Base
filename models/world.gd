@@ -12,99 +12,130 @@ var continents: Dictionary = {}
 var islands: Dictionary = {}
 ## A dictionary of mountain ranges, where the keys are mountain range IDs and the values are the corresponding mountain range objects.
 var mountain_ranges: Dictionary = {}
-## The preset used to generate the world.
+
+var world_radius: int
 var preset: WorldPreset
-## A dictionary mapping cell coordinates to their corresponding CellData objects.
 var cell_map: Dictionary = {}
-## The minimum x-coordinate of the world map.
-var min_x: int
-## The minimum y-coordinate of the world map.
-var min_y: int
-## The maximum x-coordinate of the world map.
-var max_x: int
-## The maximum y-coordinate of the world map.
-var max_y: int
-## The coordinates of the north pole.
-var north_pole: Vector2i = Vector2i(0, 0)
-## The coordinates of the south pole.
-var south_pole: Vector2i
-## An array of direction vectors for axial coordinates, starting from southeast and proceeding clockwise.
-var axial_direction_vectors = [  # Starts at SE and proceeds clockwise
-    Vector2i(1, 0), Vector2i(1, -1), Vector2i(0, -1), 
-    Vector2i(-1, 0), Vector2i(-1, 1), Vector2i(0, 1), 
+
+var hemisphere_radius: int
+var direction_vectors = [  # Starts at E and proceeds clockwise
+    Vector2i(1, -1), Vector2i(1, 0), Vector2i(0, 1), 
+    Vector2i(-1, 0), Vector2i(-1, 1), Vector2i(0, -1), 
 ]
+
 ## Enum representing the six directions in axial coordinates.
 enum Direction {
+    E,
     SE,
-    S,
     SW,
+    W,
     NW,
-    N,
-    NE,
+    NE
 }
 
-var mutex = Mutex.new()
-
-## Initializes a new World instance with the given WorldPreset.
-##
-## @param _preset The WorldPreset used to generate the world.
 func _init(_preset: WorldPreset) -> void:
     preset = _preset
-    
     print("Initializing world with preset: ", preset)
+    world_radius = 6
+    create_hemisphere(world_radius, -1)
+    create_hemisphere(world_radius, 1)
+
+func northern_hemisphere_cells() -> Array:
+    return cell_map.values().filter(func(cell): return cell.hemisphere == 1)
+
+func southern_hemisphere_cells() -> Array:
+    return cell_map.values().filter(func(cell): return cell.hemisphere == -1)
+
+func equator_cells() -> Array:
+    return cell_map.values().filter(func(cell): return cell.hemisphere == 0)
+
+func axial_to_cube(axial: Vector2i) -> Vector3i:
+    return Vector3i(axial.x, axial.y, -axial.x - axial.y)
+
+func cube_to_axial(cube: Vector3i) -> Vector2i:
+    return Vector2i(cube.x, cube.y)
+
+func get_cell(coords: Vector2i, hemisphere: int) -> CellData:
+    var full_coords := Vector3i(coords.x, coords.y, hemisphere)
+    if full_coords in cell_map.keys():
+        return cell_map[full_coords]
+    else:
+        print("Function calling invalid coordinates: ", coords)
+        return null
+
+func create_hemisphere(radius: int, hemisphere: int) -> void:
+    for q in range(-radius, radius + 1):
+        for r in range(max(-radius, -q - radius), min(radius + 1, -q + radius + 1)):
+            var coords := Vector3i(q, r, hemisphere)
+            if is_edge_cell(Vector2i(q, r), radius):
+                coords.z = 0
+            var new_cell : CellData = create_cell(coords)
+            if coords.x == 0 and coords.y == 0:
+                new_cell.is_pole = true
+            cell_map[coords] = new_cell
+
+func is_edge_cell(coords: Vector2i, radius: int) -> bool:
+    var distance_from_center = max(abs(coords.x), max(abs(coords.y), abs(-coords.x-coords.y)))
+    return distance_from_center == radius
+
+func create_cell(coords: Vector3i) -> CellData:
+    var cell_data = CellData.new(coords)
+    return cell_data
+
+func get_neighbors(coords:Vector3i) -> Array:
+    var neighbors := []
+    var hemi := coords.z
+    if hemi == 0:
+        print("EQUATOR")
+    else:
+        if is_edge_cell(Vector2i(coords.x, coords.y), world_radius-1):
+            print("EDGE: ", hemi)
+        else:
+            for direction in direction_vectors:
+                var neighbor_coords := Vector3i(coords.x + direction.x, coords.y + direction.y, coords.z)
+                neighbors.append(neighbor_coords)
+                print(neighbor_coords)
+    return neighbors
+
+
+    # print("Selecting seed cells...")
+    # var seed_cells: Array[Vector2i] = select_seed_cells(preset.LANDMASS_COUNT, max_x - int(max_x / 5.0) )
+    # var range_count: int = seed_cells.size()
+    # print("Seed cells selected: ", seed_cells)
     
-    _set_map_edges(preset.MAP_SIZE)
-    south_pole = Vector2i(0, max_y)
-    cell_map = _create_cell_dict()
+    # print("Raising mountains...")
+    # for seed_cell in seed_cells:
+    #     mountain_ranges[range_count] = raise_mountains(preset.ELEVATION_CHANGE, seed_cell)
+    #     for cell_data in mountain_ranges[range_count]:
+    #         land_tiles.append(cell_data)
+    #     range_count -= 1
+    # print("Mountain ranges generated: ", mountain_ranges.keys())
 
-    print("Selecting seed cells...")
-    var seed_cells: Array[Vector2i] = select_seed_cells(preset.LANDMASS_COUNT, max_x - int(max_x / 5.0) )
-    var range_count: int = seed_cells.size()
-    print("Seed cells selected: ", seed_cells)
+    # print("Expanding continents...")
+    # expand_continents_non_threaded()
+    # # expand_continents() - this is the threaded version and not currently safe to use.
+
+    # print("Copying continents from DataBus...")
+    # for c in DataBus.continents:
+    #     continents[c] = DataBus.continents[c]
+    # DataBus.continents.clear()
+    # print("Continents generated: ", continents.keys())
     
-    print("Raising mountains...")
-    for seed_cell in seed_cells:
-        mountain_ranges[range_count] = raise_mountains(preset.ELEVATION_CHANGE, seed_cell)
-        for cell_data in mountain_ranges[range_count]:
-            land_tiles.append(cell_data)
-        range_count -= 1
-    print("Mountain ranges generated: ", mountain_ranges.keys())
+    # print("Placing islands...")
+    # place_islands(preset.ISLAND_COUNT)
+    # print("Islands placed: ", islands.keys())
 
-    print("Expanding continents...")
-    expand_continents_non_threaded()
-    # expand_continents() - this is the threaded version and not currently safe to use.
-
-    print("Copying continents from DataBus...")
-    for c in DataBus.continents:
-        continents[c] = DataBus.continents[c]
-    DataBus.continents.clear()
-    print("Continents generated: ", continents.keys())
+    # print("Assigning ocean tiles...")
+    # ocean_tiles = cell_map.values().filter(func(cell): return cell.is_ocean)
+    # print("Ocean tiles assigned: ", ocean_tiles.size())
     
-    print("Placing islands...")
-    place_islands(preset.ISLAND_COUNT)
-    print("Islands placed: ", islands.keys())
-
-    print("Assigning ocean tiles...")
-    ocean_tiles = cell_map.values().filter(func(cell): return cell.is_ocean)
-    print("Ocean tiles assigned: ", ocean_tiles.size())
-    
-
-## Sets the map edges based on the given map size.
-##
-## @param map_size The size of the map.
-func _set_map_edges(map_size) -> void:
-    var size = sqrt(map_size)
-    max_x = int(size / 2.0)
-    max_y = max_x * 2
-    min_x = -max_x + 1
-    min_y = -max_y + 1
 
 ## Calculates the latitude of the given coordinates.
 ##
 ## @param coords The coordinates to calculate the latitude for.
 ## @return The latitude of the coordinates in degrees.
 func calculate_latitude(coords: Vector2i) -> float:
-    var total_height = max_y
+    var total_height = hemisphere_radius
     var relative_y = abs(coords.y)
     var latitude = (relative_y / float(total_height)) * 180.0 - 90.0
     return latitude
@@ -114,30 +145,10 @@ func calculate_latitude(coords: Vector2i) -> float:
 ## @param latitude The latitude in degrees.
 ## @return The y-coordinate corresponding to the latitude.
 func calculate_y_from_latitude(latitude: float) -> int:
-    var total_height = max_y
+    var total_height = hemisphere_radius
     var relative_latitude = latitude + 90.0
     var y = int((relative_latitude / 180.0) * total_height)
     return y
-
-## Assigns longitude values to each cell in the world map.
-func calculate_longitude(coords: Vector2i) -> float:
-    var map_width = max_x - min_x + 1
-    var half_map_width = map_width / 2.0
-    var relative_x = coords.x
-    
-    if relative_x > max_x:
-        relative_x -= map_width
-    elif relative_x < min_x:
-        relative_x += map_width
-    
-    var longitude : float = (relative_x / half_map_width) * 180.0
-    
-    if longitude > 180.0:
-        longitude -= 360.0
-    elif longitude < -180.0:
-        longitude += 360.0
-    
-    return longitude
 
 ## Calculates the base temperature for the given latitude.
 ##
@@ -151,198 +162,143 @@ func calculate_base_temp(latitude: float) -> float:
     var base_temp = temp_offset + temp_range * temp_factor
     return base_temp
 
-## Creates a dictionary mapping cell coordinates to their corresponding CellData objects.
+## Calculates the distance between two coordinates using axial coordinates.
 ##
-## @return The created cell dictionary.
-func _create_cell_dict() -> Dictionary:
-    var _cell_map: Dictionary = {}
-    for y in range(min_y, max_y + 1):
-        for x in range(min_x, max_x + 1):
-            var coords = Vector2i(x, y)
-            var cell_data = CellData.new(coords)
-            cell_data.latitude = calculate_latitude(coords)
-            cell_data.longitude = calculate_longitude(coords)
-            cell_data.base_temp = calculate_base_temp(cell_data.latitude)
-            _cell_map[coords] = cell_data
-            if coords == north_pole or coords == south_pole:
-                _cell_map[coords].is_pole = true
-    return _cell_map
+## @param a The first coordinate.
+## @param b The second coordinate.
+## @return The distance between the two coordinates.
+func axial_distance(a: Vector2i, b: Vector2i) -> int:
+    var vec = axial_subtract(a, b)
+    return (abs(vec.x) + abs(vec.x + vec.y) + abs(vec.y)) / 2
 
-## Retrieves the CellData object for the given coordinates.
+## Subtracts two axial coordinates.
 ##
-## @param coords The coordinates of the cell.
-## @return The CellData object for the given coordinates.
-func get_cell(coords: Vector2i) -> CellData:
-    if is_valid_coordinates(coords):
-        return cell_map[coords]
-    else:
-        print("Function calling invalid coordinates: ", coords)
-        return null
+## @param a The first coordinate.
+## @param b The second coordinate.
+## @return The difference between the two coordinates.
+func axial_subtract(a: Vector2i, b: Vector2i) -> Vector2i:
+    return Vector2i(a.x - b.x, a.y - b.y)
 
-## Retrieves all neighboring coordinates of the given coordinates.
-##
-## @param coords The coordinates of the cell.
-## @return An array of neighboring coordinates.
-func get_all_neighbors(coords: Vector2i) -> Array[Vector2i]:
-    var neighbors: Array[Vector2i] = []
-    for direction in Direction.values():
-        var neighbor_coords = get_neighbor_coordinates(coords, direction)
-        if is_valid_coordinates(neighbor_coords):
-            neighbors.append(neighbor_coords)
-    return neighbors
+# """ Landmass Generation Functions """
+# func select_seed_cells(continent_count: int, min_distance: int) -> Array[Vector2i]:
+#     var seed_cells: Array[Vector2i] = []
+#     var attempts = 0
+#     var max_attempts = 1000
 
-## Retrieves the neighboring coordinates in the specified direction.
-##
-## @param coords The coordinates of the cell.
-## @param direction The direction to retrieve the neighboring coordinates.
-## @return The neighboring coordinates in the specified direction.
-func get_neighbor_coordinates(coords: Vector2i, direction: Direction) -> Vector2i:
-    var neighbor_coords = coords + axial_direction_vectors[direction]
-    
-    if not is_valid_coordinates(neighbor_coords):
-        var map_width = max_x - min_x + 1
-        var map_height = max_y - min_y + 1
+#     while seed_cells.size() < continent_count and attempts < max_attempts:
+#         var y_lat: float = randf_range(0.0, 60.0)
+#         var y: int = calculate_y_from_latitude(y_lat)
+#         if randf() < 0.5:
+#             y = -y
+#         var x: int = randi_range(-hemisphere_radius, hemisphere_radius)
+#         var coords: Vector2i = Vector2i(x, y)
+
+#         var is_valid_seed = true
+#         for _seed in seed_cells:
+#             if axial_distance(coords, _seed) < min_distance:
+#                 is_valid_seed = false
+#                 break
+
+#         if is_valid_seed:
+#             seed_cells.append(coords)
         
-        if neighbor_coords.x < min_x:
-            neighbor_coords.x += map_width
-        elif neighbor_coords.x > max_x:
-            neighbor_coords.x -= map_width
-        
-        if neighbor_coords.y < min_y:
-            neighbor_coords.y += map_height
-        elif neighbor_coords.y > max_y:
-            neighbor_coords.y -= map_height
+#         attempts += 1
+#     for _seed in seed_cells:
+#         var seed_data = get_cell(_seed)
+#         seed_data.is_ocean = false
+#         seed_data.elevation = 5
+#         land_tiles.append(get_cell(_seed))
+#     return seed_cells
+
+
+# func raise_mountains(elevation_scale: int, seed_coordinates: Vector2i) -> Array:
+#     var mountain_range := []
+#     var start_direction : Direction = Direction.values()[randi() % Direction.size()]
+#     var start_coordinates := get_neighbor_coordinates(seed_coordinates, start_direction)
+#     mountain_range.append(get_cell(start_coordinates))
+#     for i in range(5, elevation_scale * (preset.MAP_SIZE / 1000.0) * 3):
+#         var direction_index := Direction.values().find(start_direction)
+#         var prev_direction : Direction = Direction.values()[(direction_index - 1 + Direction.size()) % Direction.size()]
+#         var next_direction : Direction = Direction.values()[(direction_index + 1) % Direction.size()]
+#         var direction : Direction
+#         if randf() < 0.5:
+#             direction = start_direction
+#         else:
+#             direction = [prev_direction, next_direction][randi() % 2]
+#         start_direction = direction
+#         var coordinates := get_neighbor_coordinates(start_coordinates, direction)
+#         var cell_data : CellData = get_cell(coordinates)
+#         cell_data.elevation = 5
+#         cell_data.is_ocean = false
+#         mountain_range.append(cell_data)
+#         start_coordinates = coordinates
     
-    return neighbor_coords
-
-## Checks if the given coordinates are valid within the world map.
-##
-## @param coords The coordinates to check.
-## @return True if the coordinates are valid, false otherwise.
-func is_valid_coordinates(coords: Vector2i) -> bool:
-    return coords.x >= min_x and coords.x <= max_x and coords.y >= min_y and coords.y <= max_y
-
-
-""" Landmass Generation Functions """
-func select_seed_cells(continent_count: int, min_distance: int) -> Array[Vector2i]:
-    var seed_cells: Array[Vector2i] = []
-    var attempts = 0
-    var max_attempts = 1000
-
-    while seed_cells.size() < continent_count and attempts < max_attempts:
-        var y_lat: float = randf_range(0.0, 60.0)
-        var y: int = calculate_y_from_latitude(y_lat)
-        if randf() < 0.5:
-            y = -y
-        var x: int = randi_range(min_x, max_x)
-        var coords: Vector2i = Vector2i(x, y)
-
-        var is_valid_seed = true
-        for _seed in seed_cells:
-            if axial_distance(coords, _seed) < min_distance:
-                is_valid_seed = false
-                break
-
-        if is_valid_seed:
-            seed_cells.append(coords)
-        
-        attempts += 1
-    for _seed in seed_cells:
-        var seed_data = get_cell(_seed)
-        seed_data.is_ocean = false
-        seed_data.elevation = 5
-        land_tiles.append(get_cell(_seed))
-    return seed_cells
+#     for cell in mountain_range.duplicate():
+#         var _neighbors_coords: Array[Vector2i] = get_neighbors_coords(cell.coordinates)
+#         for _neighbor_coord in _neighbors_coords:
+#             var _neighbor_cell_data = get_cell(_neighbor_coord)
+#             if _neighbor_cell_data.is_ocean:
+#                 _neighbor_cell_data.is_ocean = false
+#                 if randf() < 0.5:
+#                     _neighbor_cell_data.elevation = 4
+#                 else:
+#                     if randf() < 0.3:
+#                         _neighbor_cell_data.elevation = 5
+#                     else:
+#                         _neighbor_cell_data.elevation = 3
+#                 mountain_range.append(_neighbor_cell_data)
+#     return mountain_range
 
 
-func raise_mountains(elevation_scale: int, seed_coordinates: Vector2i) -> Array:
-    var mountain_range := []
-    var start_direction : Direction = Direction.values()[randi() % Direction.size()]
-    var start_coordinates := get_neighbor_coordinates(seed_coordinates, start_direction)
-    mountain_range.append(get_cell(start_coordinates))
-    for i in range(5, elevation_scale * (preset.MAP_SIZE / 1000.0) * 3):
-        var direction_index := Direction.values().find(start_direction)
-        var prev_direction : Direction = Direction.values()[(direction_index - 1 + Direction.size()) % Direction.size()]
-        var next_direction : Direction = Direction.values()[(direction_index + 1) % Direction.size()]
-        var direction : Direction
-        if randf() < 0.5:
-            direction = start_direction
-        else:
-            direction = [prev_direction, next_direction][randi() % 2]
-        start_direction = direction
-        var coordinates := get_neighbor_coordinates(start_coordinates, direction)
-        var cell_data : CellData = get_cell(coordinates)
-        cell_data.elevation = 5
-        cell_data.is_ocean = false
-        mountain_range.append(cell_data)
-        start_coordinates = coordinates
+# func create_noise_object() -> FastNoiseLite:
+#     var noise = FastNoiseLite.new()
+#     noise.noise_type = FastNoiseLite.TYPE_SIMPLEX
+#     noise.frequency = 0.1
+#     noise.fractal_octaves = 4
+#     noise.fractal_lacunarity = 10.0
+#     noise.fractal_gain = 0.6
+#     return noise
+
+# ## Expands the continents from the existing mountain ranges in a round-robin manner.
+# func expand_continents_non_threaded() -> void:
+#     var noise: FastNoiseLite = create_noise_object()
+#     var continent_queues: Dictionary = {}
     
-    for cell in mountain_range.duplicate():
-        var _neighbors_coords: Array[Vector2i] = get_all_neighbors(cell.coordinates)
-        for _neighbor_coord in _neighbors_coords:
-            var _neighbor_cell_data = get_cell(_neighbor_coord)
-            if _neighbor_cell_data.is_ocean:
-                _neighbor_cell_data.is_ocean = false
-                if randf() < 0.5:
-                    _neighbor_cell_data.elevation = 4
-                else:
-                    if randf() < 0.3:
-                        _neighbor_cell_data.elevation = 5
-                    else:
-                        _neighbor_cell_data.elevation = 3
-                mountain_range.append(_neighbor_cell_data)
-    return mountain_range
-
-
-func create_noise_object() -> FastNoiseLite:
-    var noise = FastNoiseLite.new()
-    noise.noise_type = FastNoiseLite.TYPE_SIMPLEX
-    noise.frequency = 0.1
-    noise.fractal_octaves = 4
-    noise.fractal_lacunarity = 10.0
-    noise.fractal_gain = 0.6
-    return noise
-
-## Expands the continents from the existing mountain ranges in a round-robin manner.
-func expand_continents_non_threaded() -> void:
-    var noise: FastNoiseLite = create_noise_object()
-    var continent_queues: Dictionary = {}
+#     # Initialize continent queues
+#     for continent_id in mountain_ranges:
+#         var queue = []
+#         continents[continent_id] = mountain_ranges[continent_id]
+#         for cell in mountain_ranges[continent_id]:
+#             queue.append(cell)
+#         continent_queues[continent_id] = queue
     
-    # Initialize continent queues
-    for continent_id in mountain_ranges:
-        var queue = []
-        continents[continent_id] = mountain_ranges[continent_id]
-        for cell in mountain_ranges[continent_id]:
-            queue.append(cell)
-        continent_queues[continent_id] = queue
+#     var target_land_cells: int = round(preset.LAND_COVERAGE_PERCENTAGE * cell_map.size())
     
-    var target_land_cells: int = round(preset.LAND_COVERAGE_PERCENTAGE * cell_map.size())
-    
-    while land_tiles.size() < target_land_cells - 10:
-        for continent_id in continent_queues:
-            var queue = continent_queues[continent_id]
-            if not queue.is_empty():
-                var cell = queue.pop_front()
+#     while land_tiles.size() < target_land_cells - 10:
+#         for continent_id in continent_queues:
+#             var queue = continent_queues[continent_id]
+#             if not queue.is_empty():
+#                 var cell = queue.pop_front()
                 
-                for neighbor in get_all_neighbors(cell.coordinates):
-                    var cell_data = get_cell(neighbor)
-                    if not cell_data.is_ocean or neighbor in land_tiles:
-                        continue
+#                 for neighbor in get_neighbors_coords(cell.coordinates):
+#                     var cell_data = get_cell(neighbor)
+#                     if not cell_data.is_ocean or neighbor in land_tiles:
+#                         continue
                     
-                    var elevation = noise.get_noise_2d(neighbor.x, neighbor.y)
-                    elevation = floor(remap(elevation, -1.0, 1.0, 1, 5))
+#                     var elevation = noise.get_noise_2d(neighbor.x, neighbor.y)
+#                     elevation = floor(remap(elevation, -1.0, 1.0, 1, 5))
                     
                     
-                    if elevation > 1:
-                        cell_data.is_ocean = false
-                        cell_data.elevation = elevation
+#                     if elevation > 1:
+#                         cell_data.is_ocean = false
+#                         cell_data.elevation = elevation
                     
-                        if not cell_data in land_tiles:
-                            land_tiles.append(cell_data)
-                            continents[continent_id].append(cell_data)
-                            queue.append(cell_data)
+#                         if not cell_data in land_tiles:
+#                             land_tiles.append(cell_data)
+#                             continents[continent_id].append(cell_data)
+#                             queue.append(cell_data)
     
-    print("Finished continent expansion")
+#     print("Finished continent expansion")
 
 # ## Expands the continents from the existing mountain ranges.
 # func expand_continents() -> void:
@@ -378,7 +334,7 @@ func expand_continents_non_threaded() -> void:
 #     while not queue.is_empty() and DataBus.land_tiles.size() < target_land_cells - 10:
 #         var cell = queue.pop_front()
         
-#         for neighbor in get_all_neighbors((cell.coordinates)):
+#         for neighbor in get_neighbors_coords((cell.coordinates)):
 #             var cell_data = get_cell(neighbor)
 #             if not get_cell(neighbor).is_ocean or neighbor in DataBus.land_tiles:
 #                 continue
@@ -404,60 +360,43 @@ func expand_continents_non_threaded() -> void:
 #     print("Thread %d: Finished continent expansion" % continent_id)
 
 
-func place_islands(island_count: int) -> void:
-    var _ocean_tiles = cell_map.values().filter(func(cell): return cell.is_ocean)
-    for i in range(island_count):
-        var attempts = 0
-        while attempts < 10:
-            var random_index = randi() % _ocean_tiles.size()
-            var cell = _ocean_tiles[random_index]
-            var valid := true
-            for n in get_all_neighbors(cell.coordinates):
-                var neighbor = get_cell(n)
-                if not neighbor.is_ocean:
-                    valid = false
-                    break
-            if not valid:
-                attempts += 1
-                continue
-            cell.elevation = 2 if randf() < 0.5 else 3
-            cell.is_ocean = false
-            islands[i] = [cell]
-            land_tiles.append(cell)
-            if randf() < 0.5:
-                var neighbors = get_all_neighbors(cell.coordinates)
-                neighbors.shuffle()
-                valid = true
-                var next_neighbor : Vector2i = neighbors.pop_back()
-                # for n in get_all_neighbors(next_neighbor):
+# func place_islands(island_count: int) -> void:
+#     var _ocean_tiles = cell_map.values().filter(func(cell): return cell.is_ocean)
+#     for i in range(island_count):
+#         var attempts = 0
+#         while attempts < 10:
+#             var random_index = randi() % _ocean_tiles.size()
+#             var cell = _ocean_tiles[random_index]
+#             var valid := true
+#             for n in get_neighbors_coords(cell.coordinates):
+#                 var neighbor = get_cell(n)
+#                 if not neighbor.is_ocean:
+#                     valid = false
+#                     break
+#             if not valid:
+#                 attempts += 1
+#                 continue
+#             cell.elevation = 2 if randf() < 0.5 else 3
+#             cell.is_ocean = false
+#             islands[i] = [cell]
+#             land_tiles.append(cell)
+#             if randf() < 0.5:
+#                 var neighbors = get_neighbors_coords(cell.coordinates)
+#                 neighbors.shuffle()
+#                 valid = true
+#                 var next_neighbor : Vector2i = neighbors.pop_back()
+#                 # for n in get_neighbors_coords(next_neighbor):
 
-                #     var neighbor = get_cell(n)
-                #     if not neighbor.is_ocean:
-                #         valid = false
-                # if valid:
-                var next_neighbor_data: CellData = get_cell(next_neighbor)
-                next_neighbor_data.elevation = 2 if randf() < 0.5 else 3
-                next_neighbor_data.is_ocean = false
-                islands[i].append(next_neighbor_data)
-                land_tiles.append(next_neighbor_data)
+#                 #     var neighbor = get_cell(n)
+#                 #     if not neighbor.is_ocean:
+#                 #         valid = false
+#                 # if valid:
+#                 var next_neighbor_data: CellData = get_cell(next_neighbor)
+#                 next_neighbor_data.elevation = 2 if randf() < 0.5 else 3
+#                 next_neighbor_data.is_ocean = false
+#                 islands[i].append(next_neighbor_data)
+#                 land_tiles.append(next_neighbor_data)
             
-            break
-        if attempts == 10:
-            push_error("Failed to find a valid ocean tile for island after 10 attempts.")
-
-## Calculates the distance between two coordinates using axial coordinates.
-##
-## @param a The first coordinate.
-## @param b The second coordinate.
-## @return The distance between the two coordinates.
-func axial_distance(a: Vector2i, b: Vector2i) -> int:
-    var vec = axial_subtract(a, b)
-    return (abs(vec.x) + abs(vec.x + vec.y) + abs(vec.y)) / 2
-
-## Subtracts two axial coordinates.
-##
-## @param a The first coordinate.
-## @param b The second coordinate.
-## @return The difference between the two coordinates.
-func axial_subtract(a: Vector2i, b: Vector2i) -> Vector2i:
-    return Vector2i(a.x - b.x, a.y - b.y)
+#             break
+#         if attempts == 10:
+#             push_error("Failed to find a valid ocean tile for island after 10 attempts.")

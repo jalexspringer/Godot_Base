@@ -16,6 +16,10 @@ var coordinates: Vector2i
 var latitude: float
 var longitude: float
 var node: Node2D
+var hemisphere: int # -1 = North, 0 = Equator, 1 = South
 
-func _init(_coordinates: Vector2i) -> void:
+
+func _init(_coordinates: Vector3i) -> void:
 	coordinates = Vector2i(_coordinates.x, _coordinates.y)
+	hemisphere = _coordinates.z
+

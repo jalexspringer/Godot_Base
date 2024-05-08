@@ -3,6 +3,7 @@ class_name MainUI
 
 @onready var tile_name_label: Label = %TileLabel
 @onready var coords_label: Label = %CoordinatesValue
+@onready var hemisphere_label: Label = %HemisphereValue
 @onready var latitude_label: Label = %LatitudeValue
 @onready var longitude_label: Label = %LongitudeValue
 @onready var climate_zone_label: Label = %ClimateZoneValue
@@ -16,9 +17,11 @@ class_name MainUI
 @onready var debug_panel: Panel = %DebugPanel
 
 func update_tile_info_panel(hex: CellData) -> void:
+	print(hex)
 	var hex_coordinates = str(hex.coordinates)
 	tile_name_label.text = str(hex_coordinates)
 	coords_label.text = str(hex_coordinates)
+	hemisphere_label.text = str(hex.hemisphere)
 	latitude_label.text = str(hex.latitude)
 	longitude_label.text = str(hex.longitude)
 	#climate_zone_label.text = str(hex.climate_zone.zone_type)

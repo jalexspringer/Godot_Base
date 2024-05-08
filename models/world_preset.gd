@@ -25,15 +25,15 @@ enum MapSize {
 	EXTRA_LARGE = 15000
 }
 
-@export var MAP_SIZE: int = MapSize.MEDIUM
-@export_range(0, 10) var LANDMASS_COUNT: int = 8
-@export_range(0, 100) var ISLAND_COUNT: int = 12
+@export var MAP_SIZE: int = MapSize.LARGE
+@export_range(0, 10) var LANDMASS_COUNT: int = 5
+@export_range(0, 100) var ISLAND_COUNT: int = 5
 
 # These gaps are in degrees latitude
 @export_range(0.0, 89.0) var NORTH_POLE_GAP: float = 0.0
 @export_range(0.0, 89.0) var SOUTH_POLE_GAP: float = 0.0
 
-@export_range(0.0, 1.0) var LAND_COVERAGE_PERCENTAGE: float = 0.35
+@export_range(0.0, 1.0) var LAND_COVERAGE_PERCENTAGE: float = 0.45
 @export_range(0.0, 1.0) var LAND_GROWTH_RANDOMNESS: float = 0.15
 
 @export_range(1, 5) var MIN_ELEVATION: int = 1
