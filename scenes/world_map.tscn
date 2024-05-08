@@ -19,26 +19,10 @@ mouse_filter = 2
 
 [node name="TileMapContainer" type="Node2D" parent="."]
 
-[node name="NorthLayer" type="TileMapLayer" parent="TileMapContainer"]
+[node name="BaseLayer" type="TileMapLayer" parent="TileMapContainer"]
 unique_name_in_owner = true
-z_index = -2
 position = Vector2(-41, -43)
-tile_set = ExtResource("4_nogkp")
-script = ExtResource("5_lmqer")
-hemisphere = -1
-
-[node name="SouthLayer" type="TileMapLayer" parent="TileMapContainer"]
-unique_name_in_owner = true
-z_index = -2
-position = Vector2(-41, -43)
-tile_set = ExtResource("4_nogkp")
-script = ExtResource("5_lmqer")
-hemisphere = 1
-
-[node name="EquatorLayer" type="TileMapLayer" parent="TileMapContainer"]
-unique_name_in_owner = true
-z_index = -2
-position = Vector2(-41, -43)
+scale = Vector2(1, 1)
 tile_set = ExtResource("4_nogkp")
 script = ExtResource("5_lmqer")
 
@@ -47,6 +31,3 @@ unique_name_in_owner = true
 ignore_rotation = false
 rotation_smoothing_enabled = true
 script = ExtResource("2_gsyc4")
-
-[connection signal="hex_clicked" from="TileMapContainer/NorthLayer" to="." method="_on_hex_clicked"]
-[connection signal="hex_clicked" from="TileMapContainer/SouthLayer" to="." method="_on_hex_clicked"]

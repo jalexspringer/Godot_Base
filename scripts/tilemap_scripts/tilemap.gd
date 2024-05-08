@@ -49,7 +49,7 @@ func draw_hexmap(cell_array: Array) -> void:
         #         tilemap.set_cell(coords, atlas_id, fill_atlas_coords, HexAlternativeID.MAGENTA)
 
 ## Clickable events and other interactions
-func _input(event):
+func _unhandled_input(event: InputEvent) -> void:
     if event is InputEventMouseButton:
         if event.button_index == MOUSE_BUTTON_LEFT and event.is_pressed():
             var global_clicked = get_global_mouse_position()

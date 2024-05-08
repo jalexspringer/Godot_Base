@@ -13,41 +13,25 @@ var islands: Dictionary = {}
 ## A dictionary of mountain ranges, where the keys are mountain range IDs and the values are the corresponding mountain range objects.
 var mountain_ranges: Dictionary = {}
 
-var world_radius: int
-var preset: WorldPreset
+var map_width: int
+var map_height: int
 var cell_map: Dictionary = {}
-
-var hemisphere_radius: int
-var direction_vectors = [  # Starts at E and proceeds clockwise
-    Vector2i(1, -1), Vector2i(1, 0), Vector2i(0, 1), 
-    Vector2i(-1, 0), Vector2i(-1, 1), Vector2i(0, -1), 
+var direction_vectors = [
+    Vector2i(1, 0),   # E
+    Vector2i(1, 1),   # SE
+    Vector2i(0, 1),   # S
+    Vector2i(-1, 1),  # SW
+    Vector2i(-1, 0),  # W
+    Vector2i(0, -1),  # N
 ]
 
 ## Enum representing the six directions in axial coordinates.
-enum Direction {
-    E,
-    SE,
-    SW,
-    W,
-    NW,
-    NE
-}
+enum Direction { E, SE, S, SW, W, N }
 
-func _init(_preset: WorldPreset) -> void:
-    preset = _preset
-    print("Initializing world with preset: ", preset)
-    world_radius = 6
-    create_hemisphere(world_radius, -1)
-    create_hemisphere(world_radius, 1)
-
-func northern_hemisphere_cells() -> Array:
-    return cell_map.values().filter(func(cell): return cell.hemisphere == 1)
-
-func southern_hemisphere_cells() -> Array:
-    return cell_map.values().filter(func(cell): return cell.hemisphere == -1)
-
-func equator_cells() -> Array:
-    return cell_map.values().filter(func(cell): return cell.hemisphere == 0)
+func _init(preset: WorldPreset) -> void:
+    map_width = sqrt(preset.MAP_SIZE) * 2
+    map_height = sqrt(preset.MAP_SIZE)
+    create_map()
 
 func axial_to_cube(axial: Vector2i) -> Vector3i:
     return Vector3i(axial.x, axial.y, -axial.x - axial.y)
@@ -55,47 +39,61 @@ func axial_to_cube(axial: Vector2i) -> Vector3i:
 func cube_to_axial(cube: Vector3i) -> Vector2i:
     return Vector2i(cube.x, cube.y)
 
-func get_cell(coords: Vector2i, hemisphere: int) -> CellData:
-    var full_coords := Vector3i(coords.x, coords.y, hemisphere)
-    if full_coords in cell_map.keys():
-        return cell_map[full_coords]
+func get_world_cell(coords: Vector2i) -> CellData:
+    var wrapped_coords := wrap_coordinates(coords)
+    if wrapped_coords in cell_map:
+        return cell_map[wrapped_coords]
     else:
-        print("Function calling invalid coordinates: ", coords)
+        print("Function calling invalid coordinates: %s" % [wrapped_coords])
         return null
 
-func create_hemisphere(radius: int, hemisphere: int) -> void:
-    for q in range(-radius, radius + 1):
-        for r in range(max(-radius, -q - radius), min(radius + 1, -q + radius + 1)):
-            var coords := Vector3i(q, r, hemisphere)
-            if is_edge_cell(Vector2i(q, r), radius):
-                coords.z = 0
-            var new_cell : CellData = create_cell(coords)
-            if coords.x == 0 and coords.y == 0:
-                new_cell.is_pole = true
+func create_map() -> void:
+    var half_width = floor(map_width / 2.0)
+    var half_height = floor(map_height / 2.0)
+
+    for r in range(-half_height, half_height + 1):
+        var r_offset = floor(r / 2.0)
+        for q in range(-half_width - r_offset, half_width - r_offset + 1):
+            var coords := Vector2i(q, r)
+            var new_cell := create_cell(coords)
             cell_map[coords] = new_cell
 
-func is_edge_cell(coords: Vector2i, radius: int) -> bool:
-    var distance_from_center = max(abs(coords.x), max(abs(coords.y), abs(-coords.x-coords.y)))
-    return distance_from_center == radius
-
-func create_cell(coords: Vector3i) -> CellData:
+func create_cell(coords: Vector2i) -> CellData:
     var cell_data = CellData.new(coords)
     return cell_data
 
-func get_neighbors(coords:Vector3i) -> Array:
+func get_neighbors(coords: Vector2i) -> Array:
     var neighbors := []
-    var hemi := coords.z
-    if hemi == 0:
-        print("EQUATOR")
-    else:
-        if is_edge_cell(Vector2i(coords.x, coords.y), world_radius-1):
-            print("EDGE: ", hemi)
-        else:
-            for direction in direction_vectors:
-                var neighbor_coords := Vector3i(coords.x + direction.x, coords.y + direction.y, coords.z)
-                neighbors.append(neighbor_coords)
-                print(neighbor_coords)
+    
+    for direction in direction_vectors:
+        var neighbor_coords = coords + direction
+        neighbor_coords = wrap_coordinates(neighbor_coords)
+        if neighbor_coords in cell_map:
+            neighbors.append(neighbor_coords)
+    
     return neighbors
+
+func wrap_coordinates(coords: Vector2i) -> Vector2i:
+    var wrapped_coords := coords
+
+    # East-west wraparound
+    if coords.x < -floor(map_width / 2.0):
+        wrapped_coords.x += map_width
+    elif coords.x > floor(map_width / 2.0):
+        wrapped_coords.x -= map_width
+
+    # North-south reflection
+    if coords.y < -floor(map_height / 2.0):
+        wrapped_coords = reflect_r(wrapped_coords)
+    elif coords.y > floor(map_height / 2.0):
+        wrapped_coords = reflect_r(wrapped_coords)
+
+    return wrapped_coords
+
+func reflect_r(coords: Vector2i) -> Vector2i:
+    var cube := axial_to_cube(coords)
+    var reflected_cube := Vector3i(cube.y, cube.z, cube.x)
+    return cube_to_axial(reflected_cube)
 
 
     # print("Selecting seed cells...")
@@ -130,37 +128,37 @@ func get_neighbors(coords:Vector3i) -> Array:
     # print("Ocean tiles assigned: ", ocean_tiles.size())
     
 
-## Calculates the latitude of the given coordinates.
-##
-## @param coords The coordinates to calculate the latitude for.
-## @return The latitude of the coordinates in degrees.
-func calculate_latitude(coords: Vector2i) -> float:
-    var total_height = hemisphere_radius
-    var relative_y = abs(coords.y)
-    var latitude = (relative_y / float(total_height)) * 180.0 - 90.0
-    return latitude
+# ## Calculates the latitude of the given coordinates.
+# ##
+# ## @param coords The coordinates to calculate the latitude for.
+# ## @return The latitude of the coordinates in degrees.
+# func calculate_latitude(coords: Vector2i) -> float:
+#     var total_height = hemisphere_radius
+#     var relative_y = abs(coords.y)
+#     var latitude = (relative_y / float(total_height)) * 180.0 - 90.0
+#     return latitude
 
-## Calculates the y-coordinate for the given latitude.
-##
-## @param latitude The latitude in degrees.
-## @return The y-coordinate corresponding to the latitude.
-func calculate_y_from_latitude(latitude: float) -> int:
-    var total_height = hemisphere_radius
-    var relative_latitude = latitude + 90.0
-    var y = int((relative_latitude / 180.0) * total_height)
-    return y
+# ## Calculates the y-coordinate for the given latitude.
+# ##
+# ## @param latitude The latitude in degrees.
+# ## @return The y-coordinate corresponding to the latitude.
+# func calculate_y_from_latitude(latitude: float) -> int:
+#     var total_height = hemisphere_radius
+#     var relative_latitude = latitude + 90.0
+#     var y = int((relative_latitude / 180.0) * total_height)
+#     return y
 
-## Calculates the base temperature for the given latitude.
-##
-## @param latitude The latitude in degrees.
-## @return The base temperature in degrees Celsius.
-## TODO : Incorporate tilt and solar insolation : https://www.pveducation.org/pvcdrom/properties-of-sunlight/solar-radiation-on-a-tilted-surface
-func calculate_base_temp(latitude: float) -> float:
-    var temp_range = 30.0  # Assuming a temperature range of 60 degrees Celsius
-    var temp_offset = preset.AVERAGE_TEMP - temp_range / 2.0
-    var temp_factor = cos(deg_to_rad(latitude))
-    var base_temp = temp_offset + temp_range * temp_factor
-    return base_temp
+# ## Calculates the base temperature for the given latitude.
+# ##
+# ## @param latitude The latitude in degrees.
+# ## @return The base temperature in degrees Celsius.
+# ## TODO : Incorporate tilt and solar insolation : https://www.pveducation.org/pvcdrom/properties-of-sunlight/solar-radiation-on-a-tilted-surface
+# func calculate_base_temp(latitude: float) -> float:
+#     var temp_range = 30.0  # Assuming a temperature range of 60 degrees Celsius
+#     var temp_offset = preset.AVERAGE_TEMP - temp_range / 2.0
+#     var temp_factor = cos(deg_to_rad(latitude))
+#     var base_temp = temp_offset + temp_range * temp_factor
+#     return base_temp
 
 ## Calculates the distance between two coordinates using axial coordinates.
 ##

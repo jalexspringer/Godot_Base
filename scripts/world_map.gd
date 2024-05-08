@@ -2,9 +2,7 @@ extends Node2D
 
 @onready var UI: MainUI = %MainUI
 @onready var camera : Camera2D = %Camera2D
-@onready var north_layer: TileMapLayer = $"%NorthLayer"
-@onready var south_layer: TileMapLayer = $"%SouthLayer"
-@onready var equator_layer: TileMapLayer = $"%EquatorLayer"
+@onready var base_layer: TileMapLayer = $"%BaseLayer"
 
 var duplicate_tilemaps: Array = []
 
@@ -17,22 +15,16 @@ func _ready() -> void:
     print("Hexmap generated - size: %s" % DataBus.WORLD.cell_map.size())
     draw_hexmaps()
 
-
-
 func draw_hexmaps() -> void:
-    north_layer.draw_hexmap(DataBus.WORLD.northern_hemisphere_cells(), 1)
-    south_layer.draw_hexmap(DataBus.WORLD.southern_hemisphere_cells(), -1)
-    equator_layer.draw_hexmap(DataBus.WORLD.equator_cells(), 0)
-
+    base_layer.draw_hexmap(DataBus.WORLD.cell_map.values(), 0)
 
 func set_camera_limits() -> void:
     pass
 
+func _on_hex_clicked(coords: Vector2i) -> void:
+    print(DataBus.WORLD.get_neighbors(coords))
+    UI.update_tile_info_panel(DataBus.WORLD.get_world_cell(coords))
 
-func _on_hex_clicked(coords: Vector2i, hemisphere: int) -> void:
-    print("Tile clicked: %s" % coords)
-    #print(DataBus.WORLD.get_neighbors(coords))
-    UI.update_tile_info_panel(DataBus.WORLD.get_cell(coords, hemisphere))
 
 
 # func _ready() -> void:
