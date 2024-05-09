@@ -19,14 +19,14 @@ class_name WorldPreset
 @export_range(0.01, 1.0) var GREENHOUSE_GAS: float = 0.1 # Percentage of atmosphere made up of greenhouse gases
 
 enum MapSize {
-	SMALL = 4000,
-	MEDIUM = 5000,
-	LARGE = 10000,
-	EXTRA_LARGE = 15000
+	SMALL = 40000,
+	MEDIUM = 50000,
+	LARGE = 100000,
+	EXTRA_LARGE = 150000
 }
 
-@export var MAP_SIZE: int = MapSize.SMALL
-@export_range(0, 10) var LANDMASS_COUNT: int = 5
+@export var MAP_SIZE: int = MapSize.EXTRA_LARGE
+@export_range(0, 10) var LANDMASS_COUNT: int = 10
 @export_range(0, 100) var ISLAND_COUNT: int = 5
 
 # These gaps are in degrees latitude
