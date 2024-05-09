@@ -17,7 +17,7 @@ class_name MainUI
 @onready var debug_panel: Panel = %DebugPanel
 
 func update_tile_info_panel(hex: CellData) -> void:
-	print(hex)
+	print(hex.coordinates)
 	var hex_coordinates = str(hex.coordinates)
 	tile_name_label.text = str(hex_coordinates)
 	coords_label.text = str(hex_coordinates)

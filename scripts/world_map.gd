@@ -10,20 +10,21 @@ func _ready() -> void:
     var preset: WorldPreset = WorldPreset.new()
     DataBus.WORLD = World.new(preset)
     DataBus.WORLD.base_tilemap = base_layer
-
+    DataBus.WORLD.world_generate()
     var cell_map = DataBus.WORLD.cell_map
 
     print("Hexmap generated - size: %s" % DataBus.WORLD.cell_map.size())
     draw_hexmaps()
 
 func draw_hexmaps() -> void:
-    base_layer.draw_hexmap(DataBus.WORLD.cell_map.values())
+    base_layer.draw_hexmap(DataBus.WORLD.cell_map)
 
 func set_camera_limits() -> void:
     pass
 
 func _on_hex_clicked(coords: Vector2i) -> void:
     print("Clicked on %s" % coords)
+    print("Neighbors: ", DataBus.WORLD.get_all_neighbors(coords))
     UI.update_tile_info_panel(DataBus.WORLD.get_world_cell(coords))
 
 

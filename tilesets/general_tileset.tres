@@ -1,5 +1,6 @@
-[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://cdalqaj02wdqv"]
+[gd_resource type="TileSet" load_steps=5 format=3 uid="uid://cdalqaj02wdqv"]
 
+[ext_resource type="Texture2D" uid="uid://wpak6dswv4n7" path="res://assets/pointy_squared_hex.png" id="2_04uij"]
 [ext_resource type="Texture2D" uid="uid://bdlynuts8kjtj" path="res://assets/tiles/pointyhexes.png" id="4_ijtlr"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tc4ch"]
@@ -45,11 +46,55 @@ texture_region_size = Vector2i(84, 88)
 2:0/8 = 8
 2:0/8/modulate = Color(0.137255, 0.14902, 0.168627, 1)
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cxs3k"]
+texture = ExtResource("2_04uij")
+texture_region_size = Vector2i(87, 100)
+0:0/next_alternative_id = 9
+0:0/0 = 0
+0:0/1 = 1
+0:0/1/modulate = Color(0.290196, 0.592157, 0.694118, 1)
+0:0/2 = 2
+0:0/2/modulate = Color(0.329412, 0.482353, 0.337255, 1)
+0:0/3 = 3
+0:0/3/modulate = Color(0.92549, 0.67451, 0.168627, 1)
+0:0/4 = 4
+0:0/4/modulate = Color(0.760784, 0.380392, 0.164706, 1)
+0:0/5 = 5
+0:0/5/modulate = Color(0.376471, 0.133333, 0.0862745, 1)
+0:0/6 = 6
+0:0/6/modulate = Color(0.929412, 0.258824, 0.258824, 1)
+0:0/7 = 7
+0:0/7/modulate = Color(0.564706, 0.160784, 0.596078, 1)
+0:0/8 = 8
+0:0/8/modulate = Color(0.137255, 0.14902, 0.168627, 1)
+1:0/next_alternative_id = 9
+1:0/0 = 0
+1:0/1 = 1
+1:0/1/modulate = Color(0.290196, 0.592157, 0.694118, 1)
+1:0/2 = 2
+1:0/2/modulate = Color(0.329412, 0.482353, 0.337255, 1)
+1:0/3 = 3
+1:0/3/modulate = Color(0.92549, 0.67451, 0.168627, 1)
+1:0/4 = 4
+1:0/4/modulate = Color(0.760784, 0.380392, 0.164706, 1)
+1:0/5 = 5
+1:0/5/modulate = Color(0.376471, 0.133333, 0.0862745, 1)
+1:0/6 = 6
+1:0/6/modulate = Color(0.929412, 0.258824, 0.258824, 1)
+1:0/7 = 7
+1:0/7/modulate = Color(0.564706, 0.160784, 0.596078, 1)
+1:0/8 = 8
+1:0/8/modulate = Color(0.137255, 0.14902, 0.168627, 1)
+2:0/next_alternative_id = 2
+2:0/0 = 0
+2:0/1 = 1
+
 [resource]
 tile_shape = 3
 tile_layout = 2
-tile_size = Vector2i(82, 86)
+tile_size = Vector2i(86, 99)
 custom_data_layer_0/name = "hexdata"
 custom_data_layer_0/type = 0
 sources/0 = SubResource("TileSetAtlasSource_tc4ch")
-tile_proxies/coords_level = [[1, Vector2i(0, 0)], [4, Vector2i(0, 0)], [2, Vector2i(0, 0)], [4, Vector2i(1, 0)], [3, Vector2i(0, 0)], [4, Vector2i(2, 0)], [4, Vector2i(0, 0)], [7, Vector2i(0, 0)], [5, Vector2i(0, 0)], [7, Vector2i(1, 0)], [6, Vector2i(0, 0)], [7, Vector2i(2, 0)], [8, Vector2i(0, 0)], [11, Vector2i(0, 0)], [9, Vector2i(0, 0)], [11, Vector2i(1, 0)], [10, Vector2i(0, 0)], [11, Vector2i(2, 0)]]
+sources/5 = SubResource("TileSetAtlasSource_cxs3k")
+tile_proxies/coords_level = [[1, Vector2i(0, 0)], [4, Vector2i(0, 0)], [2, Vector2i(0, 0)], [5, Vector2i(0, 0)], [3, Vector2i(0, 0)], [5, Vector2i(1, 0)], [4, Vector2i(0, 0)], [5, Vector2i(2, 0)], [5, Vector2i(0, 0)], [7, Vector2i(1, 0)], [6, Vector2i(0, 0)], [7, Vector2i(2, 0)], [8, Vector2i(0, 0)], [11, Vector2i(0, 0)], [9, Vector2i(0, 0)], [11, Vector2i(1, 0)], [10, Vector2i(0, 0)], [11, Vector2i(2, 0)]]

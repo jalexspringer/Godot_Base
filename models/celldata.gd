@@ -11,6 +11,7 @@ class_name CellData
 @export var is_ocean: bool = true
 @export var is_volcano: bool = false
 var is_pole: bool = false
+var is_meridian: bool = false
 
 var coordinates: Vector2i
 var latitude: float
