@@ -25,9 +25,12 @@ position = Vector2(-41, -43)
 scale = Vector2(1, 1)
 tile_set = ExtResource("4_nogkp")
 script = ExtResource("5_lmqer")
+layer_name = "Base"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 unique_name_in_owner = true
 ignore_rotation = false
 rotation_smoothing_enabled = true
 script = ExtResource("2_gsyc4")
+
+[connection signal="hex_clicked" from="TileMapContainer/BaseLayer" to="." method="_on_hex_clicked"]

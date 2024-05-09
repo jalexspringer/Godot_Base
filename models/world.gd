@@ -13,94 +13,72 @@ var islands: Dictionary = {}
 ## A dictionary of mountain ranges, where the keys are mountain range IDs and the values are the corresponding mountain range objects.
 var mountain_ranges: Dictionary = {}
 
-var map_width: int
-var map_height: int
 var cell_map: Dictionary = {}
+var edge_cells : Array = []
 var direction_vectors = [
     Vector2i(1, 0),   # E
-    Vector2i(1, 1),   # SE
-    Vector2i(0, 1),   # S
+    Vector2i(0, 1),   # SE
     Vector2i(-1, 1),  # SW
     Vector2i(-1, 0),  # W
-    Vector2i(0, -1),  # N
+    Vector2i(-1, -1), # NW
+    Vector2i(0, -1),  # NE
 ]
 
-## Enum representing the six directions in axial coordinates.
-enum Direction { E, SE, S, SW, W, N }
+var base_tilemap : TileMapLayer
 
 func _init(preset: WorldPreset) -> void:
-    map_width = sqrt(preset.MAP_SIZE) * 2
-    map_height = sqrt(preset.MAP_SIZE)
-    create_map()
-
-func axial_to_cube(axial: Vector2i) -> Vector3i:
-    return Vector3i(axial.x, axial.y, -axial.x - axial.y)
-
-func cube_to_axial(cube: Vector3i) -> Vector2i:
-    return Vector2i(cube.x, cube.y)
-
-func get_world_cell(coords: Vector2i) -> CellData:
-    var wrapped_coords := wrap_coordinates(coords)
-    if wrapped_coords in cell_map:
-        return cell_map[wrapped_coords]
-    else:
-        print("Function calling invalid coordinates: %s" % [wrapped_coords])
-        return null
-
-func create_map() -> void:
-    var half_width = floor(map_width / 2.0)
-    var half_height = floor(map_height / 2.0)
-
-    for r in range(-half_height, half_height + 1):
-        var r_offset = floor(r / 2.0)
-        for q in range(-half_width - r_offset, half_width - r_offset + 1):
-            var coords := Vector2i(q, r)
-            var new_cell := create_cell(coords)
-            cell_map[coords] = new_cell
-
-func create_cell(coords: Vector2i) -> CellData:
-    var cell_data = CellData.new(coords)
-    return cell_data
-
-func get_neighbors(coords: Vector2i) -> Array:
-    var neighbors := []
-    
-    for direction in direction_vectors:
-        var neighbor_coords = coords + direction
-        neighbor_coords = wrap_coordinates(neighbor_coords)
-        if neighbor_coords in cell_map:
-            neighbors.append(neighbor_coords)
-    
-    return neighbors
-
-func wrap_coordinates(coords: Vector2i) -> Vector2i:
-    var wrapped_coords := coords
-
-    # East-west wraparound
-    if coords.x < -floor(map_width / 2.0):
-        wrapped_coords.x += map_width
-    elif coords.x > floor(map_width / 2.0):
-        wrapped_coords.x -= map_width
-
-    # North-south reflection
-    if coords.y < -floor(map_height / 2.0):
-        wrapped_coords = reflect_r(wrapped_coords)
-    elif coords.y > floor(map_height / 2.0):
-        wrapped_coords = reflect_r(wrapped_coords)
-
-    return wrapped_coords
-
-func reflect_r(coords: Vector2i) -> Vector2i:
-    var cube := axial_to_cube(coords)
-    var reflected_cube := Vector3i(cube.y, cube.z, cube.x)
-    return cube_to_axial(reflected_cube)
-
-
+    var map_radius = 6#sqrt(preset.MAP_SIZE / (2 * PI))
+    create_map(map_radius, -map_radius)
+    create_map(map_radius, map_radius)
     # print("Selecting seed cells...")
     # var seed_cells: Array[Vector2i] = select_seed_cells(preset.LANDMASS_COUNT, max_x - int(max_x / 5.0) )
     # var range_count: int = seed_cells.size()
     # print("Seed cells selected: ", seed_cells)
     
+
+func create_map(radius: int, offset: int) -> void:
+    for q in range(-radius, radius + 1):
+        var r_min = max(-radius, -q - radius)
+        var r_max = min(radius, -q + radius)
+        for r in range(r_min, r_max + 1):
+            var hex_key := Vector2i(q + offset, r)
+            var new_cell: CellData = create_cell(hex_key)
+            new_cell.latitude = calculate_latitude(hex_key.y, radius)
+            cell_map[hex_key] = new_cell
+            
+            if abs(q) == radius or abs(r) == radius or abs(q + r) == radius:
+                edge_cells.append(hex_key)
+    
+func reflect_q(coords: Vector2i) -> Vector2i:
+    return Vector2i(-coords.x-coords.y, coords.y)
+
+func create_cell(coords: Vector2i) -> CellData:
+    var cell_data = CellData.new(coords)
+    return cell_data
+
+func get_world_cell(coords:Vector2i) -> CellData:
+    return cell_map[coords]
+
+func get_all_neighbors(coords: Vector2i) -> Array:
+    var reflection = reflect_q(coords)
+    var neighbors : Array = base_tilemap.get_surrounding_cells(coords)
+    var reflection_neighbors: Array = base_tilemap.get_surrounding_cells(reflection)
+    var ret_array := []
+    for i in range(neighbors.size()):
+        if neighbors[i] in cell_map.keys():
+            ret_array.append(neighbors[i])
+        else:
+            ret_array.append(reflection_neighbors[i])
+    return ret_array
+
+func calculate_latitude(y_coord: int, radius: int) -> float:
+    var relative_y = abs(y_coord)
+    var latitude = (relative_y / float(radius)) * 90.0
+    if y_coord < 0:
+        latitude = -latitude
+    return latitude
+
+
     # print("Raising mountains...")
     # for seed_cell in seed_cells:
     #     mountain_ranges[range_count] = raise_mountains(preset.ELEVATION_CHANGE, seed_cell)
@@ -128,15 +106,7 @@ func reflect_r(coords: Vector2i) -> Vector2i:
     # print("Ocean tiles assigned: ", ocean_tiles.size())
     
 
-# ## Calculates the latitude of the given coordinates.
-# ##
-# ## @param coords The coordinates to calculate the latitude for.
-# ## @return The latitude of the coordinates in degrees.
-# func calculate_latitude(coords: Vector2i) -> float:
-#     var total_height = hemisphere_radius
-#     var relative_y = abs(coords.y)
-#     var latitude = (relative_y / float(total_height)) * 180.0 - 90.0
-#     return latitude
+
 
 # ## Calculates the y-coordinate for the given latitude.
 # ##

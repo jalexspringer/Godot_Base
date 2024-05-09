@@ -47,7 +47,7 @@ texture_region_size = Vector2i(84, 88)
 
 [resource]
 tile_shape = 3
-tile_layout = 5
+tile_layout = 2
 tile_size = Vector2i(82, 86)
 custom_data_layer_0/name = "hexdata"
 custom_data_layer_0/type = 0

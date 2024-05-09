@@ -1,6 +1,6 @@
 extends TileMapLayer
 
-@export var hemisphere: int = 0
+@export var layer_name: String = ""
 
 var atlas_id: int = 0
 var fill_atlas_coords: Vector2i = Vector2i(2, 0)
@@ -20,18 +20,13 @@ enum HexAlternativeID {
     BLACK = 8,  # 902998
 }
 
-signal hex_clicked(hex: Vector2i, cell: CellData)
+signal hex_clicked(coords: Vector2i)
 
-func draw_hexmap(cell_array: Array, hemisphere: int) -> void:
+func draw_hexmap(cell_array: Array) -> void:
     for cell in cell_array:
         var coords = cell.coordinates
         var color : HexAlternativeID = HexAlternativeID.BLACK
-        if hemisphere == -1:
-            color = HexAlternativeID.BLACK
-        elif hemisphere == 0:
-            color = HexAlternativeID.BLUE
-        else:
-            color = HexAlternativeID.GREEN
+        color = HexAlternativeID.BLACK
         if coords == DataBus.selected_cell_coordinates:
             set_cell(coords, atlas_id, outline_atlas_coords, HexAlternativeID.RED)
         else:
@@ -61,8 +56,11 @@ func _input(event):
         if event.button_index == MOUSE_BUTTON_LEFT and event.is_pressed():
             var global_clicked = get_global_mouse_position()
             var pos_clicked = to_local(global_clicked)
-            var clicked_coords = local_to_map(pos_clicked)
-            DataBus.selected_cell_coordinates = clicked_coords
-            hex_clicked.emit(clicked_coords, hemisphere)
-            # draw_hexmap(DataBus.WORLD.cell_map.values(), 0)
+            var clicked_coords : Vector2i = local_to_map(pos_clicked)
+            if clicked_coords in DataBus.WORLD.cell_map.keys():
+                print("Clicked in TML: ", clicked_coords)
+                DataBus.selected_cell_coordinates = clicked_coords
+                hex_clicked.emit(clicked_coords)
+            else:
+                print("Clicked out of map.")
 

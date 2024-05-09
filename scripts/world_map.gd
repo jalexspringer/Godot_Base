@@ -9,6 +9,7 @@ var duplicate_tilemaps: Array = []
 func _ready() -> void:
     var preset: WorldPreset = WorldPreset.new()
     DataBus.WORLD = World.new(preset)
+    DataBus.WORLD.base_tilemap = base_layer
 
     var cell_map = DataBus.WORLD.cell_map
 
@@ -16,13 +17,13 @@ func _ready() -> void:
     draw_hexmaps()
 
 func draw_hexmaps() -> void:
-    base_layer.draw_hexmap(DataBus.WORLD.cell_map.values(), 0)
+    base_layer.draw_hexmap(DataBus.WORLD.cell_map.values())
 
 func set_camera_limits() -> void:
     pass
 
 func _on_hex_clicked(coords: Vector2i) -> void:
-    print(DataBus.WORLD.get_neighbors(coords))
+    print("Clicked on %s" % coords)
     UI.update_tile_info_panel(DataBus.WORLD.get_world_cell(coords))
 
 
