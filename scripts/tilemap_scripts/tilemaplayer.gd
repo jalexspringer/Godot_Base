@@ -20,7 +20,30 @@ enum HexAlternativeID {
     BLACK = 8,  # 902998
 }
 
-signal hex_clicked(coords: Vector2i)
+
+var wind_direction_altas_id : int = 1
+var wind_direction_atlas_coords : Vector2i = Vector2i(0,0)
+enum WindDirectionAltID {
+    NE = 0,
+    SW = 1,
+    NW = 2,
+    SE = 3
+}
+
+signal hex_clicked(hex: CellData)
+
+func draw_wind(cell_map):
+    clear()
+    for coords in cell_map.keys():
+        var wind_direction : Vector2i = cell_map[coords].airmass.wind_direction
+        if wind_direction == DataBus.cardinal_direction_lookup.NE:
+            set_cell(coords, wind_direction_altas_id, wind_direction_atlas_coords, WindDirectionAltID.NE)
+        elif wind_direction == DataBus.cardinal_direction_lookup.SW:
+            set_cell(coords, wind_direction_altas_id, wind_direction_atlas_coords, WindDirectionAltID.SW)
+        elif wind_direction == DataBus.cardinal_direction_lookup.NW:
+            set_cell(coords, wind_direction_altas_id, wind_direction_atlas_coords, WindDirectionAltID.NW)
+        elif wind_direction == DataBus.cardinal_direction_lookup.SE:
+            set_cell(coords, wind_direction_altas_id, wind_direction_atlas_coords, WindDirectionAltID.SE)
 
 func draw_hexmap(cell_map: Dictionary) -> void:
     for coords in cell_map:

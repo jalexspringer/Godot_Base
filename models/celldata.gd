@@ -28,6 +28,8 @@ var node: Node2D
 # The hemisphere of the cell (-1 = North, 0 = Equator, 1 = South)
 var hemisphere: int
 
+var airmass: AirMass
+
 # Initializes the CellData object with the given coordinates
 func _init(_coordinates: Vector2i) -> void:
     coordinates = Vector2i(_coordinates.x, _coordinates.y)

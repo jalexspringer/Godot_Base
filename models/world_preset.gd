@@ -25,7 +25,7 @@ enum MapSize {
 	EXTRA_LARGE = 150000
 }
 
-@export var MAP_SIZE: int = MapSize.EXTRA_LARGE
+@export var MAP_SIZE: int = MapSize.SMALL
 @export_range(0, 10) var LANDMASS_COUNT: int = 10
 @export_range(0, 100) var ISLAND_COUNT: int = 5
 

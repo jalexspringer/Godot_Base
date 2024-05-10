@@ -6,14 +6,10 @@
     "configurations": [
 
         {
-            "name": "GDScript: Launch Project",
+            "name": "Launch",
             "type": "godot",
             "request": "launch",
             "project": "${workspaceFolder}",
-            "debug_collisions": false,
-            "debug_paths": false,
-            "debug_navigation": false,
-            "additional_options": ""
         }
     ]
 }

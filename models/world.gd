@@ -26,14 +26,7 @@ var mountain_ranges: Dictionary = {}
 
 var cell_map: Dictionary = {}
 var edge_cells: Array = []
-var direction_vectors = [
-    Vector2i(1, 0), # E
-    Vector2i(0, 1), # SE
-    Vector2i( - 1, 1), # SW
-    Vector2i( - 1, 0), # W
-    Vector2i( - 1, -1), # NW
-    Vector2i(0, -1), # NE
-]
+
 var map_radius
 var base_tilemap: TileMapLayer
 
@@ -88,6 +81,21 @@ func create_map(radius: int, offset: int) -> void:
             var new_cell: CellData = create_cell(hex_key)
             new_cell.latitude = calculate_latitude(hex_key.y, radius)
             new_cell.base_temp = calculate_base_temp(new_cell.latitude)
+
+            var wind_direction : Vector2i
+            if new_cell.latitude > 60:
+                wind_direction = DataBus.cardinal_direction_lookup.SW
+            elif new_cell.latitude >30:
+                wind_direction = DataBus.cardinal_direction_lookup.NE
+            elif new_cell.latitude > 0:
+                wind_direction = DataBus.cardinal_direction_lookup.SW
+            elif new_cell.latitude >-30:
+                wind_direction = DataBus.cardinal_direction_lookup.NW
+            elif new_cell.latitude >-60:
+                wind_direction = DataBus.cardinal_direction_lookup.SE
+            else:
+                wind_direction = DataBus.cardinal_direction_lookup.NW
+            new_cell.airmass = AirMass.new(new_cell.base_temp, wind_direction)
 
             cell_map[hex_key] = new_cell
 
@@ -232,8 +240,6 @@ func get_all_neighbors(coords: Vector2i) -> Array[Vector2i]:
             ret_array.append(neighbors[i])
         elif reflected_neighbors[i] in cell_map:
             ret_array.append(reflected_neighbors[i])
-        else:
-            push_error("Cell not found: ", neighbors[i])
     return ret_array
 
 func calculate_latitude(y_coord: int, radius: int) -> float:

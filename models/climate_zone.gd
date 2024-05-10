@@ -1,31 +1,42 @@
 extends Resource
 class_name ClimateZone
 
-enum ZoneType {
-    TROPICAL_RAINFOREST,
-    TROPICAL_MONSOON,
-    TROPICAL_SAVANNA,
-    SUBTROPICAL_HUMID,
-    SUBTROPICAL_DESERT,
-    TEMPERATE_OCEANIC,
-    TEMPERATE_CONTINENTAL,
-    TEMPERATE_STEPPE,
-    TEMPERATE_DESERT,
-    BOREAL_FOREST,
-    TUNDRA,
-    POLAR_ICE_CAP,
-    ALPINE,
-    OCEAN_TROPICAL,
-    OCEAN_TEMPERATE,
-    OCEAN_POLAR,
-    LAKE_TROPICAL,
-    LAKE_TEMPERATE,
-    LAKE_ALPINE
+enum ZoneType { # https://www.mindat.org/climate.php
+    Af,  # Tropical Rainforest
+    Am,  # Tropical Monsoon
+    Aw_As,  # Tropical Savanna
+    BWh,  # Hot Desert
+    BWk,  # Cold Desert
+    BSh,  # Hot Semi-Arid
+    BSk,  # Cold Semi-Arid
+    Csa,  # Hot-Summer Mediterranean
+    Csb,  # Warm-Summer Mediterranean
+    Csc,  # Cold-Summer Mediterranean
+    Cwa,  # Humid Subtropical (Dry Winter)
+    Cwb,  # Subtropical Highland (Dry Winter)
+    Cwc,  # Subtropical Highland (Cold Summer)
+    Cfa,  # Humid Subtropical (No Dry Season)
+    Cfb,  # Oceanic Climate (Warm Summer)
+    Cfc,  # Subpolar Oceanic Climate (Cold Summer)
+    Dsa,  # Humid Continental (Hot Summer, Dry Winter)
+    Dsb,  # Humid Continental (Warm Summer, Dry Winter)
+    Dsc,  # Subarctic (Cold Summer, Dry Winter)
+    Dsd,  # Subarctic (Very Cold Winter)
+    Dwa,  # Humid Continental (Hot Summer, Dry Winter)
+    Dwb,  # Humid Continental (Warm Summer, Dry Winter)
+    Dwc,  # Subarctic (Cold Summer, Dry Winter)
+    Dwd,  # Subarctic (Very Cold Winter)
+    Dfa,  # Humid Continental (Hot Summer, No Dry Season)
+    Dfb,  # Humid Continental (Warm Summer, No Dry Season)
+    Dfc,  # Subarctic (Cold Summer, No Dry Season)
+    Dfd,  # Subarctic (Very Cold Winter)
+    ET,   # Tundra
+    EF    # Ice Cap
 }
 
 
 
-@export var zone_type: ZoneType = ZoneType.TROPICAL_RAINFOREST
+@export var zone_type: ZoneType = ZoneType.Af
 @export var water_coverage: float = 0.0
 @export var salinity: float = 0.0
 @export var precipitation: float = 0.0 # Precipitation in millimeters per year
@@ -36,7 +47,7 @@ enum ZoneType {
 @export var color: Color = Color.WHITE
 @export var shader_material: Shader
 
-func _init(p_zone_type: ZoneType = ZoneType.TROPICAL_RAINFOREST, p_water_coverage: float = 0.0, p_salinity: float = 0.0, p_precipitation: float = 0.0, p_plant_life: int = 1, p_animal_life: int = 1, p_min_elevation: int = 1, p_max_elevation: int = 5, p_color: Color = Color.WHITE, p_shader_material: Shader= null) -> void:
+func _init(p_zone_type: ZoneType = ZoneType.Af, p_water_coverage: float = 0.0, p_salinity: float = 0.0, p_precipitation: float = 0.0, p_plant_life: int = 1, p_animal_life: int = 1, p_min_elevation: int = 1, p_max_elevation: int = 5, p_color: Color = Color.WHITE, p_shader_material: Shader= null) -> void:
 	zone_type = p_zone_type
 	water_coverage = p_water_coverage
 	salinity = p_salinity

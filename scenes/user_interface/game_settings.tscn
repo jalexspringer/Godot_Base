@@ -28,6 +28,7 @@ current_tab = 0
 
 [node name="Game" type="Control" parent="TabContainer"]
 layout_mode = 2
+metadata/_tab_index = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Game"]
 layout_mode = 1
@@ -48,6 +49,7 @@ text = "Load"
 [node name="Audio" type="Control" parent="TabContainer"]
 visible = false
 layout_mode = 2
+metadata/_tab_index = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Audio"]
 layout_mode = 1
@@ -87,6 +89,7 @@ max_value = 0.0
 [node name="Graphics" type="Control" parent="TabContainer"]
 visible = false
 layout_mode = 2
+metadata/_tab_index = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Graphics"]
 layout_mode = 1

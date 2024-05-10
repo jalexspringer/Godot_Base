@@ -1,14 +1,90 @@
-[gd_scene load_steps=6 format=3 uid="uid://bv1rr8gdq2pke"]
+[gd_scene load_steps=12 format=4 uid="uid://bv1rr8gdq2pke"]
 
 [ext_resource type="Script" path="res://scripts/world_map.gd" id="1_yvqjk"]
 [ext_resource type="Script" path="res://scripts/world_camera.gd" id="2_gsyc4"]
 [ext_resource type="PackedScene" uid="uid://cpoyrrh6sjc46" path="res://scenes/user_interface/main_ui.tscn" id="2_t61dn"]
 [ext_resource type="TileSet" uid="uid://cdalqaj02wdqv" path="res://tilesets/general_tileset.tres" id="4_nogkp"]
 [ext_resource type="Script" path="res://scripts/tilemap_scripts/tilemaplayer.gd" id="5_lmqer"]
+[ext_resource type="Texture2D" uid="uid://bid2411qkpxhb" path="res://assets/tiles/windarrows.png" id="5_pq2c4"]
+[ext_resource type="Texture2D" uid="uid://wpak6dswv4n7" path="res://assets/pointy_squared_hex.png" id="6_6hdcu"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8l2j5"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ij0a8"]
+texture = ExtResource("5_pq2c4")
+margins = Vector2i(7, 2)
+texture_region_size = Vector2i(87, 100)
+0:0/next_alternative_id = 4
+0:0/0 = 0
+0:0/0/material = SubResource("ShaderMaterial_8l2j5")
+0:0/1 = 1
+0:0/1/flip_h = true
+0:0/1/flip_v = true
+0:0/2 = 2
+0:0/2/flip_h = true
+0:0/3 = 3
+0:0/3/flip_v = true
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yqap6"]
+texture = ExtResource("6_6hdcu")
+texture_region_size = Vector2i(87, 100)
+0:0/next_alternative_id = 9
+0:0/0 = 0
+0:0/1 = 1
+0:0/1/modulate = Color(0.290196, 0.592157, 0.694118, 1)
+0:0/2 = 2
+0:0/2/modulate = Color(0.329412, 0.482353, 0.337255, 1)
+0:0/3 = 3
+0:0/3/modulate = Color(0.92549, 0.67451, 0.168627, 1)
+0:0/4 = 4
+0:0/4/modulate = Color(0.760784, 0.380392, 0.164706, 1)
+0:0/5 = 5
+0:0/5/modulate = Color(0.376471, 0.133333, 0.0862745, 1)
+0:0/6 = 6
+0:0/6/modulate = Color(0.929412, 0.258824, 0.258824, 1)
+0:0/7 = 7
+0:0/7/modulate = Color(0.564706, 0.160784, 0.596078, 1)
+0:0/8 = 8
+0:0/8/modulate = Color(0.137255, 0.14902, 0.168627, 1)
+1:0/next_alternative_id = 9
+1:0/0 = 0
+1:0/1 = 1
+1:0/1/modulate = Color(0.290196, 0.592157, 0.694118, 1)
+1:0/2 = 2
+1:0/2/modulate = Color(0.329412, 0.482353, 0.337255, 1)
+1:0/3 = 3
+1:0/3/modulate = Color(0.92549, 0.67451, 0.168627, 1)
+1:0/4 = 4
+1:0/4/modulate = Color(0.760784, 0.380392, 0.164706, 1)
+1:0/5 = 5
+1:0/5/modulate = Color(0.376471, 0.133333, 0.0862745, 1)
+1:0/6 = 6
+1:0/6/modulate = Color(0.929412, 0.258824, 0.258824, 1)
+1:0/7 = 7
+1:0/7/modulate = Color(0.564706, 0.160784, 0.596078, 1)
+1:0/8 = 8
+1:0/8/modulate = Color(0.137255, 0.14902, 0.168627, 1)
+2:0/next_alternative_id = 2
+2:0/0 = 0
+2:0/1 = 1
+
+[sub_resource type="TileSet" id="TileSet_p066d"]
+tile_shape = 3
+tile_layout = 2
+tile_size = Vector2i(85, 98)
+custom_data_layer_0/name = "hexdata"
+custom_data_layer_0/type = 0
+sources/5 = SubResource("TileSetAtlasSource_yqap6")
+sources/1 = SubResource("TileSetAtlasSource_ij0a8")
+tile_proxies/coords_level = [[1, Vector2i(0, 0)], [4, Vector2i(0, 0)], [2, Vector2i(0, 0)], [5, Vector2i(0, 0)], [3, Vector2i(0, 0)], [5, Vector2i(1, 0)], [4, Vector2i(0, 0)], [5, Vector2i(2, 0)], [5, Vector2i(0, 0)], [7, Vector2i(1, 0)], [6, Vector2i(0, 0)], [7, Vector2i(2, 0)], [8, Vector2i(0, 0)], [11, Vector2i(0, 0)], [9, Vector2i(0, 0)], [11, Vector2i(1, 0)], [10, Vector2i(0, 0)], [11, Vector2i(2, 0)]]
 
 [node name="WorldMap" type="Node2D"]
 scale = Vector2(1.00013, 1.00232)
 script = ExtResource("1_yvqjk")
+frequency = null
+fractal_octaves = null
+fractal_lacunarity = null
+fractal_gain = null
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -26,6 +102,14 @@ tile_set = ExtResource("4_nogkp")
 script = ExtResource("5_lmqer")
 layer_name = "Base"
 
+[node name="WindLayer" type="TileMapLayer" parent="TileMapContainer"]
+unique_name_in_owner = true
+position = Vector2(-43, -49.5)
+tile_map_data = PackedByteArray("AAAAAAAAAQAAAAAAAAABAAAAAQAAAAAAAAABAAEAAQAAAAAAAAACAP//AQAAAAAAAAABAP//AQAAAAAAAAD/////AQAAAAAAAAD+/wAAAQAAAAAAAAA=")
+tile_set = SubResource("TileSet_p066d")
+script = ExtResource("5_lmqer")
+layer_name = "Base"
+
 [node name="Camera2D" type="Camera2D" parent="."]
 unique_name_in_owner = true
 ignore_rotation = false
@@ -33,3 +117,4 @@ rotation_smoothing_enabled = true
 script = ExtResource("2_gsyc4")
 
 [connection signal="hex_clicked" from="TileMapContainer/BaseLayer" to="." method="_on_hex_clicked"]
+[connection signal="hex_clicked" from="TileMapContainer/WindLayer" to="." method="_on_hex_clicked"]

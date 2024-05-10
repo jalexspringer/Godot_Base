@@ -75,12 +75,22 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 
-[node name="HemisphereLabel" type="Label" parent="TileInfoPanel/MarginContainer/VBoxContainer/GridContainer"]
+[node name="WindSpeedLabel" type="Label" parent="TileInfoPanel/MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-text = "Hemisphere:"
+text = "Windspeed"
 
-[node name="HemisphereValue" type="Label" parent="TileInfoPanel/MarginContainer/VBoxContainer/GridContainer"]
+[node name="WindSpeedValue" type="Label" parent="TileInfoPanel/MarginContainer/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+
+[node name="WindDirectionLabel" type="Label" parent="TileInfoPanel/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Wind Direction"
+
+[node name="WindDirectionValue" type="Label" parent="TileInfoPanel/MarginContainer/VBoxContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)

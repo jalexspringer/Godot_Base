@@ -260,7 +260,6 @@ unique_name_in_owner = true
 layout_mode = 2
 item_count = 1
 popup/item_0/text = "Custom"
-popup/item_0/id = 0
 
 [node name="MarginContainer2" type="MarginContainer" parent="CenterContainer/MarginContainer/VBoxContainer/VBoxContainer3"]
 auto_translate_mode = 1
@@ -306,4 +305,3 @@ text = "Back"
 [connection signal="item_selected" from="CenterContainer/MarginContainer/VBoxContainer/VBoxContainer3/MarginContainer/PresetOptionButton" to="." method="_on_preset_option_button_item_selected"]
 [connection signal="pressed" from="CenterContainer/MarginContainer/VBoxContainer/VBoxContainer3/MarginContainer2/GenerateButton" to="." method="_on_generate_button_pressed"]
 [connection signal="pressed" from="CenterContainer/MarginContainer/VBoxContainer/VBoxContainer3/MarginContainer3/BackButton" to="." method="_on_back_button_pressed"]
-
